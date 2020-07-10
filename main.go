@@ -2,7 +2,7 @@ package main
 
 import (
     "fmt"
-    gpb "gnmi_server/proto/gnmi"
+    gpb "github.com/openconfig/gnmi/proto/gnmi"
     "gnmi_server/server"
     grpc "google.golang.org/grpc"
     "net"

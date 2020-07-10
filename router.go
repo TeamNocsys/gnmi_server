@@ -7,7 +7,8 @@ import (
 
 func newGetServeMux() *server.GetServeMux {
 	mux := server.NewGetServeMux()
-    mux.AddRouter("/test", get_handler.Test)
+    mux.AddRouter("/test", get_handler.Test).
+		AddRouter("/components/component/fan", get_handler.Get_fan_info)
 	return mux
 }
 

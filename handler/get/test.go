@@ -2,7 +2,7 @@ package get
 
 import (
 	"context"
-	gpb "gnmi_server/proto/gnmi"
+	gpb "github.com/openconfig/gnmi/proto/gnmi"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
