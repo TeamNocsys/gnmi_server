@@ -1,4 +1,4 @@
-package server
+package gnmi
 
 import (
 	"context"
@@ -73,7 +73,7 @@ type SetServeMux struct {
 }
 
 func NewSetServeMux() *SetServeMux {
-	serveMux :=  SetServeMux {}
+	serveMux :=  SetServeMux{}
 	serveMux.dm = make(map[string]setMuxEntry)
 	serveMux.rm = make(map[string]setMuxEntry)
 	serveMux.um = make(map[string]setMuxEntry)
@@ -87,7 +87,7 @@ func (ssm *SetServeMux) AddDeleteRouter(pattern string, h SetHandler) *SetServeM
 	return ssm
 }
 
-func (ssm *SetServeMux) AddReplaceRouter(pattern string, h SetHandler) *SetServeMux{
+func (ssm *SetServeMux) AddReplaceRouter(pattern string, h SetHandler) *SetServeMux {
     ssm.mu.Lock()
     defer ssm.mu.Unlock()
     ssm.rm[pattern] = setMuxEntry{h, pattern}

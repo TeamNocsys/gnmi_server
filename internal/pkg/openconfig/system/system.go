@@ -32,8 +32,8 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/openconfig/ygot/ygot"
 	"github.com/openconfig/goyang/pkg/yang"
+	"github.com/openconfig/ygot/ygot"
 	"github.com/openconfig/ygot/ytypes"
 )
 
@@ -67,9 +67,9 @@ func Schema() (*ytypes.Schema, error) {
 	}
 
 	return &ytypes.Schema{
-		Root: nil,
+		Root:       nil,
 		SchemaTree: uzp,
-		Unmarshal: Unmarshal,
+		Unmarshal:  Unmarshal,
 	}, nil
 }
 
@@ -105,39 +105,39 @@ func Unmarshal(data []byte, destStruct ygot.GoStruct, opts ...ytypes.UnmarshalOp
 
 // Component represents the /openconfig-platform/components/component YANG schema element.
 type Component struct {
-	AllocatedPower	*uint32	`path:"state/allocated-power" module:"openconfig-platform"`
-	Backplane	*Component_Backplane	`path:"backplane" module:"openconfig-platform"`
-	Chassis	*Component_Chassis	`path:"chassis" module:"openconfig-platform"`
-	Cpu	*Component_Cpu	`path:"cpu" module:"openconfig-platform"`
-	Description	*string	`path:"state/description" module:"openconfig-platform"`
-	Empty	*bool	`path:"state/empty" module:"openconfig-platform"`
-	EquipmentFailure	*bool	`path:"state/equipment-failure" module:"openconfig-alarms"`
-	EquipmentMismatch	*bool	`path:"state/equipment-mismatch" module:"openconfig-alarms"`
-	Fabric	*Component_Fabric	`path:"fabric" module:"openconfig-platform"`
-	Fan	*Component_Fan	`path:"fan" module:"openconfig-platform"`
-	FirmwareVersion	*string	`path:"state/firmware-version" module:"openconfig-platform"`
-	HardwareVersion	*string	`path:"state/hardware-version" module:"openconfig-platform"`
-	Id	*string	`path:"state/id" module:"openconfig-platform"`
-	IntegratedCircuit	*Component_IntegratedCircuit	`path:"integrated-circuit" module:"openconfig-platform"`
-	Location	*string	`path:"state/location" module:"openconfig-platform"`
-	Memory	*Component_Memory	`path:"state/memory" module:"openconfig-platform"`
-	MfgDate	*string	`path:"state/mfg-date" module:"openconfig-platform"`
-	MfgName	*string	`path:"state/mfg-name" module:"openconfig-platform"`
-	Name	*string	`path:"config/name|name" module:"openconfig-platform"`
-	OperStatus	E_OpenconfigPlatformTypes_COMPONENT_OPER_STATUS	`path:"state/oper-status" module:"openconfig-platform"`
-	Parent	*string	`path:"state/parent" module:"openconfig-platform"`
-	PartNo	*string	`path:"state/part-no" module:"openconfig-platform"`
-	Port	*Component_Port	`path:"port" module:"openconfig-platform"`
-	PowerSupply	*Component_PowerSupply	`path:"power-supply" module:"openconfig-platform"`
-	Property	map[string]*Component_Property	`path:"properties/property" module:"openconfig-platform"`
-	Removable	*bool	`path:"state/removable" module:"openconfig-platform"`
-	SerialNo	*string	`path:"state/serial-no" module:"openconfig-platform"`
-	SoftwareVersion	*string	`path:"state/software-version" module:"openconfig-platform"`
-	Storage	*Component_Storage	`path:"storage" module:"openconfig-platform"`
-	Subcomponent	map[string]*Component_Subcomponent	`path:"subcomponents/subcomponent" module:"openconfig-platform"`
-	Temperature	*Component_Temperature	`path:"state/temperature" module:"openconfig-platform"`
-	Type	Component_Type_Union	`path:"state/type" module:"openconfig-platform"`
-	UsedPower	*uint32	`path:"state/used-power" module:"openconfig-platform"`
+	AllocatedPower    *uint32                                         `path:"state/allocated-power" module:"openconfig-platform"`
+	Backplane         *Component_Backplane                            `path:"backplane" module:"openconfig-platform"`
+	Chassis           *Component_Chassis                              `path:"chassis" module:"openconfig-platform"`
+	Cpu               *Component_Cpu                                  `path:"cpu" module:"openconfig-platform"`
+	Description       *string                                         `path:"state/description" module:"openconfig-platform"`
+	Empty             *bool                                           `path:"state/empty" module:"openconfig-platform"`
+	EquipmentFailure  *bool                                           `path:"state/equipment-failure" module:"openconfig-alarms"`
+	EquipmentMismatch *bool                                           `path:"state/equipment-mismatch" module:"openconfig-alarms"`
+	Fabric            *Component_Fabric                               `path:"fabric" module:"openconfig-platform"`
+	Fan               *Component_Fan                                  `path:"fan" module:"openconfig-platform"`
+	FirmwareVersion   *string                                         `path:"state/firmware-version" module:"openconfig-platform"`
+	HardwareVersion   *string                                         `path:"state/hardware-version" module:"openconfig-platform"`
+	Id                *string                                         `path:"state/id" module:"openconfig-platform"`
+	IntegratedCircuit *Component_IntegratedCircuit                    `path:"integrated-circuit" module:"openconfig-platform"`
+	Location          *string                                         `path:"state/location" module:"openconfig-platform"`
+	Memory            *Component_Memory                               `path:"state/memory" module:"openconfig-platform"`
+	MfgDate           *string                                         `path:"state/mfg-date" module:"openconfig-platform"`
+	MfgName           *string                                         `path:"state/mfg-name" module:"openconfig-platform"`
+	Name              *string                                         `path:"config/name|name" module:"openconfig-platform"`
+	OperStatus        E_OpenconfigPlatformTypes_COMPONENT_OPER_STATUS `path:"state/oper-status" module:"openconfig-platform"`
+	Parent            *string                                         `path:"state/parent" module:"openconfig-platform"`
+	PartNo            *string                                         `path:"state/part-no" module:"openconfig-platform"`
+	Port              *Component_Port                                 `path:"port" module:"openconfig-platform"`
+	PowerSupply       *Component_PowerSupply                          `path:"power-supply" module:"openconfig-platform"`
+	Property          map[string]*Component_Property                  `path:"properties/property" module:"openconfig-platform"`
+	Removable         *bool                                           `path:"state/removable" module:"openconfig-platform"`
+	SerialNo          *string                                         `path:"state/serial-no" module:"openconfig-platform"`
+	SoftwareVersion   *string                                         `path:"state/software-version" module:"openconfig-platform"`
+	Storage           *Component_Storage                              `path:"storage" module:"openconfig-platform"`
+	Subcomponent      map[string]*Component_Subcomponent              `path:"subcomponents/subcomponent" module:"openconfig-platform"`
+	Temperature       *Component_Temperature                          `path:"state/temperature" module:"openconfig-platform"`
+	Type              Component_Type_Union                            `path:"state/type" module:"openconfig-platform"`
+	UsedPower         *uint32                                         `path:"state/used-power" module:"openconfig-platform"`
 }
 
 // IsYANGGoStruct ensures that Component implements the yang.GoStruct
@@ -525,7 +525,7 @@ type Component_Type_Union interface {
 // Component_Type_Union_E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT is used when /openconfig-platform/components/component/state/type
 // is to be set to a E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT value.
 type Component_Type_Union_E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT struct {
-	E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT	E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT
+	E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT
 }
 
 // Is_Component_Type_Union ensures that Component_Type_Union_E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT
@@ -535,7 +535,7 @@ func (*Component_Type_Union_E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPON
 // Component_Type_Union_E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT is used when /openconfig-platform/components/component/state/type
 // is to be set to a E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT value.
 type Component_Type_Union_E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT struct {
-	E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT	E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT
+	E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT
 }
 
 // Is_Component_Type_Union ensures that Component_Type_Union_E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT
@@ -759,9 +759,9 @@ func (t *Component_PowerSupply) ΛEnumTypeMap() map[string][]reflect.Type { retu
 
 // Component_Property represents the /openconfig-platform/components/component/properties/property YANG schema element.
 type Component_Property struct {
-	Configurable	*bool	`path:"state/configurable" module:"openconfig-platform"`
-	Name	*string	`path:"config/name|name" module:"openconfig-platform"`
-	Value	Component_Property_Value_Union	`path:"config/value" module:"openconfig-platform"`
+	Configurable *bool                          `path:"state/configurable" module:"openconfig-platform"`
+	Name         *string                        `path:"config/name|name" module:"openconfig-platform"`
+	Value        Component_Property_Value_Union `path:"config/value" module:"openconfig-platform"`
 }
 
 // IsYANGGoStruct ensures that Component_Property implements the yang.GoStruct
@@ -927,16 +927,16 @@ func (t *Component_Subcomponent) ΛEnumTypeMap() map[string][]reflect.Type { ret
 
 // Component_Temperature represents the /openconfig-platform/components/component/state/temperature YANG schema element.
 type Component_Temperature struct {
-	AlarmSeverity	E_OpenconfigAlarmTypes_OPENCONFIG_ALARM_SEVERITY	`path:"alarm-severity" module:"openconfig-platform"`
-	AlarmStatus	*bool	`path:"alarm-status" module:"openconfig-platform"`
-	AlarmThreshold	*uint32	`path:"alarm-threshold" module:"openconfig-platform"`
-	Avg	*float64	`path:"avg" module:"openconfig-platform"`
-	Instant	*float64	`path:"instant" module:"openconfig-platform"`
-	Interval	*uint64	`path:"interval" module:"openconfig-platform"`
-	Max	*float64	`path:"max" module:"openconfig-platform"`
-	MaxTime	*uint64	`path:"max-time" module:"openconfig-platform"`
-	Min	*float64	`path:"min" module:"openconfig-platform"`
-	MinTime	*uint64	`path:"min-time" module:"openconfig-platform"`
+	AlarmSeverity  E_OpenconfigAlarmTypes_OPENCONFIG_ALARM_SEVERITY `path:"alarm-severity" module:"openconfig-platform"`
+	AlarmStatus    *bool                                            `path:"alarm-status" module:"openconfig-platform"`
+	AlarmThreshold *uint32                                          `path:"alarm-threshold" module:"openconfig-platform"`
+	Avg            *float64                                         `path:"avg" module:"openconfig-platform"`
+	Instant        *float64                                         `path:"instant" module:"openconfig-platform"`
+	Interval       *uint64                                          `path:"interval" module:"openconfig-platform"`
+	Max            *float64                                         `path:"max" module:"openconfig-platform"`
+	MaxTime        *uint64                                          `path:"max-time" module:"openconfig-platform"`
+	Min            *float64                                         `path:"min" module:"openconfig-platform"`
+	MinTime        *uint64                                          `path:"min-time" module:"openconfig-platform"`
 }
 
 // IsYANGGoStruct ensures that Component_Temperature implements the yang.GoStruct
@@ -959,9 +959,9 @@ func (t *Component_Temperature) ΛEnumTypeMap() map[string][]reflect.Type { retu
 
 // Messages represents the /openconfig-messages/messages YANG schema element.
 type Messages struct {
-	DebugService	map[E_OpenconfigMessages_DEBUG_SERVICE]*Messages_DebugService	`path:"debug-entries/debug-service" module:"openconfig-messages"`
-	Message	*Messages_Message	`path:"state/message" module:"openconfig-messages"`
-	Severity	E_OpenconfigMessages_SyslogSeverity	`path:"config/severity" module:"openconfig-messages"`
+	DebugService map[E_OpenconfigMessages_DEBUG_SERVICE]*Messages_DebugService `path:"debug-entries/debug-service" module:"openconfig-messages"`
+	Message      *Messages_Message                                             `path:"state/message" module:"openconfig-messages"`
+	Severity     E_OpenconfigMessages_SyslogSeverity                           `path:"config/severity" module:"openconfig-messages"`
 }
 
 // IsYANGGoStruct ensures that Messages implements the yang.GoStruct
@@ -1068,8 +1068,8 @@ func (t *Messages) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumType
 
 // Messages_DebugService represents the /openconfig-messages/messages/debug-entries/debug-service YANG schema element.
 type Messages_DebugService struct {
-	Enabled	*bool	`path:"config/enabled" module:"openconfig-messages"`
-	Service	E_OpenconfigMessages_DEBUG_SERVICE	`path:"config/service|service" module:"openconfig-messages"`
+	Enabled *bool                              `path:"config/enabled" module:"openconfig-messages"`
+	Service E_OpenconfigMessages_DEBUG_SERVICE `path:"config/service|service" module:"openconfig-messages"`
 }
 
 // IsYANGGoStruct ensures that Messages_DebugService implements the yang.GoStruct
@@ -1127,26 +1127,26 @@ func (t *Messages_Message) ΛEnumTypeMap() map[string][]reflect.Type { return Λ
 
 // System represents the /openconfig-system/system YANG schema element.
 type System struct {
-	Aaa	*System_Aaa	`path:"aaa" module:"openconfig-system"`
-	Alarm	map[string]*System_Alarm	`path:"alarms/alarm" module:"openconfig-system"`
-	BootTime	*uint64	`path:"state/boot-time" module:"openconfig-system"`
-	Clock	*System_Clock	`path:"clock" module:"openconfig-system"`
-	Cpu	map[System_Cpu_Index_Union]*System_Cpu	`path:"cpus/cpu" module:"openconfig-system"`
-	CurrentDatetime	*string	`path:"state/current-datetime" module:"openconfig-system"`
-	Dns	*System_Dns	`path:"dns" module:"openconfig-system"`
-	DomainName	*string	`path:"config/domain-name" module:"openconfig-system"`
-	GrpcServer	*System_GrpcServer	`path:"grpc-server" module:"openconfig-system"`
-	Hostname	*string	`path:"config/hostname" module:"openconfig-system"`
-	License	*System_License	`path:"license" module:"openconfig-system"`
-	Logging	*System_Logging	`path:"logging" module:"openconfig-system"`
-	LoginBanner	*string	`path:"config/login-banner" module:"openconfig-system"`
-	Memory	*System_Memory	`path:"memory" module:"openconfig-system"`
-	Messages	*System_Messages	`path:"messages" module:"openconfig-system"`
-	MotdBanner	*string	`path:"config/motd-banner" module:"openconfig-system"`
-	Ntp	*System_Ntp	`path:"ntp" module:"openconfig-system"`
-	Process	map[uint64]*System_Process	`path:"processes/process" module:"openconfig-system"`
-	SshServer	*System_SshServer	`path:"ssh-server" module:"openconfig-system"`
-	TelnetServer	*System_TelnetServer	`path:"telnet-server" module:"openconfig-system"`
+	Aaa	*System_Aaa                            `path:"aaa" module:"openconfig-system"`
+	Alarm	map[string]*System_Alarm             `path:"alarms/alarm" module:"openconfig-system"`
+	BootTime	*uint64                           `path:"state/boot-time" module:"openconfig-system"`
+	Clock	*System_Clock                        `path:"clock" module:"openconfig-system"`
+	Cpu	map[System_Cpu_Index_Union]*System_Cpu `path:"cpus/cpu" module:"openconfig-system"`
+	CurrentDatetime	*string                    `path:"state/current-datetime" module:"openconfig-system"`
+	Dns	*System_Dns                            `path:"dns" module:"openconfig-system"`
+	DomainName	*string                         `path:"config/domain-name" module:"openconfig-system"`
+	GrpcServer	*System_GrpcServer              `path:"grpc-server" module:"openconfig-system"`
+	Hostname	*string                           `path:"config/hostname" module:"openconfig-system"`
+	License	*System_License                    `path:"license" module:"openconfig-system"`
+	Logging	*System_Logging                    `path:"logging" module:"openconfig-system"`
+	LoginBanner	*string                        `path:"config/login-banner" module:"openconfig-system"`
+	Memory	*System_Memory                      `path:"memory" module:"openconfig-system"`
+	Messages	*System_Messages                  `path:"messages" module:"openconfig-system"`
+	MotdBanner	*string                         `path:"config/motd-banner" module:"openconfig-system"`
+	Ntp	*System_Ntp                            `path:"ntp" module:"openconfig-system"`
+	Process	map[uint64]*System_Process         `path:"processes/process" module:"openconfig-system"`
+	SshServer	*System_SshServer                `path:"ssh-server" module:"openconfig-system"`
+	TelnetServer	*System_TelnetServer          `path:"telnet-server" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System implements the yang.GoStruct
@@ -1581,10 +1581,10 @@ func (t *System) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes 
 
 // System_Aaa represents the /openconfig-system/system/aaa YANG schema element.
 type System_Aaa struct {
-	Accounting	*System_Aaa_Accounting	`path:"accounting" module:"openconfig-system"`
-	Authentication	*System_Aaa_Authentication	`path:"authentication" module:"openconfig-system"`
-	Authorization	*System_Aaa_Authorization	`path:"authorization" module:"openconfig-system"`
-	ServerGroup	map[string]*System_Aaa_ServerGroup	`path:"server-groups/server-group" module:"openconfig-system"`
+	Accounting	*System_Aaa_Accounting              `path:"accounting" module:"openconfig-system"`
+	Authentication	*System_Aaa_Authentication      `path:"authentication" module:"openconfig-system"`
+	Authorization	*System_Aaa_Authorization        `path:"authorization" module:"openconfig-system"`
+	ServerGroup	map[string]*System_Aaa_ServerGroup `path:"server-groups/server-group" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_Aaa implements the yang.GoStruct
@@ -1731,8 +1731,8 @@ func (t *System_Aaa) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTy
 
 // System_Aaa_Accounting represents the /openconfig-system/system/aaa/accounting YANG schema element.
 type System_Aaa_Accounting struct {
-	AccountingMethod	[]System_Aaa_Accounting_AccountingMethod_Union	`path:"config/accounting-method" module:"openconfig-system"`
-	Event	map[E_OpenconfigAaaTypes_AAA_ACCOUNTING_EVENT_TYPE]*System_Aaa_Accounting_Event	`path:"events/event" module:"openconfig-system"`
+	AccountingMethod	[]System_Aaa_Accounting_AccountingMethod_Union                       `path:"config/accounting-method" module:"openconfig-system"`
+	Event	map[E_OpenconfigAaaTypes_AAA_ACCOUNTING_EVENT_TYPE]*System_Aaa_Accounting_Event `path:"events/event" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_Aaa_Accounting implements the yang.GoStruct
@@ -1825,7 +1825,7 @@ type System_Aaa_Accounting_AccountingMethod_Union interface {
 // System_Aaa_Accounting_AccountingMethod_Union_E_OpenconfigAaaTypes_AAA_METHOD_TYPE is used when /openconfig-system/system/aaa/accounting/config/accounting-method
 // is to be set to a E_OpenconfigAaaTypes_AAA_METHOD_TYPE value.
 type System_Aaa_Accounting_AccountingMethod_Union_E_OpenconfigAaaTypes_AAA_METHOD_TYPE struct {
-	E_OpenconfigAaaTypes_AAA_METHOD_TYPE	E_OpenconfigAaaTypes_AAA_METHOD_TYPE
+	E_OpenconfigAaaTypes_AAA_METHOD_TYPE E_OpenconfigAaaTypes_AAA_METHOD_TYPE
 }
 
 // Is_System_Aaa_Accounting_AccountingMethod_Union ensures that System_Aaa_Accounting_AccountingMethod_Union_E_OpenconfigAaaTypes_AAA_METHOD_TYPE
@@ -1859,8 +1859,8 @@ func (t *System_Aaa_Accounting) To_System_Aaa_Accounting_AccountingMethod_Union(
 
 // System_Aaa_Accounting_Event represents the /openconfig-system/system/aaa/accounting/events/event YANG schema element.
 type System_Aaa_Accounting_Event struct {
-	EventType	E_OpenconfigAaaTypes_AAA_ACCOUNTING_EVENT_TYPE	`path:"config/event-type|event-type" module:"openconfig-system"`
-	Record	E_Event_Record	`path:"config/record" module:"openconfig-system"`
+	EventType E_OpenconfigAaaTypes_AAA_ACCOUNTING_EVENT_TYPE `path:"config/event-type|event-type" module:"openconfig-system"`
+	Record    E_Event_Record                                 `path:"config/record" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_Aaa_Accounting_Event implements the yang.GoStruct
@@ -1891,9 +1891,9 @@ func (t *System_Aaa_Accounting_Event) ΛEnumTypeMap() map[string][]reflect.Type 
 
 // System_Aaa_Authentication represents the /openconfig-system/system/aaa/authentication YANG schema element.
 type System_Aaa_Authentication struct {
-	AdminUser	*System_Aaa_Authentication_AdminUser	`path:"admin-user" module:"openconfig-system"`
-	AuthenticationMethod	[]System_Aaa_Authentication_AuthenticationMethod_Union	`path:"config/authentication-method" module:"openconfig-system"`
-	User	map[string]*System_Aaa_Authentication_User	`path:"users/user" module:"openconfig-system"`
+	AdminUser	*System_Aaa_Authentication_AdminUser                              `path:"admin-user" module:"openconfig-system"`
+	AuthenticationMethod	[]System_Aaa_Authentication_AuthenticationMethod_Union `path:"config/authentication-method" module:"openconfig-system"`
+	User	map[string]*System_Aaa_Authentication_User                             `path:"users/user" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_Aaa_Authentication implements the yang.GoStruct
@@ -2006,7 +2006,7 @@ type System_Aaa_Authentication_AuthenticationMethod_Union interface {
 // System_Aaa_Authentication_AuthenticationMethod_Union_E_OpenconfigAaaTypes_AAA_METHOD_TYPE is used when /openconfig-system/system/aaa/authentication/config/authentication-method
 // is to be set to a E_OpenconfigAaaTypes_AAA_METHOD_TYPE value.
 type System_Aaa_Authentication_AuthenticationMethod_Union_E_OpenconfigAaaTypes_AAA_METHOD_TYPE struct {
-	E_OpenconfigAaaTypes_AAA_METHOD_TYPE	E_OpenconfigAaaTypes_AAA_METHOD_TYPE
+	E_OpenconfigAaaTypes_AAA_METHOD_TYPE E_OpenconfigAaaTypes_AAA_METHOD_TYPE
 }
 
 // Is_System_Aaa_Authentication_AuthenticationMethod_Union ensures that System_Aaa_Authentication_AuthenticationMethod_Union_E_OpenconfigAaaTypes_AAA_METHOD_TYPE
@@ -2060,16 +2060,17 @@ func (t *System_Aaa_Authentication_AdminUser) Validate(opts ...ygot.ValidationOp
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *System_Aaa_Authentication_AdminUser) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *System_Aaa_Authentication_AdminUser) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // System_Aaa_Authentication_User represents the /openconfig-system/system/aaa/authentication/users/user YANG schema element.
 type System_Aaa_Authentication_User struct {
-	Password	*string	`path:"config/password" module:"openconfig-system"`
-	PasswordHashed	*string	`path:"config/password-hashed" module:"openconfig-system"`
-	Role	System_Aaa_Authentication_User_Role_Union	`path:"config/role" module:"openconfig-system"`
-	SshKey	*string	`path:"config/ssh-key" module:"openconfig-system"`
-	Username	*string	`path:"config/username|username" module:"openconfig-system"`
+	Password       *string                                   `path:"config/password" module:"openconfig-system"`
+	PasswordHashed *string                                   `path:"config/password-hashed" module:"openconfig-system"`
+	Role           System_Aaa_Authentication_User_Role_Union `path:"config/role" module:"openconfig-system"`
+	SshKey         *string                                   `path:"config/ssh-key" module:"openconfig-system"`
+	Username       *string                                   `path:"config/username|username" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_Aaa_Authentication_User implements the yang.GoStruct
@@ -2109,7 +2110,7 @@ type System_Aaa_Authentication_User_Role_Union interface {
 // System_Aaa_Authentication_User_Role_Union_E_OpenconfigAaaTypes_SYSTEM_DEFINED_ROLES is used when /openconfig-system/system/aaa/authentication/users/user/config/role
 // is to be set to a E_OpenconfigAaaTypes_SYSTEM_DEFINED_ROLES value.
 type System_Aaa_Authentication_User_Role_Union_E_OpenconfigAaaTypes_SYSTEM_DEFINED_ROLES struct {
-	E_OpenconfigAaaTypes_SYSTEM_DEFINED_ROLES	E_OpenconfigAaaTypes_SYSTEM_DEFINED_ROLES
+	E_OpenconfigAaaTypes_SYSTEM_DEFINED_ROLES E_OpenconfigAaaTypes_SYSTEM_DEFINED_ROLES
 }
 
 // Is_System_Aaa_Authentication_User_Role_Union ensures that System_Aaa_Authentication_User_Role_Union_E_OpenconfigAaaTypes_SYSTEM_DEFINED_ROLES
@@ -2143,8 +2144,8 @@ func (t *System_Aaa_Authentication_User) To_System_Aaa_Authentication_User_Role_
 
 // System_Aaa_Authorization represents the /openconfig-system/system/aaa/authorization YANG schema element.
 type System_Aaa_Authorization struct {
-	AuthorizationMethod	[]System_Aaa_Authorization_AuthorizationMethod_Union	`path:"config/authorization-method" module:"openconfig-system"`
-	Event	map[E_OpenconfigAaaTypes_AAA_AUTHORIZATION_EVENT_TYPE]*System_Aaa_Authorization_Event	`path:"events/event" module:"openconfig-system"`
+	AuthorizationMethod	[]System_Aaa_Authorization_AuthorizationMethod_Union                    `path:"config/authorization-method" module:"openconfig-system"`
+	Event	map[E_OpenconfigAaaTypes_AAA_AUTHORIZATION_EVENT_TYPE]*System_Aaa_Authorization_Event `path:"events/event" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_Aaa_Authorization implements the yang.GoStruct
@@ -2237,7 +2238,7 @@ type System_Aaa_Authorization_AuthorizationMethod_Union interface {
 // System_Aaa_Authorization_AuthorizationMethod_Union_E_OpenconfigAaaTypes_AAA_METHOD_TYPE is used when /openconfig-system/system/aaa/authorization/config/authorization-method
 // is to be set to a E_OpenconfigAaaTypes_AAA_METHOD_TYPE value.
 type System_Aaa_Authorization_AuthorizationMethod_Union_E_OpenconfigAaaTypes_AAA_METHOD_TYPE struct {
-	E_OpenconfigAaaTypes_AAA_METHOD_TYPE	E_OpenconfigAaaTypes_AAA_METHOD_TYPE
+	E_OpenconfigAaaTypes_AAA_METHOD_TYPE E_OpenconfigAaaTypes_AAA_METHOD_TYPE
 }
 
 // Is_System_Aaa_Authorization_AuthorizationMethod_Union ensures that System_Aaa_Authorization_AuthorizationMethod_Union_E_OpenconfigAaaTypes_AAA_METHOD_TYPE
@@ -2271,7 +2272,7 @@ func (t *System_Aaa_Authorization) To_System_Aaa_Authorization_AuthorizationMeth
 
 // System_Aaa_Authorization_Event represents the /openconfig-system/system/aaa/authorization/events/event YANG schema element.
 type System_Aaa_Authorization_Event struct {
-	EventType	E_OpenconfigAaaTypes_AAA_AUTHORIZATION_EVENT_TYPE	`path:"config/event-type|event-type" module:"openconfig-system"`
+	EventType E_OpenconfigAaaTypes_AAA_AUTHORIZATION_EVENT_TYPE `path:"config/event-type|event-type" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_Aaa_Authorization_Event implements the yang.GoStruct
@@ -2302,9 +2303,9 @@ func (t *System_Aaa_Authorization_Event) ΛEnumTypeMap() map[string][]reflect.Ty
 
 // System_Aaa_ServerGroup represents the /openconfig-system/system/aaa/server-groups/server-group YANG schema element.
 type System_Aaa_ServerGroup struct {
-	Name	*string	`path:"config/name|name" module:"openconfig-system"`
-	Server	map[string]*System_Aaa_ServerGroup_Server	`path:"servers/server" module:"openconfig-system"`
-	Type	E_OpenconfigAaaTypes_AAA_SERVER_TYPE	`path:"config/type" module:"openconfig-system"`
+	Name   *string                                   `path:"config/name|name" module:"openconfig-system"`
+	Server map[string]*System_Aaa_ServerGroup_Server `path:"servers/server" module:"openconfig-system"`
+	Type   E_OpenconfigAaaTypes_AAA_SERVER_TYPE      `path:"config/type" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_Aaa_ServerGroup implements the yang.GoStruct
@@ -2402,19 +2403,19 @@ func (t *System_Aaa_ServerGroup) ΛEnumTypeMap() map[string][]reflect.Type { ret
 
 // System_Aaa_ServerGroup_Server represents the /openconfig-system/system/aaa/server-groups/server-group/servers/server YANG schema element.
 type System_Aaa_ServerGroup_Server struct {
-	Address	*string	`path:"config/address|address" module:"openconfig-system"`
-	ConnectionAborts	*uint64	`path:"state/connection-aborts" module:"openconfig-system"`
-	ConnectionCloses	*uint64	`path:"state/connection-closes" module:"openconfig-system"`
-	ConnectionFailures	*uint64	`path:"state/connection-failures" module:"openconfig-system"`
-	ConnectionOpens	*uint64	`path:"state/connection-opens" module:"openconfig-system"`
-	ConnectionTimeouts	*uint64	`path:"state/connection-timeouts" module:"openconfig-system"`
-	ErrorsReceived	*uint64	`path:"state/errors-received" module:"openconfig-system"`
-	MessagesReceived	*uint64	`path:"state/messages-received" module:"openconfig-system"`
-	MessagesSent	*uint64	`path:"state/messages-sent" module:"openconfig-system"`
-	Name	*string	`path:"config/name" module:"openconfig-system"`
-	Radius	*System_Aaa_ServerGroup_Server_Radius	`path:"radius" module:"openconfig-system"`
-	Tacacs	*System_Aaa_ServerGroup_Server_Tacacs	`path:"tacacs" module:"openconfig-system"`
-	Timeout	*uint16	`path:"config/timeout" module:"openconfig-system"`
+	Address	*string                              `path:"config/address|address" module:"openconfig-system"`
+	ConnectionAborts	*uint64                     `path:"state/connection-aborts" module:"openconfig-system"`
+	ConnectionCloses	*uint64                     `path:"state/connection-closes" module:"openconfig-system"`
+	ConnectionFailures	*uint64                   `path:"state/connection-failures" module:"openconfig-system"`
+	ConnectionOpens	*uint64                      `path:"state/connection-opens" module:"openconfig-system"`
+	ConnectionTimeouts	*uint64                   `path:"state/connection-timeouts" module:"openconfig-system"`
+	ErrorsReceived	*uint64                       `path:"state/errors-received" module:"openconfig-system"`
+	MessagesReceived	*uint64                     `path:"state/messages-received" module:"openconfig-system"`
+	MessagesSent	*uint64                         `path:"state/messages-sent" module:"openconfig-system"`
+	Name	*string                                 `path:"config/name" module:"openconfig-system"`
+	Radius	*System_Aaa_ServerGroup_Server_Radius `path:"radius" module:"openconfig-system"`
+	Tacacs	*System_Aaa_ServerGroup_Server_Tacacs `path:"tacacs" module:"openconfig-system"`
+	Timeout	*uint16                              `path:"config/timeout" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_Aaa_ServerGroup_Server implements the yang.GoStruct
@@ -2488,12 +2489,12 @@ func (t *System_Aaa_ServerGroup_Server) ΛEnumTypeMap() map[string][]reflect.Typ
 
 // System_Aaa_ServerGroup_Server_Radius represents the /openconfig-system/system/aaa/server-groups/server-group/servers/server/radius YANG schema element.
 type System_Aaa_ServerGroup_Server_Radius struct {
-	AcctPort	*uint16	`path:"config/acct-port" module:"openconfig-system"`
-	AuthPort	*uint16	`path:"config/auth-port" module:"openconfig-system"`
-	Counters	*System_Aaa_ServerGroup_Server_Radius_Counters	`path:"state/counters" module:"openconfig-system"`
-	RetransmitAttempts	*uint8	`path:"config/retransmit-attempts" module:"openconfig-system"`
-	SecretKey	*string	`path:"config/secret-key" module:"openconfig-system"`
-	SourceAddress	*string	`path:"config/source-address" module:"openconfig-system"`
+	AcctPort	*uint16                                        `path:"config/acct-port" module:"openconfig-system"`
+	AuthPort	*uint16                                        `path:"config/auth-port" module:"openconfig-system"`
+	Counters	*System_Aaa_ServerGroup_Server_Radius_Counters `path:"state/counters" module:"openconfig-system"`
+	RetransmitAttempts	*uint8                               `path:"config/retransmit-attempts" module:"openconfig-system"`
+	SecretKey	*string                                       `path:"config/secret-key" module:"openconfig-system"`
+	SourceAddress	*string                                   `path:"config/source-address" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_Aaa_ServerGroup_Server_Radius implements the yang.GoStruct
@@ -2531,7 +2532,8 @@ func (t *System_Aaa_ServerGroup_Server_Radius) Validate(opts ...ygot.ValidationO
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *System_Aaa_ServerGroup_Server_Radius) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *System_Aaa_ServerGroup_Server_Radius) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // System_Aaa_ServerGroup_Server_Radius_Counters represents the /openconfig-system/system/aaa/server-groups/server-group/servers/server/radius/state/counters YANG schema element.
@@ -2557,7 +2559,8 @@ func (t *System_Aaa_ServerGroup_Server_Radius_Counters) Validate(opts ...ygot.Va
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *System_Aaa_ServerGroup_Server_Radius_Counters) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *System_Aaa_ServerGroup_Server_Radius_Counters) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // System_Aaa_ServerGroup_Server_Tacacs represents the /openconfig-system/system/aaa/server-groups/server-group/servers/server/tacacs YANG schema element.
@@ -2582,17 +2585,18 @@ func (t *System_Aaa_ServerGroup_Server_Tacacs) Validate(opts ...ygot.ValidationO
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *System_Aaa_ServerGroup_Server_Tacacs) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *System_Aaa_ServerGroup_Server_Tacacs) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // System_Alarm represents the /openconfig-system/system/alarms/alarm YANG schema element.
 type System_Alarm struct {
-	Id	*string	`path:"state/id|id" module:"openconfig-system"`
-	Resource	*string	`path:"state/resource" module:"openconfig-system"`
-	Severity	E_OpenconfigAlarmTypes_OPENCONFIG_ALARM_SEVERITY	`path:"state/severity" module:"openconfig-system"`
-	Text	*string	`path:"state/text" module:"openconfig-system"`
-	TimeCreated	*uint64	`path:"state/time-created" module:"openconfig-system"`
-	TypeId	System_Alarm_TypeId_Union	`path:"state/type-id" module:"openconfig-system"`
+	Id          *string                                          `path:"state/id|id" module:"openconfig-system"`
+	Resource    *string                                          `path:"state/resource" module:"openconfig-system"`
+	Severity    E_OpenconfigAlarmTypes_OPENCONFIG_ALARM_SEVERITY `path:"state/severity" module:"openconfig-system"`
+	Text        *string                                          `path:"state/text" module:"openconfig-system"`
+	TimeCreated *uint64                                          `path:"state/time-created" module:"openconfig-system"`
+	TypeId      System_Alarm_TypeId_Union                        `path:"state/type-id" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_Alarm implements the yang.GoStruct
@@ -2632,7 +2636,7 @@ type System_Alarm_TypeId_Union interface {
 // System_Alarm_TypeId_Union_E_OpenconfigAlarmTypes_OPENCONFIG_ALARM_TYPE_ID is used when /openconfig-system/system/alarms/alarm/state/type-id
 // is to be set to a E_OpenconfigAlarmTypes_OPENCONFIG_ALARM_TYPE_ID value.
 type System_Alarm_TypeId_Union_E_OpenconfigAlarmTypes_OPENCONFIG_ALARM_TYPE_ID struct {
-	E_OpenconfigAlarmTypes_OPENCONFIG_ALARM_TYPE_ID	E_OpenconfigAlarmTypes_OPENCONFIG_ALARM_TYPE_ID
+	E_OpenconfigAlarmTypes_OPENCONFIG_ALARM_TYPE_ID E_OpenconfigAlarmTypes_OPENCONFIG_ALARM_TYPE_ID
 }
 
 // Is_System_Alarm_TypeId_Union ensures that System_Alarm_TypeId_Union_E_OpenconfigAlarmTypes_OPENCONFIG_ALARM_TYPE_ID
@@ -2689,15 +2693,15 @@ func (t *System_Clock) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnum
 
 // System_Cpu represents the /openconfig-system/system/cpus/cpu YANG schema element.
 type System_Cpu struct {
-	HardwareInterrupt	*System_Cpu_HardwareInterrupt	`path:"state/hardware-interrupt" module:"openconfig-system"`
-	Idle	*System_Cpu_Idle	`path:"state/idle" module:"openconfig-system"`
-	Index	System_Cpu_Index_Union	`path:"state/index|index" module:"openconfig-system"`
-	Kernel	*System_Cpu_Kernel	`path:"state/kernel" module:"openconfig-system"`
-	Nice	*System_Cpu_Nice	`path:"state/nice" module:"openconfig-system"`
-	SoftwareInterrupt	*System_Cpu_SoftwareInterrupt	`path:"state/software-interrupt" module:"openconfig-system"`
-	Total	*System_Cpu_Total	`path:"state/total" module:"openconfig-system"`
-	User	*System_Cpu_User	`path:"state/user" module:"openconfig-system"`
-	Wait	*System_Cpu_Wait	`path:"state/wait" module:"openconfig-system"`
+	HardwareInterrupt *System_Cpu_HardwareInterrupt `path:"state/hardware-interrupt" module:"openconfig-system"`
+	Idle              *System_Cpu_Idle              `path:"state/idle" module:"openconfig-system"`
+	Index             System_Cpu_Index_Union        `path:"state/index|index" module:"openconfig-system"`
+	Kernel            *System_Cpu_Kernel            `path:"state/kernel" module:"openconfig-system"`
+	Nice              *System_Cpu_Nice              `path:"state/nice" module:"openconfig-system"`
+	SoftwareInterrupt *System_Cpu_SoftwareInterrupt `path:"state/software-interrupt" module:"openconfig-system"`
+	Total             *System_Cpu_Total             `path:"state/total" module:"openconfig-system"`
+	User              *System_Cpu_User              `path:"state/user" module:"openconfig-system"`
+	Wait              *System_Cpu_Wait              `path:"state/wait" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_Cpu implements the yang.GoStruct
@@ -2894,7 +2898,7 @@ type System_Cpu_Index_Union interface {
 // System_Cpu_Index_Union_E_Cpu_Index is used when /openconfig-system/system/cpus/cpu/state/index
 // is to be set to a E_Cpu_Index value.
 type System_Cpu_Index_Union_E_Cpu_Index struct {
-	E_Cpu_Index	E_Cpu_Index
+	E_Cpu_Index E_Cpu_Index
 }
 
 // Is_System_Cpu_Index_Union ensures that System_Cpu_Index_Union_E_Cpu_Index
@@ -3160,9 +3164,9 @@ func (t *System_Cpu_Wait) ΛEnumTypeMap() map[string][]reflect.Type { return ΛE
 
 // System_Dns represents the /openconfig-system/system/dns YANG schema element.
 type System_Dns struct {
-	HostEntry	map[string]*System_Dns_HostEntry	`path:"host-entries/host-entry" module:"openconfig-system"`
-	Search	[]string	`path:"config/search" module:"openconfig-system"`
-	Server	map[string]*System_Dns_Server	`path:"servers/server" module:"openconfig-system"`
+	HostEntry	map[string]*System_Dns_HostEntry `path:"host-entries/host-entry" module:"openconfig-system"`
+	Search	[]string                            `path:"config/search" module:"openconfig-system"`
+	Server	map[string]*System_Dns_Server       `path:"servers/server" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_Dns implements the yang.GoStruct
@@ -3385,12 +3389,12 @@ func (t *System_Dns_Server) ΛEnumTypeMap() map[string][]reflect.Type { return �
 
 // System_GrpcServer represents the /openconfig-system/system/grpc-server YANG schema element.
 type System_GrpcServer struct {
-	CertificateId	*string	`path:"config/certificate-id" module:"openconfig-system"`
-	Enable	*bool	`path:"config/enable" module:"openconfig-system"`
-	ListenAddresses	[]System_GrpcServer_ListenAddresses_Union	`path:"config/listen-addresses" module:"openconfig-system"`
-	MetadataAuthentication	*bool	`path:"config/metadata-authentication" module:"openconfig-system"`
-	Port	*uint16	`path:"config/port" module:"openconfig-system"`
-	TransportSecurity	*bool	`path:"config/transport-security" module:"openconfig-system"`
+	CertificateId	*string                                     `path:"config/certificate-id" module:"openconfig-system"`
+	Enable	*bool                                              `path:"config/enable" module:"openconfig-system"`
+	ListenAddresses	[]System_GrpcServer_ListenAddresses_Union `path:"config/listen-addresses" module:"openconfig-system"`
+	MetadataAuthentication	*bool                              `path:"config/metadata-authentication" module:"openconfig-system"`
+	Port	*uint16                                              `path:"config/port" module:"openconfig-system"`
+	TransportSecurity	*bool                                   `path:"config/transport-security" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_GrpcServer implements the yang.GoStruct
@@ -3419,7 +3423,7 @@ type System_GrpcServer_ListenAddresses_Union interface {
 // System_GrpcServer_ListenAddresses_Union_E_GrpcServer_ListenAddresses is used when /openconfig-system/system/grpc-server/config/listen-addresses
 // is to be set to a E_GrpcServer_ListenAddresses value.
 type System_GrpcServer_ListenAddresses_Union_E_GrpcServer_ListenAddresses struct {
-	E_GrpcServer_ListenAddresses	E_GrpcServer_ListenAddresses
+	E_GrpcServer_ListenAddresses E_GrpcServer_ListenAddresses
 }
 
 // Is_System_GrpcServer_ListenAddresses_Union ensures that System_GrpcServer_ListenAddresses_Union_E_GrpcServer_ListenAddresses
@@ -3453,7 +3457,7 @@ func (t *System_GrpcServer) To_System_GrpcServer_ListenAddresses_Union(i interfa
 
 // System_License represents the /openconfig-system/system/license YANG schema element.
 type System_License struct {
-	License	map[string]*System_License_License	`path:"licenses/license" module:"openconfig-system"`
+	License	map[string]*System_License_License `path:"licenses/license" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_License implements the yang.GoStruct
@@ -3540,15 +3544,15 @@ func (t *System_License) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEn
 
 // System_License_License represents the /openconfig-system/system/license/licenses/license YANG schema element.
 type System_License_License struct {
-	Active	*bool	`path:"config/active" module:"openconfig-system"`
-	Description	*string	`path:"state/description" module:"openconfig-system"`
-	ExpirationDate	*uint64	`path:"state/expiration-date" module:"openconfig-system"`
-	Expired	*bool	`path:"state/expired" module:"openconfig-system"`
-	InUse	*bool	`path:"state/in-use" module:"openconfig-system"`
-	IssueDate	*uint64	`path:"state/issue-date" module:"openconfig-system"`
-	LicenseData	System_License_License_LicenseData_Union	`path:"config/license-data" module:"openconfig-system"`
-	LicenseId	*string	`path:"config/license-id|license-id" module:"openconfig-system"`
-	Valid	*bool	`path:"state/valid" module:"openconfig-system"`
+	Active         *bool                                    `path:"config/active" module:"openconfig-system"`
+	Description    *string                                  `path:"state/description" module:"openconfig-system"`
+	ExpirationDate *uint64                                  `path:"state/expiration-date" module:"openconfig-system"`
+	Expired        *bool                                    `path:"state/expired" module:"openconfig-system"`
+	InUse          *bool                                    `path:"state/in-use" module:"openconfig-system"`
+	IssueDate      *uint64                                  `path:"state/issue-date" module:"openconfig-system"`
+	LicenseData    System_License_License_LicenseData_Union `path:"config/license-data" module:"openconfig-system"`
+	LicenseId      *string                                  `path:"config/license-id|license-id" module:"openconfig-system"`
+	Valid          *bool                                    `path:"state/valid" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_License_License implements the yang.GoStruct
@@ -3588,7 +3592,7 @@ type System_License_License_LicenseData_Union interface {
 // System_License_License_LicenseData_Union_Binary is used when /openconfig-system/system/license/licenses/license/config/license-data
 // is to be set to a Binary value.
 type System_License_License_LicenseData_Union_Binary struct {
-	Binary	Binary
+	Binary Binary
 }
 
 // Is_System_License_License_LicenseData_Union ensures that System_License_License_LicenseData_Union_Binary
@@ -3622,8 +3626,8 @@ func (t *System_License_License) To_System_License_License_LicenseData_Union(i i
 
 // System_Logging represents the /openconfig-system/system/logging YANG schema element.
 type System_Logging struct {
-	Console	*System_Logging_Console	`path:"console" module:"openconfig-system"`
-	RemoteServer	map[string]*System_Logging_RemoteServer	`path:"remote-servers/remote-server" module:"openconfig-system"`
+	Console	*System_Logging_Console                      `path:"console" module:"openconfig-system"`
+	RemoteServer	map[string]*System_Logging_RemoteServer `path:"remote-servers/remote-server" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_Logging implements the yang.GoStruct
@@ -3730,7 +3734,7 @@ func (t *System_Logging) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEn
 
 // System_Logging_Console represents the /openconfig-system/system/logging/console YANG schema element.
 type System_Logging_Console struct {
-	Selector	map[System_Logging_Console_Selector_Key]*System_Logging_Console_Selector	`path:"selectors/selector" module:"openconfig-system"`
+	Selector	map[System_Logging_Console_Selector_Key]*System_Logging_Console_Selector `path:"selectors/selector" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_Logging_Console implements the yang.GoStruct
@@ -3740,8 +3744,8 @@ func (*System_Logging_Console) IsYANGGoStruct() {}
 
 // System_Logging_Console_Selector_Key represents the key for list Selector of element /openconfig-system/system/logging/console.
 type System_Logging_Console_Selector_Key struct {
-	Facility	E_OpenconfigSystemLogging_SYSLOG_FACILITY	`path:"facility"`
-	Severity	E_OpenconfigSystemLogging_SyslogSeverity	`path:"severity"`
+	Facility E_OpenconfigSystemLogging_SYSLOG_FACILITY `path:"facility"`
+	Severity E_OpenconfigSystemLogging_SyslogSeverity  `path:"severity"`
 }
 
 // NewSelector creates a new entry in the Selector list of the
@@ -3833,8 +3837,8 @@ func (t *System_Logging_Console) ΛEnumTypeMap() map[string][]reflect.Type { ret
 
 // System_Logging_Console_Selector represents the /openconfig-system/system/logging/console/selectors/selector YANG schema element.
 type System_Logging_Console_Selector struct {
-	Facility	E_OpenconfigSystemLogging_SYSLOG_FACILITY	`path:"config/facility|facility" module:"openconfig-system"`
-	Severity	E_OpenconfigSystemLogging_SyslogSeverity	`path:"config/severity|severity" module:"openconfig-system"`
+	Facility E_OpenconfigSystemLogging_SYSLOG_FACILITY `path:"config/facility|facility" module:"openconfig-system"`
+	Severity E_OpenconfigSystemLogging_SyslogSeverity  `path:"config/severity|severity" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_Logging_Console_Selector implements the yang.GoStruct
@@ -3867,10 +3871,10 @@ func (t *System_Logging_Console_Selector) ΛEnumTypeMap() map[string][]reflect.T
 
 // System_Logging_RemoteServer represents the /openconfig-system/system/logging/remote-servers/remote-server YANG schema element.
 type System_Logging_RemoteServer struct {
-	Host	*string	`path:"config/host|host" module:"openconfig-system"`
-	RemotePort	*uint16	`path:"config/remote-port" module:"openconfig-system"`
-	Selector	map[System_Logging_RemoteServer_Selector_Key]*System_Logging_RemoteServer_Selector	`path:"selectors/selector" module:"openconfig-system"`
-	SourceAddress	*string	`path:"config/source-address" module:"openconfig-system"`
+	Host	*string                                                                                `path:"config/host|host" module:"openconfig-system"`
+	RemotePort	*uint16                                                                          `path:"config/remote-port" module:"openconfig-system"`
+	Selector	map[System_Logging_RemoteServer_Selector_Key]*System_Logging_RemoteServer_Selector `path:"selectors/selector" module:"openconfig-system"`
+	SourceAddress	*string                                                                       `path:"config/source-address" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_Logging_RemoteServer implements the yang.GoStruct
@@ -3880,8 +3884,8 @@ func (*System_Logging_RemoteServer) IsYANGGoStruct() {}
 
 // System_Logging_RemoteServer_Selector_Key represents the key for list Selector of element /openconfig-system/system/logging/remote-servers/remote-server.
 type System_Logging_RemoteServer_Selector_Key struct {
-	Facility	E_OpenconfigSystemLogging_SYSLOG_FACILITY	`path:"facility"`
-	Severity	E_OpenconfigSystemLogging_SyslogSeverity	`path:"severity"`
+	Facility E_OpenconfigSystemLogging_SYSLOG_FACILITY `path:"facility"`
+	Severity E_OpenconfigSystemLogging_SyslogSeverity  `path:"severity"`
 }
 
 // NewSelector creates a new entry in the Selector list of the
@@ -3984,8 +3988,8 @@ func (t *System_Logging_RemoteServer) ΛEnumTypeMap() map[string][]reflect.Type 
 
 // System_Logging_RemoteServer_Selector represents the /openconfig-system/system/logging/remote-servers/remote-server/selectors/selector YANG schema element.
 type System_Logging_RemoteServer_Selector struct {
-	Facility	E_OpenconfigSystemLogging_SYSLOG_FACILITY	`path:"config/facility|facility" module:"openconfig-system"`
-	Severity	E_OpenconfigSystemLogging_SyslogSeverity	`path:"config/severity|severity" module:"openconfig-system"`
+	Facility E_OpenconfigSystemLogging_SYSLOG_FACILITY `path:"config/facility|facility" module:"openconfig-system"`
+	Severity E_OpenconfigSystemLogging_SyslogSeverity  `path:"config/severity|severity" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_Logging_RemoteServer_Selector implements the yang.GoStruct
@@ -4013,7 +4017,8 @@ func (t *System_Logging_RemoteServer_Selector) Validate(opts ...ygot.ValidationO
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *System_Logging_RemoteServer_Selector) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *System_Logging_RemoteServer_Selector) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // System_Memory represents the /openconfig-system/system/memory YANG schema element.
@@ -4042,9 +4047,9 @@ func (t *System_Memory) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnu
 
 // System_Messages represents the /openconfig-system/system/messages YANG schema element.
 type System_Messages struct {
-	DebugService	map[E_OpenconfigMessages_DEBUG_SERVICE]*System_Messages_DebugService	`path:"debug-entries/debug-service" module:"openconfig-system"`
-	Message	*System_Messages_Message	`path:"state/message" module:"openconfig-system"`
-	Severity	E_OpenconfigMessages_SyslogSeverity	`path:"config/severity" module:"openconfig-system"`
+	DebugService map[E_OpenconfigMessages_DEBUG_SERVICE]*System_Messages_DebugService `path:"debug-entries/debug-service" module:"openconfig-system"`
+	Message      *System_Messages_Message                                             `path:"state/message" module:"openconfig-system"`
+	Severity     E_OpenconfigMessages_SyslogSeverity                                  `path:"config/severity" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_Messages implements the yang.GoStruct
@@ -4151,8 +4156,8 @@ func (t *System_Messages) ΛEnumTypeMap() map[string][]reflect.Type { return ΛE
 
 // System_Messages_DebugService represents the /openconfig-system/system/messages/debug-entries/debug-service YANG schema element.
 type System_Messages_DebugService struct {
-	Enabled	*bool	`path:"config/enabled" module:"openconfig-system"`
-	Service	E_OpenconfigMessages_DEBUG_SERVICE	`path:"config/service|service" module:"openconfig-system"`
+	Enabled *bool                              `path:"config/enabled" module:"openconfig-system"`
+	Service E_OpenconfigMessages_DEBUG_SERVICE `path:"config/service|service" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_Messages_DebugService implements the yang.GoStruct
@@ -4210,12 +4215,12 @@ func (t *System_Messages_Message) ΛEnumTypeMap() map[string][]reflect.Type { re
 
 // System_Ntp represents the /openconfig-system/system/ntp YANG schema element.
 type System_Ntp struct {
-	AuthMismatch	*uint64	`path:"state/auth-mismatch" module:"openconfig-system"`
-	EnableNtpAuth	*bool	`path:"config/enable-ntp-auth" module:"openconfig-system"`
-	Enabled	*bool	`path:"config/enabled" module:"openconfig-system"`
-	NtpKey	map[uint16]*System_Ntp_NtpKey	`path:"ntp-keys/ntp-key" module:"openconfig-system"`
-	NtpSourceAddress	*string	`path:"config/ntp-source-address" module:"openconfig-system"`
-	Server	map[string]*System_Ntp_Server	`path:"servers/server" module:"openconfig-system"`
+	AuthMismatch	*uint64                 `path:"state/auth-mismatch" module:"openconfig-system"`
+	EnableNtpAuth	*bool                  `path:"config/enable-ntp-auth" module:"openconfig-system"`
+	Enabled	*bool                        `path:"config/enabled" module:"openconfig-system"`
+	NtpKey	map[uint16]*System_Ntp_NtpKey `path:"ntp-keys/ntp-key" module:"openconfig-system"`
+	NtpSourceAddress	*string             `path:"config/ntp-source-address" module:"openconfig-system"`
+	Server	map[string]*System_Ntp_Server `path:"servers/server" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_Ntp implements the yang.GoStruct
@@ -4366,9 +4371,9 @@ func (t *System_Ntp) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTy
 
 // System_Ntp_NtpKey represents the /openconfig-system/system/ntp/ntp-keys/ntp-key YANG schema element.
 type System_Ntp_NtpKey struct {
-	KeyId	*uint16	`path:"config/key-id|key-id" module:"openconfig-system"`
-	KeyType	E_OpenconfigSystem_NTP_AUTH_TYPE	`path:"config/key-type" module:"openconfig-system"`
-	KeyValue	*string	`path:"config/key-value" module:"openconfig-system"`
+	KeyId    *uint16                          `path:"config/key-id|key-id" module:"openconfig-system"`
+	KeyType  E_OpenconfigSystem_NTP_AUTH_TYPE `path:"config/key-type" module:"openconfig-system"`
+	KeyValue *string                          `path:"config/key-value" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_Ntp_NtpKey implements the yang.GoStruct
@@ -4402,17 +4407,17 @@ func (t *System_Ntp_NtpKey) ΛEnumTypeMap() map[string][]reflect.Type { return �
 
 // System_Ntp_Server represents the /openconfig-system/system/ntp/servers/server YANG schema element.
 type System_Ntp_Server struct {
-	Address	*string	`path:"config/address|address" module:"openconfig-system"`
-	AssociationType	E_Server_AssociationType	`path:"config/association-type" module:"openconfig-system"`
-	Iburst	*bool	`path:"config/iburst" module:"openconfig-system"`
-	Offset	*uint64	`path:"state/offset" module:"openconfig-system"`
-	PollInterval	*uint32	`path:"state/poll-interval" module:"openconfig-system"`
-	Port	*uint16	`path:"config/port" module:"openconfig-system"`
-	Prefer	*bool	`path:"config/prefer" module:"openconfig-system"`
-	RootDelay	*uint32	`path:"state/root-delay" module:"openconfig-system"`
-	RootDispersion	*uint64	`path:"state/root-dispersion" module:"openconfig-system"`
-	Stratum	*uint8	`path:"state/stratum" module:"openconfig-system"`
-	Version	*uint8	`path:"config/version" module:"openconfig-system"`
+	Address         *string                  `path:"config/address|address" module:"openconfig-system"`
+	AssociationType E_Server_AssociationType `path:"config/association-type" module:"openconfig-system"`
+	Iburst          *bool                    `path:"config/iburst" module:"openconfig-system"`
+	Offset          *uint64                  `path:"state/offset" module:"openconfig-system"`
+	PollInterval    *uint32                  `path:"state/poll-interval" module:"openconfig-system"`
+	Port            *uint16                  `path:"config/port" module:"openconfig-system"`
+	Prefer          *bool                    `path:"config/prefer" module:"openconfig-system"`
+	RootDelay       *uint32                  `path:"state/root-delay" module:"openconfig-system"`
+	RootDispersion  *uint64                  `path:"state/root-dispersion" module:"openconfig-system"`
+	Stratum         *uint8                   `path:"state/stratum" module:"openconfig-system"`
+	Version         *uint8                   `path:"config/version" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_Ntp_Server implements the yang.GoStruct
@@ -4488,11 +4493,11 @@ func (t *System_Process) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEn
 
 // System_SshServer represents the /openconfig-system/system/ssh-server YANG schema element.
 type System_SshServer struct {
-	Enable	*bool	`path:"config/enable" module:"openconfig-system"`
-	ProtocolVersion	E_SshServer_ProtocolVersion	`path:"config/protocol-version" module:"openconfig-system"`
-	RateLimit	*uint16	`path:"config/rate-limit" module:"openconfig-system"`
-	SessionLimit	*uint16	`path:"config/session-limit" module:"openconfig-system"`
-	Timeout	*uint16	`path:"config/timeout" module:"openconfig-system"`
+	Enable          *bool                       `path:"config/enable" module:"openconfig-system"`
+	ProtocolVersion E_SshServer_ProtocolVersion `path:"config/protocol-version" module:"openconfig-system"`
+	RateLimit       *uint16                     `path:"config/rate-limit" module:"openconfig-system"`
+	SessionLimit    *uint16                     `path:"config/session-limit" module:"openconfig-system"`
+	Timeout         *uint16                     `path:"config/timeout" module:"openconfig-system"`
 }
 
 // IsYANGGoStruct ensures that System_SshServer implements the yang.GoStruct

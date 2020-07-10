@@ -28,8 +28,8 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/openconfig/ygot/ygot"
 	"github.com/openconfig/goyang/pkg/yang"
+	"github.com/openconfig/ygot/ygot"
 	"github.com/openconfig/ygot/ytypes"
 )
 
@@ -63,9 +63,9 @@ func Schema() (*ytypes.Schema, error) {
 	}
 
 	return &ytypes.Schema{
-		Root: nil,
+		Root:       nil,
 		SchemaTree: uzp,
-		Unmarshal: Unmarshal,
+		Unmarshal:  Unmarshal,
 	}, nil
 }
 
@@ -101,40 +101,40 @@ func Unmarshal(data []byte, destStruct ygot.GoStruct, opts ...ytypes.UnmarshalOp
 
 // Component represents the /openconfig-platform/components/component YANG schema element.
 type Component struct {
-	AllocatedPower	*uint32	`path:"state/allocated-power" module:"openconfig-platform"`
-	Backplane	*Component_Backplane	`path:"backplane" module:"openconfig-platform"`
-	Chassis	*Component_Chassis	`path:"chassis" module:"openconfig-platform"`
-	Cpu	*Component_Cpu	`path:"cpu" module:"openconfig-platform"`
-	Description	*string	`path:"state/description" module:"openconfig-platform"`
-	Empty	*bool	`path:"state/empty" module:"openconfig-platform"`
-	EntityId	*uint32	`path:"state/entity-id" module:"openconfig-platform-ext"`
-	Fabric	*Component_Fabric	`path:"fabric" module:"openconfig-platform"`
-	Fan	*Component_Fan	`path:"fan" module:"openconfig-platform"`
-	FirmwareVersion	*string	`path:"state/firmware-version" module:"openconfig-platform"`
-	HardwareVersion	*string	`path:"state/hardware-version" module:"openconfig-platform"`
-	Id	*string	`path:"state/id" module:"openconfig-platform"`
-	IntegratedCircuit	*Component_IntegratedCircuit	`path:"integrated-circuit" module:"openconfig-platform"`
-	Linecard	*Component_Linecard	`path:"linecard" module:"openconfig-platform-linecard"`
-	Location	*string	`path:"state/location" module:"openconfig-platform"`
-	Memory	*Component_Memory	`path:"state/memory" module:"openconfig-platform"`
-	MfgDate	*string	`path:"state/mfg-date" module:"openconfig-platform"`
-	MfgName	*string	`path:"state/mfg-name" module:"openconfig-platform"`
-	Name	*string	`path:"config/name|name" module:"openconfig-platform"`
-	OperStatus	E_OpenconfigPlatformTypes_COMPONENT_OPER_STATUS	`path:"state/oper-status" module:"openconfig-platform"`
-	Parent	*string	`path:"state/parent" module:"openconfig-platform"`
-	PartNo	*string	`path:"state/part-no" module:"openconfig-platform"`
-	Port	*Component_Port	`path:"port" module:"openconfig-platform"`
-	PowerSupply	*Component_PowerSupply	`path:"power-supply" module:"openconfig-platform"`
-	Property	map[string]*Component_Property	`path:"properties/property" module:"openconfig-platform"`
-	Removable	*bool	`path:"state/removable" module:"openconfig-platform"`
-	SerialNo	*string	`path:"state/serial-no" module:"openconfig-platform"`
-	SoftwareVersion	*string	`path:"state/software-version" module:"openconfig-platform"`
-	Storage	*Component_Storage	`path:"storage" module:"openconfig-platform"`
-	Subcomponent	map[string]*Component_Subcomponent	`path:"subcomponents/subcomponent" module:"openconfig-platform"`
-	Temperature	*Component_Temperature	`path:"state/temperature" module:"openconfig-platform"`
-	Transceiver	*Component_Transceiver	`path:"transceiver" module:"openconfig-platform-transceiver"`
-	Type	Component_Type_Union	`path:"state/type" module:"openconfig-platform"`
-	UsedPower	*uint32	`path:"state/used-power" module:"openconfig-platform"`
+	AllocatedPower    *uint32                                         `path:"state/allocated-power" module:"openconfig-platform"`
+	Backplane         *Component_Backplane                            `path:"backplane" module:"openconfig-platform"`
+	Chassis           *Component_Chassis                              `path:"chassis" module:"openconfig-platform"`
+	Cpu               *Component_Cpu                                  `path:"cpu" module:"openconfig-platform"`
+	Description       *string                                         `path:"state/description" module:"openconfig-platform"`
+	Empty             *bool                                           `path:"state/empty" module:"openconfig-platform"`
+	EntityId          *uint32                                         `path:"state/entity-id" module:"openconfig-platform-ext"`
+	Fabric            *Component_Fabric                               `path:"fabric" module:"openconfig-platform"`
+	Fan               *Component_Fan                                  `path:"fan" module:"openconfig-platform"`
+	FirmwareVersion   *string                                         `path:"state/firmware-version" module:"openconfig-platform"`
+	HardwareVersion   *string                                         `path:"state/hardware-version" module:"openconfig-platform"`
+	Id                *string                                         `path:"state/id" module:"openconfig-platform"`
+	IntegratedCircuit *Component_IntegratedCircuit                    `path:"integrated-circuit" module:"openconfig-platform"`
+	Linecard          *Component_Linecard                             `path:"linecard" module:"openconfig-platform-linecard"`
+	Location          *string                                         `path:"state/location" module:"openconfig-platform"`
+	Memory            *Component_Memory                               `path:"state/memory" module:"openconfig-platform"`
+	MfgDate           *string                                         `path:"state/mfg-date" module:"openconfig-platform"`
+	MfgName           *string                                         `path:"state/mfg-name" module:"openconfig-platform"`
+	Name              *string                                         `path:"config/name|name" module:"openconfig-platform"`
+	OperStatus        E_OpenconfigPlatformTypes_COMPONENT_OPER_STATUS `path:"state/oper-status" module:"openconfig-platform"`
+	Parent            *string                                         `path:"state/parent" module:"openconfig-platform"`
+	PartNo            *string                                         `path:"state/part-no" module:"openconfig-platform"`
+	Port              *Component_Port                                 `path:"port" module:"openconfig-platform"`
+	PowerSupply       *Component_PowerSupply                          `path:"power-supply" module:"openconfig-platform"`
+	Property          map[string]*Component_Property                  `path:"properties/property" module:"openconfig-platform"`
+	Removable         *bool                                           `path:"state/removable" module:"openconfig-platform"`
+	SerialNo          *string                                         `path:"state/serial-no" module:"openconfig-platform"`
+	SoftwareVersion   *string                                         `path:"state/software-version" module:"openconfig-platform"`
+	Storage           *Component_Storage                              `path:"storage" module:"openconfig-platform"`
+	Subcomponent      map[string]*Component_Subcomponent              `path:"subcomponents/subcomponent" module:"openconfig-platform"`
+	Temperature       *Component_Temperature                          `path:"state/temperature" module:"openconfig-platform"`
+	Transceiver       *Component_Transceiver                          `path:"transceiver" module:"openconfig-platform-transceiver"`
+	Type              Component_Type_Union                            `path:"state/type" module:"openconfig-platform"`
+	UsedPower         *uint32                                         `path:"state/used-power" module:"openconfig-platform"`
 }
 
 // IsYANGGoStruct ensures that Component implements the yang.GoStruct
@@ -562,7 +562,7 @@ type Component_Type_Union interface {
 // Component_Type_Union_E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT is used when /openconfig-platform/components/component/state/type
 // is to be set to a E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT value.
 type Component_Type_Union_E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT struct {
-	E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT	E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT
+	E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT
 }
 
 // Is_Component_Type_Union ensures that Component_Type_Union_E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT
@@ -572,7 +572,7 @@ func (*Component_Type_Union_E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPON
 // Component_Type_Union_E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT is used when /openconfig-platform/components/component/state/type
 // is to be set to a E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT value.
 type Component_Type_Union_E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT struct {
-	E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT	E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT
+	E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT
 }
 
 // Is_Component_Type_Union ensures that Component_Type_Union_E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT
@@ -640,7 +640,7 @@ func (t *Component_Chassis) ΛEnumTypeMap() map[string][]reflect.Type { return �
 
 // Component_Cpu represents the /openconfig-platform/components/component/cpu YANG schema element.
 type Component_Cpu struct {
-	Utilization	*Component_Cpu_Utilization	`path:"utilization" module:"openconfig-platform-cpu"`
+	Utilization	*Component_Cpu_Utilization `path:"utilization" module:"openconfig-platform-cpu"`
 }
 
 // IsYANGGoStruct ensures that Component_Cpu implements the yang.GoStruct
@@ -779,8 +779,8 @@ func (t *Component_IntegratedCircuit) ΛEnumTypeMap() map[string][]reflect.Type 
 
 // Component_Linecard represents the /openconfig-platform/components/component/linecard YANG schema element.
 type Component_Linecard struct {
-	PowerAdminState	E_OpenconfigPlatformLinecard_ComponentPowerType	`path:"config/power-admin-state" module:"openconfig-platform-linecard"`
-	SlotId	*string	`path:"state/slot-id" module:"openconfig-platform-linecard"`
+	PowerAdminState E_OpenconfigPlatformLinecard_ComponentPowerType `path:"config/power-admin-state" module:"openconfig-platform-linecard"`
+	SlotId          *string                                         `path:"state/slot-id" module:"openconfig-platform-linecard"`
 }
 
 // IsYANGGoStruct ensures that Component_Linecard implements the yang.GoStruct
@@ -827,7 +827,7 @@ func (t *Component_Memory) ΛEnumTypeMap() map[string][]reflect.Type { return Λ
 
 // Component_Port represents the /openconfig-platform/components/component/port YANG schema element.
 type Component_Port struct {
-	BreakoutMode	*Component_Port_BreakoutMode	`path:"breakout-mode" module:"openconfig-platform-port"`
+	BreakoutMode	*Component_Port_BreakoutMode `path:"breakout-mode" module:"openconfig-platform-port"`
 }
 
 // IsYANGGoStruct ensures that Component_Port implements the yang.GoStruct
@@ -870,8 +870,8 @@ func (t *Component_Port) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEn
 
 // Component_Port_BreakoutMode represents the /openconfig-platform/components/component/port/breakout-mode YANG schema element.
 type Component_Port_BreakoutMode struct {
-	ChannelSpeed	E_OpenconfigIfEthernet_ETHERNET_SPEED	`path:"config/channel-speed" module:"openconfig-platform-port"`
-	NumChannels	*uint8	`path:"config/num-channels" module:"openconfig-platform-port"`
+	ChannelSpeed E_OpenconfigIfEthernet_ETHERNET_SPEED `path:"config/channel-speed" module:"openconfig-platform-port"`
+	NumChannels  *uint8                                `path:"config/num-channels" module:"openconfig-platform-port"`
 }
 
 // IsYANGGoStruct ensures that Component_Port_BreakoutMode implements the yang.GoStruct
@@ -894,13 +894,13 @@ func (t *Component_Port_BreakoutMode) ΛEnumTypeMap() map[string][]reflect.Type 
 
 // Component_PowerSupply represents the /openconfig-platform/components/component/power-supply YANG schema element.
 type Component_PowerSupply struct {
-	Capacity	Binary	`path:"state/capacity" module:"openconfig-platform-psu"`
-	Enabled	*bool	`path:"config/enabled" module:"openconfig-platform-psu"`
-	InputCurrent	Binary	`path:"state/input-current" module:"openconfig-platform-psu"`
-	InputVoltage	Binary	`path:"state/input-voltage" module:"openconfig-platform-psu"`
-	OutputCurrent	Binary	`path:"state/output-current" module:"openconfig-platform-psu"`
-	OutputPower	Binary	`path:"state/output-power" module:"openconfig-platform-psu"`
-	OutputVoltage	Binary	`path:"state/output-voltage" module:"openconfig-platform-psu"`
+	Capacity      Binary `path:"state/capacity" module:"openconfig-platform-psu"`
+	Enabled       *bool  `path:"config/enabled" module:"openconfig-platform-psu"`
+	InputCurrent  Binary `path:"state/input-current" module:"openconfig-platform-psu"`
+	InputVoltage  Binary `path:"state/input-voltage" module:"openconfig-platform-psu"`
+	OutputCurrent Binary `path:"state/output-current" module:"openconfig-platform-psu"`
+	OutputPower   Binary `path:"state/output-power" module:"openconfig-platform-psu"`
+	OutputVoltage Binary `path:"state/output-voltage" module:"openconfig-platform-psu"`
 }
 
 // IsYANGGoStruct ensures that Component_PowerSupply implements the yang.GoStruct
@@ -923,9 +923,9 @@ func (t *Component_PowerSupply) ΛEnumTypeMap() map[string][]reflect.Type { retu
 
 // Component_Property represents the /openconfig-platform/components/component/properties/property YANG schema element.
 type Component_Property struct {
-	Configurable	*bool	`path:"state/configurable" module:"openconfig-platform"`
-	Name	*string	`path:"config/name|name" module:"openconfig-platform"`
-	Value	Component_Property_Value_Union	`path:"config/value" module:"openconfig-platform"`
+	Configurable *bool                          `path:"state/configurable" module:"openconfig-platform"`
+	Name         *string                        `path:"config/name|name" module:"openconfig-platform"`
+	Value        Component_Property_Value_Union `path:"config/value" module:"openconfig-platform"`
 }
 
 // IsYANGGoStruct ensures that Component_Property implements the yang.GoStruct
@@ -1091,16 +1091,16 @@ func (t *Component_Subcomponent) ΛEnumTypeMap() map[string][]reflect.Type { ret
 
 // Component_Temperature represents the /openconfig-platform/components/component/state/temperature YANG schema element.
 type Component_Temperature struct {
-	AlarmSeverity	E_OpenconfigAlarmTypes_OPENCONFIG_ALARM_SEVERITY	`path:"alarm-severity" module:"openconfig-platform"`
-	AlarmStatus	*bool	`path:"alarm-status" module:"openconfig-platform"`
-	AlarmThreshold	*uint32	`path:"alarm-threshold" module:"openconfig-platform"`
-	Avg	*float64	`path:"avg" module:"openconfig-platform"`
-	Instant	*float64	`path:"instant" module:"openconfig-platform"`
-	Interval	*uint64	`path:"interval" module:"openconfig-platform"`
-	Max	*float64	`path:"max" module:"openconfig-platform"`
-	MaxTime	*uint64	`path:"max-time" module:"openconfig-platform"`
-	Min	*float64	`path:"min" module:"openconfig-platform"`
-	MinTime	*uint64	`path:"min-time" module:"openconfig-platform"`
+	AlarmSeverity  E_OpenconfigAlarmTypes_OPENCONFIG_ALARM_SEVERITY `path:"alarm-severity" module:"openconfig-platform"`
+	AlarmStatus    *bool                                            `path:"alarm-status" module:"openconfig-platform"`
+	AlarmThreshold *uint32                                          `path:"alarm-threshold" module:"openconfig-platform"`
+	Avg            *float64                                         `path:"avg" module:"openconfig-platform"`
+	Instant        *float64                                         `path:"instant" module:"openconfig-platform"`
+	Interval       *uint64                                          `path:"interval" module:"openconfig-platform"`
+	Max            *float64                                         `path:"max" module:"openconfig-platform"`
+	MaxTime        *uint64                                          `path:"max-time" module:"openconfig-platform"`
+	Min            *float64                                         `path:"min" module:"openconfig-platform"`
+	MinTime        *uint64                                          `path:"min-time" module:"openconfig-platform"`
 }
 
 // IsYANGGoStruct ensures that Component_Temperature implements the yang.GoStruct
@@ -1123,33 +1123,33 @@ func (t *Component_Temperature) ΛEnumTypeMap() map[string][]reflect.Type { retu
 
 // Component_Transceiver represents the /openconfig-platform/components/component/transceiver YANG schema element.
 type Component_Transceiver struct {
-	Channel	map[uint16]*Component_Transceiver_Channel	`path:"physical-channels/channel" module:"openconfig-platform-transceiver"`
-	ConnectorType	E_OpenconfigTransportTypes_FIBER_CONNECTOR_TYPE	`path:"state/connector-type" module:"openconfig-platform-transceiver"`
-	DateCode	*string	`path:"state/date-code" module:"openconfig-platform-transceiver"`
-	Enabled	*bool	`path:"config/enabled" module:"openconfig-platform-transceiver"`
-	EthernetPmd	E_OpenconfigTransportTypes_ETHERNET_PMD_TYPE	`path:"state/ethernet-pmd" module:"openconfig-platform-transceiver"`
-	EthernetPmdPreconf	E_OpenconfigTransportTypes_ETHERNET_PMD_TYPE	`path:"config/ethernet-pmd-preconf" module:"openconfig-platform-transceiver"`
-	FaultCondition	*bool	`path:"state/fault-condition" module:"openconfig-platform-transceiver"`
-	FecCorrectedBits	*uint64	`path:"state/fec-corrected-bits" module:"openconfig-platform-transceiver"`
-	FecCorrectedBytes	*uint64	`path:"state/fec-corrected-bytes" module:"openconfig-platform-transceiver"`
-	FecMode	E_OpenconfigPlatformTypes_FEC_MODE_TYPE	`path:"config/fec-mode" module:"openconfig-platform-transceiver"`
-	FecStatus	E_OpenconfigPlatformTypes_FEC_STATUS_TYPE	`path:"state/fec-status" module:"openconfig-platform-transceiver"`
-	FecUncorrectableBlocks	*uint64	`path:"state/fec-uncorrectable-blocks" module:"openconfig-platform-transceiver"`
-	FecUncorrectableWords	*uint64	`path:"state/fec-uncorrectable-words" module:"openconfig-platform-transceiver"`
-	FormFactor	E_OpenconfigTransportTypes_TRANSCEIVER_FORM_FACTOR_TYPE	`path:"state/form-factor" module:"openconfig-platform-transceiver"`
-	FormFactorPreconf	E_OpenconfigTransportTypes_TRANSCEIVER_FORM_FACTOR_TYPE	`path:"config/form-factor-preconf" module:"openconfig-platform-transceiver"`
-	InputPower	*Component_Transceiver_InputPower	`path:"state/input-power" module:"openconfig-platform-transceiver"`
-	LaserBiasCurrent	*Component_Transceiver_LaserBiasCurrent	`path:"state/laser-bias-current" module:"openconfig-platform-transceiver"`
-	OtnComplianceCode	E_OpenconfigTransportTypes_OTN_APPLICATION_CODE	`path:"state/otn-compliance-code" module:"openconfig-platform-transceiver"`
-	OutputPower	*Component_Transceiver_OutputPower	`path:"state/output-power" module:"openconfig-platform-transceiver"`
-	PostFecBer	*Component_Transceiver_PostFecBer	`path:"state/post-fec-ber" module:"openconfig-platform-transceiver"`
-	PreFecBer	*Component_Transceiver_PreFecBer	`path:"state/pre-fec-ber" module:"openconfig-platform-transceiver"`
-	Present	E_Transceiver_Present	`path:"state/present" module:"openconfig-platform-transceiver"`
-	SerialNo	*string	`path:"state/serial-no" module:"openconfig-platform-transceiver"`
-	SonetSdhComplianceCode	E_OpenconfigTransportTypes_SONET_APPLICATION_CODE	`path:"state/sonet-sdh-compliance-code" module:"openconfig-platform-transceiver"`
-	Vendor	*string	`path:"state/vendor" module:"openconfig-platform-transceiver"`
-	VendorPart	*string	`path:"state/vendor-part" module:"openconfig-platform-transceiver"`
-	VendorRev	*string	`path:"state/vendor-rev" module:"openconfig-platform-transceiver"`
+	Channel                map[uint16]*Component_Transceiver_Channel               `path:"physical-channels/channel" module:"openconfig-platform-transceiver"`
+	ConnectorType          E_OpenconfigTransportTypes_FIBER_CONNECTOR_TYPE         `path:"state/connector-type" module:"openconfig-platform-transceiver"`
+	DateCode               *string                                                 `path:"state/date-code" module:"openconfig-platform-transceiver"`
+	Enabled                *bool                                                   `path:"config/enabled" module:"openconfig-platform-transceiver"`
+	EthernetPmd            E_OpenconfigTransportTypes_ETHERNET_PMD_TYPE            `path:"state/ethernet-pmd" module:"openconfig-platform-transceiver"`
+	EthernetPmdPreconf     E_OpenconfigTransportTypes_ETHERNET_PMD_TYPE            `path:"config/ethernet-pmd-preconf" module:"openconfig-platform-transceiver"`
+	FaultCondition         *bool                                                   `path:"state/fault-condition" module:"openconfig-platform-transceiver"`
+	FecCorrectedBits       *uint64                                                 `path:"state/fec-corrected-bits" module:"openconfig-platform-transceiver"`
+	FecCorrectedBytes      *uint64                                                 `path:"state/fec-corrected-bytes" module:"openconfig-platform-transceiver"`
+	FecMode                E_OpenconfigPlatformTypes_FEC_MODE_TYPE                 `path:"config/fec-mode" module:"openconfig-platform-transceiver"`
+	FecStatus              E_OpenconfigPlatformTypes_FEC_STATUS_TYPE               `path:"state/fec-status" module:"openconfig-platform-transceiver"`
+	FecUncorrectableBlocks *uint64                                                 `path:"state/fec-uncorrectable-blocks" module:"openconfig-platform-transceiver"`
+	FecUncorrectableWords  *uint64                                                 `path:"state/fec-uncorrectable-words" module:"openconfig-platform-transceiver"`
+	FormFactor             E_OpenconfigTransportTypes_TRANSCEIVER_FORM_FACTOR_TYPE `path:"state/form-factor" module:"openconfig-platform-transceiver"`
+	FormFactorPreconf      E_OpenconfigTransportTypes_TRANSCEIVER_FORM_FACTOR_TYPE `path:"config/form-factor-preconf" module:"openconfig-platform-transceiver"`
+	InputPower             *Component_Transceiver_InputPower                       `path:"state/input-power" module:"openconfig-platform-transceiver"`
+	LaserBiasCurrent       *Component_Transceiver_LaserBiasCurrent                 `path:"state/laser-bias-current" module:"openconfig-platform-transceiver"`
+	OtnComplianceCode      E_OpenconfigTransportTypes_OTN_APPLICATION_CODE         `path:"state/otn-compliance-code" module:"openconfig-platform-transceiver"`
+	OutputPower            *Component_Transceiver_OutputPower                      `path:"state/output-power" module:"openconfig-platform-transceiver"`
+	PostFecBer             *Component_Transceiver_PostFecBer                       `path:"state/post-fec-ber" module:"openconfig-platform-transceiver"`
+	PreFecBer              *Component_Transceiver_PreFecBer                        `path:"state/pre-fec-ber" module:"openconfig-platform-transceiver"`
+	Present                E_Transceiver_Present                                   `path:"state/present" module:"openconfig-platform-transceiver"`
+	SerialNo               *string                                                 `path:"state/serial-no" module:"openconfig-platform-transceiver"`
+	SonetSdhComplianceCode E_OpenconfigTransportTypes_SONET_APPLICATION_CODE       `path:"state/sonet-sdh-compliance-code" module:"openconfig-platform-transceiver"`
+	Vendor                 *string                                                 `path:"state/vendor" module:"openconfig-platform-transceiver"`
+	VendorPart             *string                                                 `path:"state/vendor-part" module:"openconfig-platform-transceiver"`
+	VendorRev              *string                                                 `path:"state/vendor-rev" module:"openconfig-platform-transceiver"`
 }
 
 // IsYANGGoStruct ensures that Component_Transceiver implements the yang.GoStruct
@@ -1336,14 +1336,14 @@ func (t *Component_Transceiver) ΛEnumTypeMap() map[string][]reflect.Type { retu
 
 // Component_Transceiver_Channel represents the /openconfig-platform/components/component/transceiver/physical-channels/channel YANG schema element.
 type Component_Transceiver_Channel struct {
-	Description	*string	`path:"config/description" module:"openconfig-platform-transceiver"`
-	Index	*uint16	`path:"config/index|index" module:"openconfig-platform-transceiver"`
-	InputPower	*Component_Transceiver_Channel_InputPower	`path:"state/input-power" module:"openconfig-platform-transceiver"`
-	LaserBiasCurrent	*Component_Transceiver_Channel_LaserBiasCurrent	`path:"state/laser-bias-current" module:"openconfig-platform-transceiver"`
-	OutputFrequency	*uint64	`path:"state/output-frequency" module:"openconfig-platform-transceiver"`
-	OutputPower	*Component_Transceiver_Channel_OutputPower	`path:"state/output-power" module:"openconfig-platform-transceiver"`
-	TargetOutputPower	*float64	`path:"config/target-output-power" module:"openconfig-platform-transceiver"`
-	TxLaser	*bool	`path:"config/tx-laser" module:"openconfig-platform-transceiver"`
+	Description	*string                                              `path:"config/description" module:"openconfig-platform-transceiver"`
+	Index	*uint16                                                    `path:"config/index|index" module:"openconfig-platform-transceiver"`
+	InputPower	*Component_Transceiver_Channel_InputPower             `path:"state/input-power" module:"openconfig-platform-transceiver"`
+	LaserBiasCurrent	*Component_Transceiver_Channel_LaserBiasCurrent `path:"state/laser-bias-current" module:"openconfig-platform-transceiver"`
+	OutputFrequency	*uint64                                          `path:"state/output-frequency" module:"openconfig-platform-transceiver"`
+	OutputPower	*Component_Transceiver_Channel_OutputPower           `path:"state/output-power" module:"openconfig-platform-transceiver"`
+	TargetOutputPower	*float64                                       `path:"config/target-output-power" module:"openconfig-platform-transceiver"`
+	TxLaser	*bool                                                    `path:"config/tx-laser" module:"openconfig-platform-transceiver"`
 }
 
 // IsYANGGoStruct ensures that Component_Transceiver_Channel implements the yang.GoStruct
@@ -1461,7 +1461,8 @@ func (t *Component_Transceiver_Channel_InputPower) Validate(opts ...ygot.Validat
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Component_Transceiver_Channel_InputPower) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Component_Transceiver_Channel_InputPower) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Component_Transceiver_Channel_LaserBiasCurrent represents the /openconfig-platform/components/component/transceiver/physical-channels/channel/state/laser-bias-current YANG schema element.
@@ -1490,7 +1491,8 @@ func (t *Component_Transceiver_Channel_LaserBiasCurrent) Validate(opts ...ygot.V
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Component_Transceiver_Channel_LaserBiasCurrent) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Component_Transceiver_Channel_LaserBiasCurrent) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Component_Transceiver_Channel_OutputPower represents the /openconfig-platform/components/component/transceiver/physical-channels/channel/state/output-power YANG schema element.
@@ -1519,7 +1521,8 @@ func (t *Component_Transceiver_Channel_OutputPower) Validate(opts ...ygot.Valida
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Component_Transceiver_Channel_OutputPower) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Component_Transceiver_Channel_OutputPower) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Component_Transceiver_InputPower represents the /openconfig-platform/components/component/transceiver/state/input-power YANG schema element.
@@ -1577,7 +1580,8 @@ func (t *Component_Transceiver_LaserBiasCurrent) Validate(opts ...ygot.Validatio
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Component_Transceiver_LaserBiasCurrent) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Component_Transceiver_LaserBiasCurrent) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Component_Transceiver_OutputPower represents the /openconfig-platform/components/component/transceiver/state/output-power YANG schema element.
@@ -1606,7 +1610,8 @@ func (t *Component_Transceiver_OutputPower) Validate(opts ...ygot.ValidationOpti
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Component_Transceiver_OutputPower) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Component_Transceiver_OutputPower) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Component_Transceiver_PostFecBer represents the /openconfig-platform/components/component/transceiver/state/post-fec-ber YANG schema element.
@@ -1669,24 +1674,24 @@ func (t *Component_Transceiver_PreFecBer) ΛEnumTypeMap() map[string][]reflect.T
 
 // Interface represents the /openconfig-interfaces/interfaces/interface YANG schema element.
 type Interface struct {
-	AdminStatus	E_Interface_AdminStatus	`path:"state/admin-status" module:"openconfig-interfaces"`
-	Counters	*Interface_Counters	`path:"state/counters" module:"openconfig-interfaces"`
-	Description	*string	`path:"config/description" module:"openconfig-interfaces"`
-	Enabled	*bool	`path:"config/enabled" module:"openconfig-interfaces"`
-	Ethernet	*Interface_Ethernet	`path:"ethernet" module:"openconfig-if-ethernet"`
-	HardwarePort	*string	`path:"state/hardware-port" module:"openconfig-platform-port"`
-	HoldTime	*Interface_HoldTime	`path:"hold-time" module:"openconfig-interfaces"`
-	Ifindex	*uint32	`path:"state/ifindex" module:"openconfig-interfaces"`
-	LastChange	*uint64	`path:"state/last-change" module:"openconfig-interfaces"`
-	Logical	*bool	`path:"state/logical" module:"openconfig-interfaces"`
-	LoopbackMode	*bool	`path:"config/loopback-mode" module:"openconfig-interfaces"`
-	Mtu	*uint16	`path:"config/mtu" module:"openconfig-interfaces"`
-	Name	*string	`path:"config/name|name" module:"openconfig-interfaces"`
-	OperStatus	E_Interface_OperStatus	`path:"state/oper-status" module:"openconfig-interfaces"`
-	PhysicalChannel	[]uint16	`path:"state/physical-channel" module:"openconfig-platform-transceiver"`
-	Subinterface	map[uint32]*Interface_Subinterface	`path:"subinterfaces/subinterface" module:"openconfig-interfaces"`
-	Transceiver	*string	`path:"state/transceiver" module:"openconfig-platform-transceiver"`
-	Type	E_IETFInterfaces_InterfaceType	`path:"config/type" module:"openconfig-interfaces"`
+	AdminStatus     E_Interface_AdminStatus            `path:"state/admin-status" module:"openconfig-interfaces"`
+	Counters        *Interface_Counters                `path:"state/counters" module:"openconfig-interfaces"`
+	Description     *string                            `path:"config/description" module:"openconfig-interfaces"`
+	Enabled         *bool                              `path:"config/enabled" module:"openconfig-interfaces"`
+	Ethernet        *Interface_Ethernet                `path:"ethernet" module:"openconfig-if-ethernet"`
+	HardwarePort    *string                            `path:"state/hardware-port" module:"openconfig-platform-port"`
+	HoldTime        *Interface_HoldTime                `path:"hold-time" module:"openconfig-interfaces"`
+	Ifindex         *uint32                            `path:"state/ifindex" module:"openconfig-interfaces"`
+	LastChange      *uint64                            `path:"state/last-change" module:"openconfig-interfaces"`
+	Logical         *bool                              `path:"state/logical" module:"openconfig-interfaces"`
+	LoopbackMode    *bool                              `path:"config/loopback-mode" module:"openconfig-interfaces"`
+	Mtu             *uint16                            `path:"config/mtu" module:"openconfig-interfaces"`
+	Name            *string                            `path:"config/name|name" module:"openconfig-interfaces"`
+	OperStatus      E_Interface_OperStatus             `path:"state/oper-status" module:"openconfig-interfaces"`
+	PhysicalChannel []uint16                           `path:"state/physical-channel" module:"openconfig-platform-transceiver"`
+	Subinterface    map[uint32]*Interface_Subinterface `path:"subinterfaces/subinterface" module:"openconfig-interfaces"`
+	Transceiver     *string                            `path:"state/transceiver" module:"openconfig-platform-transceiver"`
+	Type            E_IETFInterfaces_InterfaceType     `path:"config/type" module:"openconfig-interfaces"`
 }
 
 // IsYANGGoStruct ensures that Interface implements the yang.GoStruct
@@ -1884,15 +1889,15 @@ func (t *Interface_Counters) ΛEnumTypeMap() map[string][]reflect.Type { return 
 
 // Interface_Ethernet represents the /openconfig-interfaces/interfaces/interface/ethernet YANG schema element.
 type Interface_Ethernet struct {
-	AutoNegotiate	*bool	`path:"config/auto-negotiate" module:"openconfig-if-ethernet"`
-	Counters	*Interface_Ethernet_Counters	`path:"state/counters" module:"openconfig-if-ethernet"`
-	DuplexMode	E_Ethernet_DuplexMode	`path:"config/duplex-mode" module:"openconfig-if-ethernet"`
-	EnableFlowControl	*bool	`path:"config/enable-flow-control" module:"openconfig-if-ethernet"`
-	HwMacAddress	*string	`path:"state/hw-mac-address" module:"openconfig-if-ethernet"`
-	MacAddress	*string	`path:"config/mac-address" module:"openconfig-if-ethernet"`
-	NegotiatedDuplexMode	E_Ethernet_NegotiatedDuplexMode	`path:"state/negotiated-duplex-mode" module:"openconfig-if-ethernet"`
-	NegotiatedPortSpeed	E_OpenconfigIfEthernet_ETHERNET_SPEED	`path:"state/negotiated-port-speed" module:"openconfig-if-ethernet"`
-	PortSpeed	E_OpenconfigIfEthernet_ETHERNET_SPEED	`path:"config/port-speed" module:"openconfig-if-ethernet"`
+	AutoNegotiate        *bool                                 `path:"config/auto-negotiate" module:"openconfig-if-ethernet"`
+	Counters             *Interface_Ethernet_Counters          `path:"state/counters" module:"openconfig-if-ethernet"`
+	DuplexMode           E_Ethernet_DuplexMode                 `path:"config/duplex-mode" module:"openconfig-if-ethernet"`
+	EnableFlowControl    *bool                                 `path:"config/enable-flow-control" module:"openconfig-if-ethernet"`
+	HwMacAddress         *string                               `path:"state/hw-mac-address" module:"openconfig-if-ethernet"`
+	MacAddress           *string                               `path:"config/mac-address" module:"openconfig-if-ethernet"`
+	NegotiatedDuplexMode E_Ethernet_NegotiatedDuplexMode       `path:"state/negotiated-duplex-mode" module:"openconfig-if-ethernet"`
+	NegotiatedPortSpeed  E_OpenconfigIfEthernet_ETHERNET_SPEED `path:"state/negotiated-port-speed" module:"openconfig-if-ethernet"`
+	PortSpeed            E_OpenconfigIfEthernet_ETHERNET_SPEED `path:"config/port-speed" module:"openconfig-if-ethernet"`
 }
 
 // IsYANGGoStruct ensures that Interface_Ethernet implements the yang.GoStruct
@@ -1993,16 +1998,16 @@ func (t *Interface_HoldTime) ΛEnumTypeMap() map[string][]reflect.Type { return 
 
 // Interface_Subinterface represents the /openconfig-interfaces/interfaces/interface/subinterfaces/subinterface YANG schema element.
 type Interface_Subinterface struct {
-	AdminStatus	E_Interface_AdminStatus	`path:"state/admin-status" module:"openconfig-interfaces"`
-	Counters	*Interface_Subinterface_Counters	`path:"state/counters" module:"openconfig-interfaces"`
-	Description	*string	`path:"config/description" module:"openconfig-interfaces"`
-	Enabled	*bool	`path:"config/enabled" module:"openconfig-interfaces"`
-	Ifindex	*uint32	`path:"state/ifindex" module:"openconfig-interfaces"`
-	Index	*uint32	`path:"config/index|index" module:"openconfig-interfaces"`
-	LastChange	*uint64	`path:"state/last-change" module:"openconfig-interfaces"`
-	Logical	*bool	`path:"state/logical" module:"openconfig-interfaces"`
-	Name	*string	`path:"state/name" module:"openconfig-interfaces"`
-	OperStatus	E_Interface_OperStatus	`path:"state/oper-status" module:"openconfig-interfaces"`
+	AdminStatus E_Interface_AdminStatus          `path:"state/admin-status" module:"openconfig-interfaces"`
+	Counters    *Interface_Subinterface_Counters `path:"state/counters" module:"openconfig-interfaces"`
+	Description *string                          `path:"config/description" module:"openconfig-interfaces"`
+	Enabled     *bool                            `path:"config/enabled" module:"openconfig-interfaces"`
+	Ifindex     *uint32                          `path:"state/ifindex" module:"openconfig-interfaces"`
+	Index       *uint32                          `path:"config/index|index" module:"openconfig-interfaces"`
+	LastChange  *uint64                          `path:"state/last-change" module:"openconfig-interfaces"`
+	Logical     *bool                            `path:"state/logical" module:"openconfig-interfaces"`
+	Name        *string                          `path:"state/name" module:"openconfig-interfaces"`
+	OperStatus  E_Interface_OperStatus           `path:"state/oper-status" module:"openconfig-interfaces"`
 }
 
 // IsYANGGoStruct ensures that Interface_Subinterface implements the yang.GoStruct

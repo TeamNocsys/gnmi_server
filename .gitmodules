@@ -1,0 +1,3 @@
+[submodule "third_party/public"]
+	path = third_party/public
+	url = https://github.com/openconfig/public.git

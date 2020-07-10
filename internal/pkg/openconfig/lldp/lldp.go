@@ -21,8 +21,8 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/openconfig/ygot/ygot"
 	"github.com/openconfig/goyang/pkg/yang"
+	"github.com/openconfig/ygot/ygot"
 	"github.com/openconfig/ygot/ytypes"
 )
 
@@ -56,9 +56,9 @@ func Schema() (*ytypes.Schema, error) {
 	}
 
 	return &ytypes.Schema{
-		Root: nil,
+		Root:       nil,
 		SchemaTree: uzp,
-		Unmarshal: Unmarshal,
+		Unmarshal:  Unmarshal,
 	}, nil
 }
 
@@ -94,20 +94,20 @@ func Unmarshal(data []byte, destStruct ygot.GoStruct, opts ...ytypes.UnmarshalOp
 
 // Interface represents the /openconfig-interfaces/interfaces/interface YANG schema element.
 type Interface struct {
-	AdminStatus	E_Interface_AdminStatus	`path:"state/admin-status" module:"openconfig-interfaces"`
-	Counters	*Interface_Counters	`path:"state/counters" module:"openconfig-interfaces"`
-	Description	*string	`path:"config/description" module:"openconfig-interfaces"`
-	Enabled	*bool	`path:"config/enabled" module:"openconfig-interfaces"`
-	HoldTime	*Interface_HoldTime	`path:"hold-time" module:"openconfig-interfaces"`
-	Ifindex	*uint32	`path:"state/ifindex" module:"openconfig-interfaces"`
-	LastChange	*uint64	`path:"state/last-change" module:"openconfig-interfaces"`
-	Logical	*bool	`path:"state/logical" module:"openconfig-interfaces"`
-	LoopbackMode	*bool	`path:"config/loopback-mode" module:"openconfig-interfaces"`
-	Mtu	*uint16	`path:"config/mtu" module:"openconfig-interfaces"`
-	Name	*string	`path:"config/name|name" module:"openconfig-interfaces"`
-	OperStatus	E_Interface_OperStatus	`path:"state/oper-status" module:"openconfig-interfaces"`
-	Subinterface	map[uint32]*Interface_Subinterface	`path:"subinterfaces/subinterface" module:"openconfig-interfaces"`
-	Type	E_IETFInterfaces_InterfaceType	`path:"config/type" module:"openconfig-interfaces"`
+	AdminStatus  E_Interface_AdminStatus            `path:"state/admin-status" module:"openconfig-interfaces"`
+	Counters     *Interface_Counters                `path:"state/counters" module:"openconfig-interfaces"`
+	Description  *string                            `path:"config/description" module:"openconfig-interfaces"`
+	Enabled      *bool                              `path:"config/enabled" module:"openconfig-interfaces"`
+	HoldTime     *Interface_HoldTime                `path:"hold-time" module:"openconfig-interfaces"`
+	Ifindex      *uint32                            `path:"state/ifindex" module:"openconfig-interfaces"`
+	LastChange   *uint64                            `path:"state/last-change" module:"openconfig-interfaces"`
+	Logical      *bool                              `path:"state/logical" module:"openconfig-interfaces"`
+	LoopbackMode *bool                              `path:"config/loopback-mode" module:"openconfig-interfaces"`
+	Mtu          *uint16                            `path:"config/mtu" module:"openconfig-interfaces"`
+	Name         *string                            `path:"config/name|name" module:"openconfig-interfaces"`
+	OperStatus   E_Interface_OperStatus             `path:"state/oper-status" module:"openconfig-interfaces"`
+	Subinterface map[uint32]*Interface_Subinterface `path:"subinterfaces/subinterface" module:"openconfig-interfaces"`
+	Type         E_IETFInterfaces_InterfaceType     `path:"config/type" module:"openconfig-interfaces"`
 }
 
 // IsYANGGoStruct ensures that Interface implements the yang.GoStruct
@@ -309,16 +309,16 @@ func (t *Interface_HoldTime) ΛEnumTypeMap() map[string][]reflect.Type { return 
 
 // Interface_Subinterface represents the /openconfig-interfaces/interfaces/interface/subinterfaces/subinterface YANG schema element.
 type Interface_Subinterface struct {
-	AdminStatus	E_Interface_AdminStatus	`path:"state/admin-status" module:"openconfig-interfaces"`
-	Counters	*Interface_Subinterface_Counters	`path:"state/counters" module:"openconfig-interfaces"`
-	Description	*string	`path:"config/description" module:"openconfig-interfaces"`
-	Enabled	*bool	`path:"config/enabled" module:"openconfig-interfaces"`
-	Ifindex	*uint32	`path:"state/ifindex" module:"openconfig-interfaces"`
-	Index	*uint32	`path:"config/index|index" module:"openconfig-interfaces"`
-	LastChange	*uint64	`path:"state/last-change" module:"openconfig-interfaces"`
-	Logical	*bool	`path:"state/logical" module:"openconfig-interfaces"`
-	Name	*string	`path:"state/name" module:"openconfig-interfaces"`
-	OperStatus	E_Interface_OperStatus	`path:"state/oper-status" module:"openconfig-interfaces"`
+	AdminStatus E_Interface_AdminStatus          `path:"state/admin-status" module:"openconfig-interfaces"`
+	Counters    *Interface_Subinterface_Counters `path:"state/counters" module:"openconfig-interfaces"`
+	Description *string                          `path:"config/description" module:"openconfig-interfaces"`
+	Enabled     *bool                            `path:"config/enabled" module:"openconfig-interfaces"`
+	Ifindex     *uint32                          `path:"state/ifindex" module:"openconfig-interfaces"`
+	Index       *uint32                          `path:"config/index|index" module:"openconfig-interfaces"`
+	LastChange  *uint64                          `path:"state/last-change" module:"openconfig-interfaces"`
+	Logical     *bool                            `path:"state/logical" module:"openconfig-interfaces"`
+	Name        *string                          `path:"state/name" module:"openconfig-interfaces"`
+	OperStatus  E_Interface_OperStatus           `path:"state/oper-status" module:"openconfig-interfaces"`
 }
 
 // IsYANGGoStruct ensures that Interface_Subinterface implements the yang.GoStruct
@@ -412,15 +412,15 @@ func (t *Interface_Subinterface_Counters) ΛEnumTypeMap() map[string][]reflect.T
 
 // Lldp represents the /openconfig-lldp/lldp YANG schema element.
 type Lldp struct {
-	ChassisId	*string	`path:"config/chassis-id" module:"openconfig-lldp"`
-	ChassisIdType	E_OpenconfigLldp_ChassisIdType	`path:"config/chassis-id-type" module:"openconfig-lldp"`
-	Counters	*Lldp_Counters	`path:"state/counters" module:"openconfig-lldp"`
-	Enabled	*bool	`path:"config/enabled" module:"openconfig-lldp"`
-	HelloTimer	*uint64	`path:"config/hello-timer" module:"openconfig-lldp"`
-	Interface	map[string]*Lldp_Interface	`path:"interfaces/interface" module:"openconfig-lldp"`
-	SuppressTlvAdvertisement	[]E_OpenconfigLldpTypes_LLDP_TLV	`path:"config/suppress-tlv-advertisement" module:"openconfig-lldp"`
-	SystemDescription	*string	`path:"config/system-description" module:"openconfig-lldp"`
-	SystemName	*string	`path:"config/system-name" module:"openconfig-lldp"`
+	ChassisId                *string                          `path:"config/chassis-id" module:"openconfig-lldp"`
+	ChassisIdType            E_OpenconfigLldp_ChassisIdType   `path:"config/chassis-id-type" module:"openconfig-lldp"`
+	Counters                 *Lldp_Counters                   `path:"state/counters" module:"openconfig-lldp"`
+	Enabled                  *bool                            `path:"config/enabled" module:"openconfig-lldp"`
+	HelloTimer               *uint64                          `path:"config/hello-timer" module:"openconfig-lldp"`
+	Interface                map[string]*Lldp_Interface       `path:"interfaces/interface" module:"openconfig-lldp"`
+	SuppressTlvAdvertisement []E_OpenconfigLldpTypes_LLDP_TLV `path:"config/suppress-tlv-advertisement" module:"openconfig-lldp"`
+	SystemDescription        *string                          `path:"config/system-description" module:"openconfig-lldp"`
+	SystemName               *string                          `path:"config/system-name" module:"openconfig-lldp"`
 }
 
 // IsYANGGoStruct ensures that Lldp implements the yang.GoStruct
@@ -558,10 +558,10 @@ func (t *Lldp_Counters) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnu
 
 // Lldp_Interface represents the /openconfig-lldp/lldp/interfaces/interface YANG schema element.
 type Lldp_Interface struct {
-	Counters	*Lldp_Interface_Counters	`path:"state/counters" module:"openconfig-lldp"`
-	Enabled	*bool	`path:"config/enabled" module:"openconfig-lldp"`
-	Name	*string	`path:"config/name|name" module:"openconfig-lldp"`
-	Neighbor	map[string]*Lldp_Interface_Neighbor	`path:"neighbors/neighbor" module:"openconfig-lldp"`
+	Counters	*Lldp_Interface_Counters            `path:"state/counters" module:"openconfig-lldp"`
+	Enabled	*bool                                `path:"config/enabled" module:"openconfig-lldp"`
+	Name	*string                                 `path:"config/name|name" module:"openconfig-lldp"`
+	Neighbor	map[string]*Lldp_Interface_Neighbor `path:"neighbors/neighbor" module:"openconfig-lldp"`
 }
 
 // IsYANGGoStruct ensures that Lldp_Interface implements the yang.GoStruct
@@ -709,21 +709,21 @@ func (t *Lldp_Interface_Counters) ΛEnumTypeMap() map[string][]reflect.Type { re
 
 // Lldp_Interface_Neighbor represents the /openconfig-lldp/lldp/interfaces/interface/neighbors/neighbor YANG schema element.
 type Lldp_Interface_Neighbor struct {
-	Age	*uint64	`path:"state/age" module:"openconfig-lldp"`
-	Capability	map[E_OpenconfigLldpTypes_LLDP_SYSTEM_CAPABILITY]*Lldp_Interface_Neighbor_Capability	`path:"capabilities/capability" module:"openconfig-lldp"`
-	ChassisId	*string	`path:"state/chassis-id" module:"openconfig-lldp"`
-	ChassisIdType	E_OpenconfigLldp_ChassisIdType	`path:"state/chassis-id-type" module:"openconfig-lldp"`
-	Id	*string	`path:"state/id|id" module:"openconfig-lldp"`
-	LastUpdate	*int64	`path:"state/last-update" module:"openconfig-lldp"`
-	ManagementAddress	*string	`path:"state/management-address" module:"openconfig-lldp"`
-	ManagementAddressType	*string	`path:"state/management-address-type" module:"openconfig-lldp"`
-	PortDescription	*string	`path:"state/port-description" module:"openconfig-lldp"`
-	PortId	*string	`path:"state/port-id" module:"openconfig-lldp"`
-	PortIdType	E_OpenconfigLldp_PortIdType	`path:"state/port-id-type" module:"openconfig-lldp"`
-	SystemDescription	*string	`path:"state/system-description" module:"openconfig-lldp"`
-	SystemName	*string	`path:"state/system-name" module:"openconfig-lldp"`
-	Tlv	map[Lldp_Interface_Neighbor_Tlv_Key]*Lldp_Interface_Neighbor_Tlv	`path:"custom-tlvs/tlv" module:"openconfig-lldp"`
-	Ttl	*uint16	`path:"state/ttl" module:"openconfig-lldp"`
+	Age                   *uint64                                                                              `path:"state/age" module:"openconfig-lldp"`
+	Capability            map[E_OpenconfigLldpTypes_LLDP_SYSTEM_CAPABILITY]*Lldp_Interface_Neighbor_Capability `path:"capabilities/capability" module:"openconfig-lldp"`
+	ChassisId             *string                                                                              `path:"state/chassis-id" module:"openconfig-lldp"`
+	ChassisIdType         E_OpenconfigLldp_ChassisIdType                                                       `path:"state/chassis-id-type" module:"openconfig-lldp"`
+	Id                    *string                                                                              `path:"state/id|id" module:"openconfig-lldp"`
+	LastUpdate            *int64                                                                               `path:"state/last-update" module:"openconfig-lldp"`
+	ManagementAddress     *string                                                                              `path:"state/management-address" module:"openconfig-lldp"`
+	ManagementAddressType *string                                                                              `path:"state/management-address-type" module:"openconfig-lldp"`
+	PortDescription       *string                                                                              `path:"state/port-description" module:"openconfig-lldp"`
+	PortId                *string                                                                              `path:"state/port-id" module:"openconfig-lldp"`
+	PortIdType            E_OpenconfigLldp_PortIdType                                                          `path:"state/port-id-type" module:"openconfig-lldp"`
+	SystemDescription     *string                                                                              `path:"state/system-description" module:"openconfig-lldp"`
+	SystemName            *string                                                                              `path:"state/system-name" module:"openconfig-lldp"`
+	Tlv                   map[Lldp_Interface_Neighbor_Tlv_Key]*Lldp_Interface_Neighbor_Tlv                     `path:"custom-tlvs/tlv" module:"openconfig-lldp"`
+	Ttl                   *uint16                                                                              `path:"state/ttl" module:"openconfig-lldp"`
 }
 
 // IsYANGGoStruct ensures that Lldp_Interface_Neighbor implements the yang.GoStruct
@@ -906,8 +906,8 @@ func (t *Lldp_Interface_Neighbor) ΛEnumTypeMap() map[string][]reflect.Type { re
 
 // Lldp_Interface_Neighbor_Capability represents the /openconfig-lldp/lldp/interfaces/interface/neighbors/neighbor/capabilities/capability YANG schema element.
 type Lldp_Interface_Neighbor_Capability struct {
-	Enabled	*bool	`path:"state/enabled" module:"openconfig-lldp"`
-	Name	E_OpenconfigLldpTypes_LLDP_SYSTEM_CAPABILITY	`path:"state/name|name" module:"openconfig-lldp"`
+	Enabled *bool                                        `path:"state/enabled" module:"openconfig-lldp"`
+	Name    E_OpenconfigLldpTypes_LLDP_SYSTEM_CAPABILITY `path:"state/name|name" module:"openconfig-lldp"`
 }
 
 // IsYANGGoStruct ensures that Lldp_Interface_Neighbor_Capability implements the yang.GoStruct
@@ -933,15 +933,16 @@ func (t *Lldp_Interface_Neighbor_Capability) Validate(opts ...ygot.ValidationOpt
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Lldp_Interface_Neighbor_Capability) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Lldp_Interface_Neighbor_Capability) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Lldp_Interface_Neighbor_Tlv represents the /openconfig-lldp/lldp/interfaces/interface/neighbors/neighbor/custom-tlvs/tlv YANG schema element.
 type Lldp_Interface_Neighbor_Tlv struct {
-	Oui	*string	`path:"state/oui|oui" module:"openconfig-lldp"`
-	OuiSubtype	*string	`path:"state/oui-subtype|oui-subtype" module:"openconfig-lldp"`
-	Type	*int32	`path:"state/type|type" module:"openconfig-lldp"`
-	Value	Binary	`path:"state/value" module:"openconfig-lldp"`
+	Oui        *string `path:"state/oui|oui" module:"openconfig-lldp"`
+	OuiSubtype *string `path:"state/oui-subtype|oui-subtype" module:"openconfig-lldp"`
+	Type       *int32  `path:"state/type|type" module:"openconfig-lldp"`
+	Value      Binary  `path:"state/value" module:"openconfig-lldp"`
 }
 
 // IsYANGGoStruct ensures that Lldp_Interface_Neighbor_Tlv implements the yang.GoStruct

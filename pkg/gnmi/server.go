@@ -1,4 +1,4 @@
-package server
+package gnmi
 
 import (
 	"context"
@@ -13,7 +13,7 @@ type Server struct {
 }
 
 func DefaultServer(gmux *GetServeMux, smux *SetServeMux) Server {
-	return Server {
+	return Server{
 		gmux,
 		smux,
 	}

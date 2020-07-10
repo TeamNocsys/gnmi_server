@@ -23,8 +23,8 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/openconfig/ygot/ygot"
 	"github.com/openconfig/goyang/pkg/yang"
+	"github.com/openconfig/ygot/ygot"
 	"github.com/openconfig/ygot/ytypes"
 )
 
@@ -58,9 +58,9 @@ func Schema() (*ytypes.Schema, error) {
 	}
 
 	return &ytypes.Schema{
-		Root: nil,
+		Root:       nil,
 		SchemaTree: uzp,
-		Unmarshal: Unmarshal,
+		Unmarshal:  Unmarshal,
 	}, nil
 }
 
@@ -96,37 +96,37 @@ func Unmarshal(data []byte, destStruct ygot.GoStruct, opts ...ytypes.UnmarshalOp
 
 // Component represents the /openconfig-platform/components/component YANG schema element.
 type Component struct {
-	AllocatedPower	*uint32	`path:"state/allocated-power" module:"openconfig-platform"`
-	Backplane	*Component_Backplane	`path:"backplane" module:"openconfig-platform"`
-	Chassis	*Component_Chassis	`path:"chassis" module:"openconfig-platform"`
-	Cpu	*Component_Cpu	`path:"cpu" module:"openconfig-platform"`
-	Description	*string	`path:"state/description" module:"openconfig-platform"`
-	Empty	*bool	`path:"state/empty" module:"openconfig-platform"`
-	Fabric	*Component_Fabric	`path:"fabric" module:"openconfig-platform"`
-	Fan	*Component_Fan	`path:"fan" module:"openconfig-platform"`
-	FirmwareVersion	*string	`path:"state/firmware-version" module:"openconfig-platform"`
-	HardwareVersion	*string	`path:"state/hardware-version" module:"openconfig-platform"`
-	Id	*string	`path:"state/id" module:"openconfig-platform"`
-	IntegratedCircuit	*Component_IntegratedCircuit	`path:"integrated-circuit" module:"openconfig-platform"`
-	Location	*string	`path:"state/location" module:"openconfig-platform"`
-	Memory	*Component_Memory	`path:"state/memory" module:"openconfig-platform"`
-	MfgDate	*string	`path:"state/mfg-date" module:"openconfig-platform"`
-	MfgName	*string	`path:"state/mfg-name" module:"openconfig-platform"`
-	Name	*string	`path:"config/name|name" module:"openconfig-platform"`
-	OperStatus	E_OpenconfigPlatformTypes_COMPONENT_OPER_STATUS	`path:"state/oper-status" module:"openconfig-platform"`
-	Parent	*string	`path:"state/parent" module:"openconfig-platform"`
-	PartNo	*string	`path:"state/part-no" module:"openconfig-platform"`
-	Port	*Component_Port	`path:"port" module:"openconfig-platform"`
-	PowerSupply	*Component_PowerSupply	`path:"power-supply" module:"openconfig-platform"`
-	Property	map[string]*Component_Property	`path:"properties/property" module:"openconfig-platform"`
-	Removable	*bool	`path:"state/removable" module:"openconfig-platform"`
-	SerialNo	*string	`path:"state/serial-no" module:"openconfig-platform"`
-	SoftwareVersion	*string	`path:"state/software-version" module:"openconfig-platform"`
-	Storage	*Component_Storage	`path:"storage" module:"openconfig-platform"`
-	Subcomponent	map[string]*Component_Subcomponent	`path:"subcomponents/subcomponent" module:"openconfig-platform"`
-	Temperature	*Component_Temperature	`path:"state/temperature" module:"openconfig-platform"`
-	Type	Component_Type_Union	`path:"state/type" module:"openconfig-platform"`
-	UsedPower	*uint32	`path:"state/used-power" module:"openconfig-platform"`
+	AllocatedPower    *uint32                                         `path:"state/allocated-power" module:"openconfig-platform"`
+	Backplane         *Component_Backplane                            `path:"backplane" module:"openconfig-platform"`
+	Chassis           *Component_Chassis                              `path:"chassis" module:"openconfig-platform"`
+	Cpu               *Component_Cpu                                  `path:"cpu" module:"openconfig-platform"`
+	Description       *string                                         `path:"state/description" module:"openconfig-platform"`
+	Empty             *bool                                           `path:"state/empty" module:"openconfig-platform"`
+	Fabric            *Component_Fabric                               `path:"fabric" module:"openconfig-platform"`
+	Fan               *Component_Fan                                  `path:"fan" module:"openconfig-platform"`
+	FirmwareVersion   *string                                         `path:"state/firmware-version" module:"openconfig-platform"`
+	HardwareVersion   *string                                         `path:"state/hardware-version" module:"openconfig-platform"`
+	Id                *string                                         `path:"state/id" module:"openconfig-platform"`
+	IntegratedCircuit *Component_IntegratedCircuit                    `path:"integrated-circuit" module:"openconfig-platform"`
+	Location          *string                                         `path:"state/location" module:"openconfig-platform"`
+	Memory            *Component_Memory                               `path:"state/memory" module:"openconfig-platform"`
+	MfgDate           *string                                         `path:"state/mfg-date" module:"openconfig-platform"`
+	MfgName           *string                                         `path:"state/mfg-name" module:"openconfig-platform"`
+	Name              *string                                         `path:"config/name|name" module:"openconfig-platform"`
+	OperStatus        E_OpenconfigPlatformTypes_COMPONENT_OPER_STATUS `path:"state/oper-status" module:"openconfig-platform"`
+	Parent            *string                                         `path:"state/parent" module:"openconfig-platform"`
+	PartNo            *string                                         `path:"state/part-no" module:"openconfig-platform"`
+	Port              *Component_Port                                 `path:"port" module:"openconfig-platform"`
+	PowerSupply       *Component_PowerSupply                          `path:"power-supply" module:"openconfig-platform"`
+	Property          map[string]*Component_Property                  `path:"properties/property" module:"openconfig-platform"`
+	Removable         *bool                                           `path:"state/removable" module:"openconfig-platform"`
+	SerialNo          *string                                         `path:"state/serial-no" module:"openconfig-platform"`
+	SoftwareVersion   *string                                         `path:"state/software-version" module:"openconfig-platform"`
+	Storage           *Component_Storage                              `path:"storage" module:"openconfig-platform"`
+	Subcomponent      map[string]*Component_Subcomponent              `path:"subcomponents/subcomponent" module:"openconfig-platform"`
+	Temperature       *Component_Temperature                          `path:"state/temperature" module:"openconfig-platform"`
+	Type              Component_Type_Union                            `path:"state/type" module:"openconfig-platform"`
+	UsedPower         *uint32                                         `path:"state/used-power" module:"openconfig-platform"`
 }
 
 // IsYANGGoStruct ensures that Component implements the yang.GoStruct
@@ -514,7 +514,7 @@ type Component_Type_Union interface {
 // Component_Type_Union_E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT is used when /openconfig-platform/components/component/state/type
 // is to be set to a E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT value.
 type Component_Type_Union_E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT struct {
-	E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT	E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT
+	E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT
 }
 
 // Is_Component_Type_Union ensures that Component_Type_Union_E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT
@@ -524,7 +524,7 @@ func (*Component_Type_Union_E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPON
 // Component_Type_Union_E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT is used when /openconfig-platform/components/component/state/type
 // is to be set to a E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT value.
 type Component_Type_Union_E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT struct {
-	E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT	E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT
+	E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT
 }
 
 // Is_Component_Type_Union ensures that Component_Type_Union_E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT
@@ -748,9 +748,9 @@ func (t *Component_PowerSupply) ΛEnumTypeMap() map[string][]reflect.Type { retu
 
 // Component_Property represents the /openconfig-platform/components/component/properties/property YANG schema element.
 type Component_Property struct {
-	Configurable	*bool	`path:"state/configurable" module:"openconfig-platform"`
-	Name	*string	`path:"config/name|name" module:"openconfig-platform"`
-	Value	Component_Property_Value_Union	`path:"config/value" module:"openconfig-platform"`
+	Configurable *bool                          `path:"state/configurable" module:"openconfig-platform"`
+	Name         *string                        `path:"config/name|name" module:"openconfig-platform"`
+	Value        Component_Property_Value_Union `path:"config/value" module:"openconfig-platform"`
 }
 
 // IsYANGGoStruct ensures that Component_Property implements the yang.GoStruct
@@ -916,16 +916,16 @@ func (t *Component_Subcomponent) ΛEnumTypeMap() map[string][]reflect.Type { ret
 
 // Component_Temperature represents the /openconfig-platform/components/component/state/temperature YANG schema element.
 type Component_Temperature struct {
-	AlarmSeverity	E_OpenconfigAlarmTypes_OPENCONFIG_ALARM_SEVERITY	`path:"alarm-severity" module:"openconfig-platform"`
-	AlarmStatus	*bool	`path:"alarm-status" module:"openconfig-platform"`
-	AlarmThreshold	*uint32	`path:"alarm-threshold" module:"openconfig-platform"`
-	Avg	*float64	`path:"avg" module:"openconfig-platform"`
-	Instant	*float64	`path:"instant" module:"openconfig-platform"`
-	Interval	*uint64	`path:"interval" module:"openconfig-platform"`
-	Max	*float64	`path:"max" module:"openconfig-platform"`
-	MaxTime	*uint64	`path:"max-time" module:"openconfig-platform"`
-	Min	*float64	`path:"min" module:"openconfig-platform"`
-	MinTime	*uint64	`path:"min-time" module:"openconfig-platform"`
+	AlarmSeverity  E_OpenconfigAlarmTypes_OPENCONFIG_ALARM_SEVERITY `path:"alarm-severity" module:"openconfig-platform"`
+	AlarmStatus    *bool                                            `path:"alarm-status" module:"openconfig-platform"`
+	AlarmThreshold *uint32                                          `path:"alarm-threshold" module:"openconfig-platform"`
+	Avg            *float64                                         `path:"avg" module:"openconfig-platform"`
+	Instant        *float64                                         `path:"instant" module:"openconfig-platform"`
+	Interval       *uint64                                          `path:"interval" module:"openconfig-platform"`
+	Max            *float64                                         `path:"max" module:"openconfig-platform"`
+	MaxTime        *uint64                                          `path:"max-time" module:"openconfig-platform"`
+	Min            *float64                                         `path:"min" module:"openconfig-platform"`
+	MinTime        *uint64                                          `path:"min-time" module:"openconfig-platform"`
 }
 
 // IsYANGGoStruct ensures that Component_Temperature implements the yang.GoStruct
@@ -948,20 +948,20 @@ func (t *Component_Temperature) ΛEnumTypeMap() map[string][]reflect.Type { retu
 
 // Interface represents the /openconfig-interfaces/interfaces/interface YANG schema element.
 type Interface struct {
-	AdminStatus	E_Interface_AdminStatus	`path:"state/admin-status" module:"openconfig-interfaces"`
-	Counters	*Interface_Counters	`path:"state/counters" module:"openconfig-interfaces"`
-	Description	*string	`path:"config/description" module:"openconfig-interfaces"`
-	Enabled	*bool	`path:"config/enabled" module:"openconfig-interfaces"`
-	HoldTime	*Interface_HoldTime	`path:"hold-time" module:"openconfig-interfaces"`
-	Ifindex	*uint32	`path:"state/ifindex" module:"openconfig-interfaces"`
-	LastChange	*uint64	`path:"state/last-change" module:"openconfig-interfaces"`
-	Logical	*bool	`path:"state/logical" module:"openconfig-interfaces"`
-	LoopbackMode	*bool	`path:"config/loopback-mode" module:"openconfig-interfaces"`
-	Mtu	*uint16	`path:"config/mtu" module:"openconfig-interfaces"`
-	Name	*string	`path:"config/name|name" module:"openconfig-interfaces"`
-	OperStatus	E_Interface_OperStatus	`path:"state/oper-status" module:"openconfig-interfaces"`
-	Subinterface	map[uint32]*Interface_Subinterface	`path:"subinterfaces/subinterface" module:"openconfig-interfaces"`
-	Type	E_IETFInterfaces_InterfaceType	`path:"config/type" module:"openconfig-interfaces"`
+	AdminStatus  E_Interface_AdminStatus            `path:"state/admin-status" module:"openconfig-interfaces"`
+	Counters     *Interface_Counters                `path:"state/counters" module:"openconfig-interfaces"`
+	Description  *string                            `path:"config/description" module:"openconfig-interfaces"`
+	Enabled      *bool                              `path:"config/enabled" module:"openconfig-interfaces"`
+	HoldTime     *Interface_HoldTime                `path:"hold-time" module:"openconfig-interfaces"`
+	Ifindex      *uint32                            `path:"state/ifindex" module:"openconfig-interfaces"`
+	LastChange   *uint64                            `path:"state/last-change" module:"openconfig-interfaces"`
+	Logical      *bool                              `path:"state/logical" module:"openconfig-interfaces"`
+	LoopbackMode *bool                              `path:"config/loopback-mode" module:"openconfig-interfaces"`
+	Mtu          *uint16                            `path:"config/mtu" module:"openconfig-interfaces"`
+	Name         *string                            `path:"config/name|name" module:"openconfig-interfaces"`
+	OperStatus   E_Interface_OperStatus             `path:"state/oper-status" module:"openconfig-interfaces"`
+	Subinterface map[uint32]*Interface_Subinterface `path:"subinterfaces/subinterface" module:"openconfig-interfaces"`
+	Type         E_IETFInterfaces_InterfaceType     `path:"config/type" module:"openconfig-interfaces"`
 }
 
 // IsYANGGoStruct ensures that Interface implements the yang.GoStruct
@@ -1163,16 +1163,16 @@ func (t *Interface_HoldTime) ΛEnumTypeMap() map[string][]reflect.Type { return 
 
 // Interface_Subinterface represents the /openconfig-interfaces/interfaces/interface/subinterfaces/subinterface YANG schema element.
 type Interface_Subinterface struct {
-	AdminStatus	E_Interface_AdminStatus	`path:"state/admin-status" module:"openconfig-interfaces"`
-	Counters	*Interface_Subinterface_Counters	`path:"state/counters" module:"openconfig-interfaces"`
-	Description	*string	`path:"config/description" module:"openconfig-interfaces"`
-	Enabled	*bool	`path:"config/enabled" module:"openconfig-interfaces"`
-	Ifindex	*uint32	`path:"state/ifindex" module:"openconfig-interfaces"`
-	Index	*uint32	`path:"config/index|index" module:"openconfig-interfaces"`
-	LastChange	*uint64	`path:"state/last-change" module:"openconfig-interfaces"`
-	Logical	*bool	`path:"state/logical" module:"openconfig-interfaces"`
-	Name	*string	`path:"state/name" module:"openconfig-interfaces"`
-	OperStatus	E_Interface_OperStatus	`path:"state/oper-status" module:"openconfig-interfaces"`
+	AdminStatus E_Interface_AdminStatus          `path:"state/admin-status" module:"openconfig-interfaces"`
+	Counters    *Interface_Subinterface_Counters `path:"state/counters" module:"openconfig-interfaces"`
+	Description *string                          `path:"config/description" module:"openconfig-interfaces"`
+	Enabled     *bool                            `path:"config/enabled" module:"openconfig-interfaces"`
+	Ifindex     *uint32                          `path:"state/ifindex" module:"openconfig-interfaces"`
+	Index       *uint32                          `path:"config/index|index" module:"openconfig-interfaces"`
+	LastChange  *uint64                          `path:"state/last-change" module:"openconfig-interfaces"`
+	Logical     *bool                            `path:"state/logical" module:"openconfig-interfaces"`
+	Name        *string                          `path:"state/name" module:"openconfig-interfaces"`
+	OperStatus  E_Interface_OperStatus           `path:"state/oper-status" module:"openconfig-interfaces"`
 }
 
 // IsYANGGoStruct ensures that Interface_Subinterface implements the yang.GoStruct
@@ -1266,11 +1266,11 @@ func (t *Interface_Subinterface_Counters) ΛEnumTypeMap() map[string][]reflect.T
 
 // Qos represents the /openconfig-qos/qos YANG schema element.
 type Qos struct {
-	Classifier	map[string]*Qos_Classifier	`path:"classifiers/classifier" module:"openconfig-qos"`
-	ForwardingGroup	map[string]*Qos_ForwardingGroup	`path:"forwarding-groups/forwarding-group" module:"openconfig-qos"`
-	Interface	map[string]*Qos_Interface	`path:"interfaces/interface" module:"openconfig-qos"`
-	Queue	map[string]*Qos_Queue	`path:"queues/queue" module:"openconfig-qos"`
-	SchedulerPolicy	map[string]*Qos_SchedulerPolicy	`path:"scheduler-policies/scheduler-policy" module:"openconfig-qos"`
+	Classifier	map[string]*Qos_Classifier           `path:"classifiers/classifier" module:"openconfig-qos"`
+	ForwardingGroup	map[string]*Qos_ForwardingGroup `path:"forwarding-groups/forwarding-group" module:"openconfig-qos"`
+	Interface	map[string]*Qos_Interface             `path:"interfaces/interface" module:"openconfig-qos"`
+	Queue	map[string]*Qos_Queue                     `path:"queues/queue" module:"openconfig-qos"`
+	SchedulerPolicy	map[string]*Qos_SchedulerPolicy `path:"scheduler-policies/scheduler-policy" module:"openconfig-qos"`
 }
 
 // IsYANGGoStruct ensures that Qos implements the yang.GoStruct
@@ -1613,9 +1613,9 @@ func (t *Qos) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
 
 // Qos_Classifier represents the /openconfig-qos/qos/classifiers/classifier YANG schema element.
 type Qos_Classifier struct {
-	Name	*string	`path:"config/name|name" module:"openconfig-qos"`
-	Term	map[string]*Qos_Classifier_Term	`path:"terms/term" module:"openconfig-qos"`
-	Type	E_Qos_Classifier_Type	`path:"config/type" module:"openconfig-qos"`
+	Name *string                         `path:"config/name|name" module:"openconfig-qos"`
+	Term map[string]*Qos_Classifier_Term `path:"terms/term" module:"openconfig-qos"`
+	Type E_Qos_Classifier_Type           `path:"config/type" module:"openconfig-qos"`
 }
 
 // IsYANGGoStruct ensures that Qos_Classifier implements the yang.GoStruct
@@ -1713,9 +1713,9 @@ func (t *Qos_Classifier) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEn
 
 // Qos_Classifier_Term represents the /openconfig-qos/qos/classifiers/classifier/terms/term YANG schema element.
 type Qos_Classifier_Term struct {
-	Actions	*Qos_Classifier_Term_Actions	`path:"actions" module:"openconfig-qos"`
-	Conditions	*Qos_Classifier_Term_Conditions	`path:"conditions" module:"openconfig-qos"`
-	Id	*string	`path:"config/id|id" module:"openconfig-qos"`
+	Actions	*Qos_Classifier_Term_Actions       `path:"actions" module:"openconfig-qos"`
+	Conditions	*Qos_Classifier_Term_Conditions `path:"conditions" module:"openconfig-qos"`
+	Id	*string                                 `path:"config/id|id" module:"openconfig-qos"`
 }
 
 // IsYANGGoStruct ensures that Qos_Classifier_Term implements the yang.GoStruct
@@ -1789,8 +1789,8 @@ func (t *Qos_Classifier_Term) ΛEnumTypeMap() map[string][]reflect.Type { return
 
 // Qos_Classifier_Term_Actions represents the /openconfig-qos/qos/classifiers/classifier/terms/term/actions YANG schema element.
 type Qos_Classifier_Term_Actions struct {
-	Remark	*Qos_Classifier_Term_Actions_Remark	`path:"remark" module:"openconfig-qos"`
-	TargetGroup	*string	`path:"config/target-group" module:"openconfig-qos"`
+	Remark	*Qos_Classifier_Term_Actions_Remark `path:"remark" module:"openconfig-qos"`
+	TargetGroup	*string                        `path:"config/target-group" module:"openconfig-qos"`
 }
 
 // IsYANGGoStruct ensures that Qos_Classifier_Term_Actions implements the yang.GoStruct
@@ -1853,16 +1853,17 @@ func (t *Qos_Classifier_Term_Actions_Remark) Validate(opts ...ygot.ValidationOpt
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Qos_Classifier_Term_Actions_Remark) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Qos_Classifier_Term_Actions_Remark) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Qos_Classifier_Term_Conditions represents the /openconfig-qos/qos/classifiers/classifier/terms/term/conditions YANG schema element.
 type Qos_Classifier_Term_Conditions struct {
-	Ipv4	*Qos_Classifier_Term_Conditions_Ipv4	`path:"ipv4" module:"openconfig-qos"`
-	Ipv6	*Qos_Classifier_Term_Conditions_Ipv6	`path:"ipv6" module:"openconfig-qos"`
-	L2	*Qos_Classifier_Term_Conditions_L2	`path:"l2" module:"openconfig-qos"`
-	Mpls	*Qos_Classifier_Term_Conditions_Mpls	`path:"mpls" module:"openconfig-qos"`
-	Transport	*Qos_Classifier_Term_Conditions_Transport	`path:"transport" module:"openconfig-qos"`
+	Ipv4	*Qos_Classifier_Term_Conditions_Ipv4           `path:"ipv4" module:"openconfig-qos"`
+	Ipv6	*Qos_Classifier_Term_Conditions_Ipv6           `path:"ipv6" module:"openconfig-qos"`
+	L2	*Qos_Classifier_Term_Conditions_L2               `path:"l2" module:"openconfig-qos"`
+	Mpls	*Qos_Classifier_Term_Conditions_Mpls           `path:"mpls" module:"openconfig-qos"`
+	Transport	*Qos_Classifier_Term_Conditions_Transport `path:"transport" module:"openconfig-qos"`
 }
 
 // IsYANGGoStruct ensures that Qos_Classifier_Term_Conditions implements the yang.GoStruct
@@ -1985,11 +1986,11 @@ func (t *Qos_Classifier_Term_Conditions) ΛEnumTypeMap() map[string][]reflect.Ty
 
 // Qos_Classifier_Term_Conditions_Ipv4 represents the /openconfig-qos/qos/classifiers/classifier/terms/term/conditions/ipv4 YANG schema element.
 type Qos_Classifier_Term_Conditions_Ipv4 struct {
-	DestinationAddress	*string	`path:"config/destination-address" module:"openconfig-qos"`
-	Dscp	*uint8	`path:"config/dscp" module:"openconfig-qos"`
-	HopLimit	*uint8	`path:"config/hop-limit" module:"openconfig-qos"`
-	Protocol	Qos_Classifier_Term_Conditions_Ipv4_Protocol_Union	`path:"config/protocol" module:"openconfig-qos"`
-	SourceAddress	*string	`path:"config/source-address" module:"openconfig-qos"`
+	DestinationAddress *string                                            `path:"config/destination-address" module:"openconfig-qos"`
+	Dscp               *uint8                                             `path:"config/dscp" module:"openconfig-qos"`
+	HopLimit           *uint8                                             `path:"config/hop-limit" module:"openconfig-qos"`
+	Protocol           Qos_Classifier_Term_Conditions_Ipv4_Protocol_Union `path:"config/protocol" module:"openconfig-qos"`
+	SourceAddress      *string                                            `path:"config/source-address" module:"openconfig-qos"`
 }
 
 // IsYANGGoStruct ensures that Qos_Classifier_Term_Conditions_Ipv4 implements the yang.GoStruct
@@ -2007,7 +2008,8 @@ func (t *Qos_Classifier_Term_Conditions_Ipv4) Validate(opts ...ygot.ValidationOp
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Qos_Classifier_Term_Conditions_Ipv4) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Qos_Classifier_Term_Conditions_Ipv4) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 // Qos_Classifier_Term_Conditions_Ipv4_Protocol_Union is an interface that is implemented by valid types for the union
 // for the leaf /openconfig-qos/qos/classifiers/classifier/terms/term/conditions/ipv4/config/protocol within the YANG schema.
@@ -2018,7 +2020,7 @@ type Qos_Classifier_Term_Conditions_Ipv4_Protocol_Union interface {
 // Qos_Classifier_Term_Conditions_Ipv4_Protocol_Union_E_OpenconfigPacketMatchTypes_IP_PROTOCOL is used when /openconfig-qos/qos/classifiers/classifier/terms/term/conditions/ipv4/config/protocol
 // is to be set to a E_OpenconfigPacketMatchTypes_IP_PROTOCOL value.
 type Qos_Classifier_Term_Conditions_Ipv4_Protocol_Union_E_OpenconfigPacketMatchTypes_IP_PROTOCOL struct {
-	E_OpenconfigPacketMatchTypes_IP_PROTOCOL	E_OpenconfigPacketMatchTypes_IP_PROTOCOL
+	E_OpenconfigPacketMatchTypes_IP_PROTOCOL E_OpenconfigPacketMatchTypes_IP_PROTOCOL
 }
 
 // Is_Qos_Classifier_Term_Conditions_Ipv4_Protocol_Union ensures that Qos_Classifier_Term_Conditions_Ipv4_Protocol_Union_E_OpenconfigPacketMatchTypes_IP_PROTOCOL
@@ -2052,13 +2054,13 @@ func (t *Qos_Classifier_Term_Conditions_Ipv4) To_Qos_Classifier_Term_Conditions_
 
 // Qos_Classifier_Term_Conditions_Ipv6 represents the /openconfig-qos/qos/classifiers/classifier/terms/term/conditions/ipv6 YANG schema element.
 type Qos_Classifier_Term_Conditions_Ipv6 struct {
-	DestinationAddress	*string	`path:"config/destination-address" module:"openconfig-qos"`
-	DestinationFlowLabel	*uint32	`path:"config/destination-flow-label" module:"openconfig-qos"`
-	Dscp	*uint8	`path:"config/dscp" module:"openconfig-qos"`
-	HopLimit	*uint8	`path:"config/hop-limit" module:"openconfig-qos"`
-	Protocol	Qos_Classifier_Term_Conditions_Ipv6_Protocol_Union	`path:"config/protocol" module:"openconfig-qos"`
-	SourceAddress	*string	`path:"config/source-address" module:"openconfig-qos"`
-	SourceFlowLabel	*uint32	`path:"config/source-flow-label" module:"openconfig-qos"`
+	DestinationAddress   *string                                            `path:"config/destination-address" module:"openconfig-qos"`
+	DestinationFlowLabel *uint32                                            `path:"config/destination-flow-label" module:"openconfig-qos"`
+	Dscp                 *uint8                                             `path:"config/dscp" module:"openconfig-qos"`
+	HopLimit             *uint8                                             `path:"config/hop-limit" module:"openconfig-qos"`
+	Protocol             Qos_Classifier_Term_Conditions_Ipv6_Protocol_Union `path:"config/protocol" module:"openconfig-qos"`
+	SourceAddress        *string                                            `path:"config/source-address" module:"openconfig-qos"`
+	SourceFlowLabel      *uint32                                            `path:"config/source-flow-label" module:"openconfig-qos"`
 }
 
 // IsYANGGoStruct ensures that Qos_Classifier_Term_Conditions_Ipv6 implements the yang.GoStruct
@@ -2076,7 +2078,8 @@ func (t *Qos_Classifier_Term_Conditions_Ipv6) Validate(opts ...ygot.ValidationOp
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Qos_Classifier_Term_Conditions_Ipv6) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Qos_Classifier_Term_Conditions_Ipv6) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 // Qos_Classifier_Term_Conditions_Ipv6_Protocol_Union is an interface that is implemented by valid types for the union
 // for the leaf /openconfig-qos/qos/classifiers/classifier/terms/term/conditions/ipv6/config/protocol within the YANG schema.
@@ -2087,7 +2090,7 @@ type Qos_Classifier_Term_Conditions_Ipv6_Protocol_Union interface {
 // Qos_Classifier_Term_Conditions_Ipv6_Protocol_Union_E_OpenconfigPacketMatchTypes_IP_PROTOCOL is used when /openconfig-qos/qos/classifiers/classifier/terms/term/conditions/ipv6/config/protocol
 // is to be set to a E_OpenconfigPacketMatchTypes_IP_PROTOCOL value.
 type Qos_Classifier_Term_Conditions_Ipv6_Protocol_Union_E_OpenconfigPacketMatchTypes_IP_PROTOCOL struct {
-	E_OpenconfigPacketMatchTypes_IP_PROTOCOL	E_OpenconfigPacketMatchTypes_IP_PROTOCOL
+	E_OpenconfigPacketMatchTypes_IP_PROTOCOL E_OpenconfigPacketMatchTypes_IP_PROTOCOL
 }
 
 // Is_Qos_Classifier_Term_Conditions_Ipv6_Protocol_Union ensures that Qos_Classifier_Term_Conditions_Ipv6_Protocol_Union_E_OpenconfigPacketMatchTypes_IP_PROTOCOL
@@ -2121,11 +2124,11 @@ func (t *Qos_Classifier_Term_Conditions_Ipv6) To_Qos_Classifier_Term_Conditions_
 
 // Qos_Classifier_Term_Conditions_L2 represents the /openconfig-qos/qos/classifiers/classifier/terms/term/conditions/l2 YANG schema element.
 type Qos_Classifier_Term_Conditions_L2 struct {
-	DestinationMac	*string	`path:"config/destination-mac" module:"openconfig-qos"`
-	DestinationMacMask	*string	`path:"config/destination-mac-mask" module:"openconfig-qos"`
-	Ethertype	Qos_Classifier_Term_Conditions_L2_Ethertype_Union	`path:"config/ethertype" module:"openconfig-qos"`
-	SourceMac	*string	`path:"config/source-mac" module:"openconfig-qos"`
-	SourceMacMask	*string	`path:"config/source-mac-mask" module:"openconfig-qos"`
+	DestinationMac     *string                                           `path:"config/destination-mac" module:"openconfig-qos"`
+	DestinationMacMask *string                                           `path:"config/destination-mac-mask" module:"openconfig-qos"`
+	Ethertype          Qos_Classifier_Term_Conditions_L2_Ethertype_Union `path:"config/ethertype" module:"openconfig-qos"`
+	SourceMac          *string                                           `path:"config/source-mac" module:"openconfig-qos"`
+	SourceMacMask      *string                                           `path:"config/source-mac-mask" module:"openconfig-qos"`
 }
 
 // IsYANGGoStruct ensures that Qos_Classifier_Term_Conditions_L2 implements the yang.GoStruct
@@ -2143,7 +2146,8 @@ func (t *Qos_Classifier_Term_Conditions_L2) Validate(opts ...ygot.ValidationOpti
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Qos_Classifier_Term_Conditions_L2) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Qos_Classifier_Term_Conditions_L2) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 // Qos_Classifier_Term_Conditions_L2_Ethertype_Union is an interface that is implemented by valid types for the union
 // for the leaf /openconfig-qos/qos/classifiers/classifier/terms/term/conditions/l2/config/ethertype within the YANG schema.
@@ -2154,7 +2158,7 @@ type Qos_Classifier_Term_Conditions_L2_Ethertype_Union interface {
 // Qos_Classifier_Term_Conditions_L2_Ethertype_Union_E_OpenconfigPacketMatchTypes_ETHERTYPE is used when /openconfig-qos/qos/classifiers/classifier/terms/term/conditions/l2/config/ethertype
 // is to be set to a E_OpenconfigPacketMatchTypes_ETHERTYPE value.
 type Qos_Classifier_Term_Conditions_L2_Ethertype_Union_E_OpenconfigPacketMatchTypes_ETHERTYPE struct {
-	E_OpenconfigPacketMatchTypes_ETHERTYPE	E_OpenconfigPacketMatchTypes_ETHERTYPE
+	E_OpenconfigPacketMatchTypes_ETHERTYPE E_OpenconfigPacketMatchTypes_ETHERTYPE
 }
 
 // Is_Qos_Classifier_Term_Conditions_L2_Ethertype_Union ensures that Qos_Classifier_Term_Conditions_L2_Ethertype_Union_E_OpenconfigPacketMatchTypes_ETHERTYPE
@@ -2206,14 +2210,15 @@ func (t *Qos_Classifier_Term_Conditions_Mpls) Validate(opts ...ygot.ValidationOp
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Qos_Classifier_Term_Conditions_Mpls) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Qos_Classifier_Term_Conditions_Mpls) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Qos_Classifier_Term_Conditions_Transport represents the /openconfig-qos/qos/classifiers/classifier/terms/term/conditions/transport YANG schema element.
 type Qos_Classifier_Term_Conditions_Transport struct {
-	DestinationPort	Qos_Classifier_Term_Conditions_Transport_DestinationPort_Union	`path:"config/destination-port" module:"openconfig-qos"`
-	SourcePort	Qos_Classifier_Term_Conditions_Transport_SourcePort_Union	`path:"config/source-port" module:"openconfig-qos"`
-	TcpFlags	[]E_OpenconfigPacketMatchTypes_TCP_FLAGS	`path:"config/tcp-flags" module:"openconfig-qos"`
+	DestinationPort Qos_Classifier_Term_Conditions_Transport_DestinationPort_Union `path:"config/destination-port" module:"openconfig-qos"`
+	SourcePort      Qos_Classifier_Term_Conditions_Transport_SourcePort_Union      `path:"config/source-port" module:"openconfig-qos"`
+	TcpFlags        []E_OpenconfigPacketMatchTypes_TCP_FLAGS                       `path:"config/tcp-flags" module:"openconfig-qos"`
 }
 
 // IsYANGGoStruct ensures that Qos_Classifier_Term_Conditions_Transport implements the yang.GoStruct
@@ -2231,7 +2236,8 @@ func (t *Qos_Classifier_Term_Conditions_Transport) Validate(opts ...ygot.Validat
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Qos_Classifier_Term_Conditions_Transport) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Qos_Classifier_Term_Conditions_Transport) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 // Qos_Classifier_Term_Conditions_Transport_DestinationPort_Union is an interface that is implemented by valid types for the union
 // for the leaf /openconfig-qos/qos/classifiers/classifier/terms/term/conditions/transport/config/destination-port within the YANG schema.
@@ -2242,7 +2248,7 @@ type Qos_Classifier_Term_Conditions_Transport_DestinationPort_Union interface {
 // Qos_Classifier_Term_Conditions_Transport_DestinationPort_Union_E_Transport_DestinationPort is used when /openconfig-qos/qos/classifiers/classifier/terms/term/conditions/transport/config/destination-port
 // is to be set to a E_Transport_DestinationPort value.
 type Qos_Classifier_Term_Conditions_Transport_DestinationPort_Union_E_Transport_DestinationPort struct {
-	E_Transport_DestinationPort	E_Transport_DestinationPort
+	E_Transport_DestinationPort E_Transport_DestinationPort
 }
 
 // Is_Qos_Classifier_Term_Conditions_Transport_DestinationPort_Union ensures that Qos_Classifier_Term_Conditions_Transport_DestinationPort_Union_E_Transport_DestinationPort
@@ -2294,7 +2300,7 @@ type Qos_Classifier_Term_Conditions_Transport_SourcePort_Union interface {
 // Qos_Classifier_Term_Conditions_Transport_SourcePort_Union_E_Transport_SourcePort is used when /openconfig-qos/qos/classifiers/classifier/terms/term/conditions/transport/config/source-port
 // is to be set to a E_Transport_SourcePort value.
 type Qos_Classifier_Term_Conditions_Transport_SourcePort_Union_E_Transport_SourcePort struct {
-	E_Transport_SourcePort	E_Transport_SourcePort
+	E_Transport_SourcePort E_Transport_SourcePort
 }
 
 // Is_Qos_Classifier_Term_Conditions_Transport_SourcePort_Union ensures that Qos_Classifier_Term_Conditions_Transport_SourcePort_Union_E_Transport_SourcePort
@@ -2376,10 +2382,10 @@ func (t *Qos_ForwardingGroup) ΛEnumTypeMap() map[string][]reflect.Type { return
 
 // Qos_Interface represents the /openconfig-qos/qos/interfaces/interface YANG schema element.
 type Qos_Interface struct {
-	Input	*Qos_Interface_Input	`path:"input" module:"openconfig-qos"`
-	InterfaceId	*string	`path:"config/interface-id|interface-id" module:"openconfig-qos"`
-	InterfaceRef	*Qos_Interface_InterfaceRef	`path:"interface-ref" module:"openconfig-qos"`
-	Output	*Qos_Interface_Output	`path:"output" module:"openconfig-qos"`
+	Input	*Qos_Interface_Input               `path:"input" module:"openconfig-qos"`
+	InterfaceId	*string                      `path:"config/interface-id|interface-id" module:"openconfig-qos"`
+	InterfaceRef	*Qos_Interface_InterfaceRef `path:"interface-ref" module:"openconfig-qos"`
+	Output	*Qos_Interface_Output             `path:"output" module:"openconfig-qos"`
 }
 
 // IsYANGGoStruct ensures that Qos_Interface implements the yang.GoStruct
@@ -2473,10 +2479,10 @@ func (t *Qos_Interface) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnu
 
 // Qos_Interface_Input represents the /openconfig-qos/qos/interfaces/interface/input YANG schema element.
 type Qos_Interface_Input struct {
-	Classifier	map[E_Input_Classifier_Type]*Qos_Interface_Input_Classifier	`path:"classifiers/classifier" module:"openconfig-qos"`
-	Queue	map[string]*Qos_Interface_Input_Queue	`path:"queues/queue" module:"openconfig-qos"`
-	SchedulerPolicy	*Qos_Interface_Input_SchedulerPolicy	`path:"scheduler-policy" module:"openconfig-qos"`
-	VoqInterface	map[string]*Qos_Interface_Input_VoqInterface	`path:"virtual-output-queues/voq-interface" module:"openconfig-qos"`
+	Classifier	map[E_Input_Classifier_Type]*Qos_Interface_Input_Classifier `path:"classifiers/classifier" module:"openconfig-qos"`
+	Queue	map[string]*Qos_Interface_Input_Queue                            `path:"queues/queue" module:"openconfig-qos"`
+	SchedulerPolicy	*Qos_Interface_Input_SchedulerPolicy                   `path:"scheduler-policy" module:"openconfig-qos"`
+	VoqInterface	map[string]*Qos_Interface_Input_VoqInterface              `path:"virtual-output-queues/voq-interface" module:"openconfig-qos"`
 }
 
 // IsYANGGoStruct ensures that Qos_Interface_Input implements the yang.GoStruct
@@ -2711,9 +2717,9 @@ func (t *Qos_Interface_Input) ΛEnumTypeMap() map[string][]reflect.Type { return
 
 // Qos_Interface_Input_Classifier represents the /openconfig-qos/qos/interfaces/interface/input/classifiers/classifier YANG schema element.
 type Qos_Interface_Input_Classifier struct {
-	Name	*string	`path:"config/name" module:"openconfig-qos"`
-	Term	map[string]*Qos_Interface_Input_Classifier_Term	`path:"terms/term" module:"openconfig-qos"`
-	Type	E_Input_Classifier_Type	`path:"config/type|type" module:"openconfig-qos"`
+	Name *string                                         `path:"config/name" module:"openconfig-qos"`
+	Term map[string]*Qos_Interface_Input_Classifier_Term `path:"terms/term" module:"openconfig-qos"`
+	Type E_Input_Classifier_Type                         `path:"config/type|type" module:"openconfig-qos"`
 }
 
 // IsYANGGoStruct ensures that Qos_Interface_Input_Classifier implements the yang.GoStruct
@@ -2839,7 +2845,8 @@ func (t *Qos_Interface_Input_Classifier_Term) Validate(opts ...ygot.ValidationOp
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Qos_Interface_Input_Classifier_Term) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Qos_Interface_Input_Classifier_Term) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Qos_Interface_Input_Queue represents the /openconfig-qos/qos/interfaces/interface/input/queues/queue YANG schema element.
@@ -2883,8 +2890,8 @@ func (t *Qos_Interface_Input_Queue) ΛEnumTypeMap() map[string][]reflect.Type { 
 
 // Qos_Interface_Input_SchedulerPolicy represents the /openconfig-qos/qos/interfaces/interface/input/scheduler-policy YANG schema element.
 type Qos_Interface_Input_SchedulerPolicy struct {
-	Name	*string	`path:"config/name" module:"openconfig-qos"`
-	Scheduler	map[uint32]*Qos_Interface_Input_SchedulerPolicy_Scheduler	`path:"schedulers/scheduler" module:"openconfig-qos"`
+	Name	*string                                                        `path:"config/name" module:"openconfig-qos"`
+	Scheduler	map[uint32]*Qos_Interface_Input_SchedulerPolicy_Scheduler `path:"schedulers/scheduler" module:"openconfig-qos"`
 }
 
 // IsYANGGoStruct ensures that Qos_Interface_Input_SchedulerPolicy implements the yang.GoStruct
@@ -2966,7 +2973,8 @@ func (t *Qos_Interface_Input_SchedulerPolicy) Validate(opts ...ygot.ValidationOp
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Qos_Interface_Input_SchedulerPolicy) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Qos_Interface_Input_SchedulerPolicy) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Qos_Interface_Input_SchedulerPolicy_Scheduler represents the /openconfig-qos/qos/interfaces/interface/input/scheduler-policy/schedulers/scheduler YANG schema element.
@@ -3006,13 +3014,14 @@ func (t *Qos_Interface_Input_SchedulerPolicy_Scheduler) Validate(opts ...ygot.Va
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Qos_Interface_Input_SchedulerPolicy_Scheduler) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Qos_Interface_Input_SchedulerPolicy_Scheduler) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Qos_Interface_Input_VoqInterface represents the /openconfig-qos/qos/interfaces/interface/input/virtual-output-queues/voq-interface YANG schema element.
 type Qos_Interface_Input_VoqInterface struct {
-	Name	*string	`path:"config/name|name" module:"openconfig-qos"`
-	Queue	map[string]*Qos_Interface_Input_VoqInterface_Queue	`path:"queues/queue" module:"openconfig-qos"`
+	Name	*string                                             `path:"config/name|name" module:"openconfig-qos"`
+	Queue	map[string]*Qos_Interface_Input_VoqInterface_Queue `path:"queues/queue" module:"openconfig-qos"`
 }
 
 // IsYANGGoStruct ensures that Qos_Interface_Input_VoqInterface implements the yang.GoStruct
@@ -3144,7 +3153,8 @@ func (t *Qos_Interface_Input_VoqInterface_Queue) Validate(opts ...ygot.Validatio
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Qos_Interface_Input_VoqInterface_Queue) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Qos_Interface_Input_VoqInterface_Queue) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Qos_Interface_InterfaceRef represents the /openconfig-qos/qos/interfaces/interface/interface-ref YANG schema element.
@@ -3173,10 +3183,10 @@ func (t *Qos_Interface_InterfaceRef) ΛEnumTypeMap() map[string][]reflect.Type {
 
 // Qos_Interface_Output represents the /openconfig-qos/qos/interfaces/interface/output YANG schema element.
 type Qos_Interface_Output struct {
-	Classifier	map[E_Input_Classifier_Type]*Qos_Interface_Output_Classifier	`path:"classifiers/classifier" module:"openconfig-qos"`
-	InterfaceRef	*Qos_Interface_Output_InterfaceRef	`path:"interface-ref" module:"openconfig-qos"`
-	Queue	map[string]*Qos_Interface_Output_Queue	`path:"queues/queue" module:"openconfig-qos"`
-	SchedulerPolicy	*Qos_Interface_Output_SchedulerPolicy	`path:"scheduler-policy" module:"openconfig-qos"`
+	Classifier	map[E_Input_Classifier_Type]*Qos_Interface_Output_Classifier `path:"classifiers/classifier" module:"openconfig-qos"`
+	InterfaceRef	*Qos_Interface_Output_InterfaceRef                         `path:"interface-ref" module:"openconfig-qos"`
+	Queue	map[string]*Qos_Interface_Output_Queue                            `path:"queues/queue" module:"openconfig-qos"`
+	SchedulerPolicy	*Qos_Interface_Output_SchedulerPolicy                   `path:"scheduler-policy" module:"openconfig-qos"`
 }
 
 // IsYANGGoStruct ensures that Qos_Interface_Output implements the yang.GoStruct
@@ -3367,9 +3377,9 @@ func (t *Qos_Interface_Output) ΛEnumTypeMap() map[string][]reflect.Type { retur
 
 // Qos_Interface_Output_Classifier represents the /openconfig-qos/qos/interfaces/interface/output/classifiers/classifier YANG schema element.
 type Qos_Interface_Output_Classifier struct {
-	Name	*string	`path:"config/name" module:"openconfig-qos"`
-	Term	map[string]*Qos_Interface_Output_Classifier_Term	`path:"terms/term" module:"openconfig-qos"`
-	Type	E_Input_Classifier_Type	`path:"config/type|type" module:"openconfig-qos"`
+	Name *string                                          `path:"config/name" module:"openconfig-qos"`
+	Term map[string]*Qos_Interface_Output_Classifier_Term `path:"terms/term" module:"openconfig-qos"`
+	Type E_Input_Classifier_Type                          `path:"config/type|type" module:"openconfig-qos"`
 }
 
 // IsYANGGoStruct ensures that Qos_Interface_Output_Classifier implements the yang.GoStruct
@@ -3495,7 +3505,8 @@ func (t *Qos_Interface_Output_Classifier_Term) Validate(opts ...ygot.ValidationO
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Qos_Interface_Output_Classifier_Term) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Qos_Interface_Output_Classifier_Term) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Qos_Interface_Output_InterfaceRef represents the /openconfig-qos/qos/interfaces/interface/output/interface-ref YANG schema element.
@@ -3519,7 +3530,8 @@ func (t *Qos_Interface_Output_InterfaceRef) Validate(opts ...ygot.ValidationOpti
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Qos_Interface_Output_InterfaceRef) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Qos_Interface_Output_InterfaceRef) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Qos_Interface_Output_Queue represents the /openconfig-qos/qos/interfaces/interface/output/queues/queue YANG schema element.
@@ -3563,8 +3575,8 @@ func (t *Qos_Interface_Output_Queue) ΛEnumTypeMap() map[string][]reflect.Type {
 
 // Qos_Interface_Output_SchedulerPolicy represents the /openconfig-qos/qos/interfaces/interface/output/scheduler-policy YANG schema element.
 type Qos_Interface_Output_SchedulerPolicy struct {
-	Name	*string	`path:"config/name" module:"openconfig-qos"`
-	Scheduler	map[uint32]*Qos_Interface_Output_SchedulerPolicy_Scheduler	`path:"schedulers/scheduler" module:"openconfig-qos"`
+	Name	*string                                                         `path:"config/name" module:"openconfig-qos"`
+	Scheduler	map[uint32]*Qos_Interface_Output_SchedulerPolicy_Scheduler `path:"schedulers/scheduler" module:"openconfig-qos"`
 }
 
 // IsYANGGoStruct ensures that Qos_Interface_Output_SchedulerPolicy implements the yang.GoStruct
@@ -3646,7 +3658,8 @@ func (t *Qos_Interface_Output_SchedulerPolicy) Validate(opts ...ygot.ValidationO
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Qos_Interface_Output_SchedulerPolicy) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Qos_Interface_Output_SchedulerPolicy) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Qos_Interface_Output_SchedulerPolicy_Scheduler represents the /openconfig-qos/qos/interfaces/interface/output/scheduler-policy/schedulers/scheduler YANG schema element.
@@ -3686,15 +3699,16 @@ func (t *Qos_Interface_Output_SchedulerPolicy_Scheduler) Validate(opts ...ygot.V
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Qos_Interface_Output_SchedulerPolicy_Scheduler) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Qos_Interface_Output_SchedulerPolicy_Scheduler) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Qos_Queue represents the /openconfig-qos/qos/queues/queue YANG schema element.
 type Qos_Queue struct {
-	Name	*string	`path:"config/name|name" module:"openconfig-qos"`
-	QueueType	E_OpenconfigQosTypes_QOS_QUEUE_TYPE	`path:"config/queue-type" module:"openconfig-qos"`
-	Red	*Qos_Queue_Red	`path:"red" module:"openconfig-qos"`
-	Wred	*Qos_Queue_Wred	`path:"wred" module:"openconfig-qos"`
+	Name      *string                             `path:"config/name|name" module:"openconfig-qos"`
+	QueueType E_OpenconfigQosTypes_QOS_QUEUE_TYPE `path:"config/queue-type" module:"openconfig-qos"`
+	Red       *Qos_Queue_Red                      `path:"red" module:"openconfig-qos"`
+	Wred      *Qos_Queue_Wred                     `path:"wred" module:"openconfig-qos"`
 }
 
 // IsYANGGoStruct ensures that Qos_Queue implements the yang.GoStruct
@@ -3814,8 +3828,8 @@ func (t *Qos_Queue_Wred) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEn
 
 // Qos_SchedulerPolicy represents the /openconfig-qos/qos/scheduler-policies/scheduler-policy YANG schema element.
 type Qos_SchedulerPolicy struct {
-	Name	*string	`path:"config/name|name" module:"openconfig-qos"`
-	Scheduler	map[uint32]*Qos_SchedulerPolicy_Scheduler	`path:"schedulers/scheduler" module:"openconfig-qos"`
+	Name	*string                                        `path:"config/name|name" module:"openconfig-qos"`
+	Scheduler	map[uint32]*Qos_SchedulerPolicy_Scheduler `path:"schedulers/scheduler" module:"openconfig-qos"`
 }
 
 // IsYANGGoStruct ensures that Qos_SchedulerPolicy implements the yang.GoStruct
@@ -3913,13 +3927,13 @@ func (t *Qos_SchedulerPolicy) ΛEnumTypeMap() map[string][]reflect.Type { return
 
 // Qos_SchedulerPolicy_Scheduler represents the /openconfig-qos/qos/scheduler-policies/scheduler-policy/schedulers/scheduler YANG schema element.
 type Qos_SchedulerPolicy_Scheduler struct {
-	Input	map[string]*Qos_SchedulerPolicy_Scheduler_Input	`path:"inputs/input" module:"openconfig-qos"`
-	OneRateTwoColor	*Qos_SchedulerPolicy_Scheduler_OneRateTwoColor	`path:"one-rate-two-color" module:"openconfig-qos"`
-	Output	*Qos_SchedulerPolicy_Scheduler_Output	`path:"output" module:"openconfig-qos"`
-	Priority	E_Scheduler_Priority	`path:"config/priority" module:"openconfig-qos"`
-	Sequence	*uint32	`path:"config/sequence|sequence" module:"openconfig-qos"`
-	TwoRateThreeColor	*Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor	`path:"two-rate-three-color" module:"openconfig-qos"`
-	Type	E_OpenconfigQosTypes_QOS_SCHEDULER_TYPE	`path:"config/type" module:"openconfig-qos"`
+	Input             map[string]*Qos_SchedulerPolicy_Scheduler_Input  `path:"inputs/input" module:"openconfig-qos"`
+	OneRateTwoColor   *Qos_SchedulerPolicy_Scheduler_OneRateTwoColor   `path:"one-rate-two-color" module:"openconfig-qos"`
+	Output            *Qos_SchedulerPolicy_Scheduler_Output            `path:"output" module:"openconfig-qos"`
+	Priority          E_Scheduler_Priority                             `path:"config/priority" module:"openconfig-qos"`
+	Sequence          *uint32                                          `path:"config/sequence|sequence" module:"openconfig-qos"`
+	TwoRateThreeColor *Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor `path:"two-rate-three-color" module:"openconfig-qos"`
+	Type              E_OpenconfigQosTypes_QOS_SCHEDULER_TYPE          `path:"config/type" module:"openconfig-qos"`
 }
 
 // IsYANGGoStruct ensures that Qos_SchedulerPolicy_Scheduler implements the yang.GoStruct
@@ -4077,10 +4091,10 @@ func (t *Qos_SchedulerPolicy_Scheduler) ΛEnumTypeMap() map[string][]reflect.Typ
 
 // Qos_SchedulerPolicy_Scheduler_Input represents the /openconfig-qos/qos/scheduler-policies/scheduler-policy/schedulers/scheduler/inputs/input YANG schema element.
 type Qos_SchedulerPolicy_Scheduler_Input struct {
-	Id	*string	`path:"config/id|id" module:"openconfig-qos"`
-	InputType	E_Input_InputType	`path:"config/input-type" module:"openconfig-qos"`
-	Queue	*string	`path:"config/queue" module:"openconfig-qos"`
-	Weight	*uint64	`path:"config/weight" module:"openconfig-qos"`
+	Id        *string           `path:"config/id|id" module:"openconfig-qos"`
+	InputType E_Input_InputType `path:"config/input-type" module:"openconfig-qos"`
+	Queue     *string           `path:"config/queue" module:"openconfig-qos"`
+	Weight    *uint64           `path:"config/weight" module:"openconfig-qos"`
 }
 
 // IsYANGGoStruct ensures that Qos_SchedulerPolicy_Scheduler_Input implements the yang.GoStruct
@@ -4109,21 +4123,22 @@ func (t *Qos_SchedulerPolicy_Scheduler_Input) Validate(opts ...ygot.ValidationOp
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Qos_SchedulerPolicy_Scheduler_Input) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Qos_SchedulerPolicy_Scheduler_Input) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Qos_SchedulerPolicy_Scheduler_OneRateTwoColor represents the /openconfig-qos/qos/scheduler-policies/scheduler-policy/schedulers/scheduler/one-rate-two-color YANG schema element.
 type Qos_SchedulerPolicy_Scheduler_OneRateTwoColor struct {
-	Bc	*uint32	`path:"config/bc" module:"openconfig-qos"`
-	Cir	*uint64	`path:"config/cir" module:"openconfig-qos"`
-	CirPct	*uint8	`path:"config/cir-pct" module:"openconfig-qos"`
-	CirPctRemaining	*uint8	`path:"config/cir-pct-remaining" module:"openconfig-qos"`
-	ConformAction	*Qos_SchedulerPolicy_Scheduler_OneRateTwoColor_ConformAction	`path:"conform-action" module:"openconfig-qos"`
-	ExceedAction	*Qos_SchedulerPolicy_Scheduler_OneRateTwoColor_ExceedAction	`path:"exceed-action" module:"openconfig-qos"`
-	MaxQueueDepthBytes	*uint32	`path:"config/max-queue-depth-bytes" module:"openconfig-qos"`
-	MaxQueueDepthPackets	*uint32	`path:"config/max-queue-depth-packets" module:"openconfig-qos"`
-	MaxQueueDepthPercent	*uint8	`path:"config/max-queue-depth-percent" module:"openconfig-qos"`
-	QueuingBehavior	E_OpenconfigQos_QueueBehavior	`path:"config/queuing-behavior" module:"openconfig-qos"`
+	Bc                   *uint32                                                      `path:"config/bc" module:"openconfig-qos"`
+	Cir                  *uint64                                                      `path:"config/cir" module:"openconfig-qos"`
+	CirPct               *uint8                                                       `path:"config/cir-pct" module:"openconfig-qos"`
+	CirPctRemaining      *uint8                                                       `path:"config/cir-pct-remaining" module:"openconfig-qos"`
+	ConformAction        *Qos_SchedulerPolicy_Scheduler_OneRateTwoColor_ConformAction `path:"conform-action" module:"openconfig-qos"`
+	ExceedAction         *Qos_SchedulerPolicy_Scheduler_OneRateTwoColor_ExceedAction  `path:"exceed-action" module:"openconfig-qos"`
+	MaxQueueDepthBytes   *uint32                                                      `path:"config/max-queue-depth-bytes" module:"openconfig-qos"`
+	MaxQueueDepthPackets *uint32                                                      `path:"config/max-queue-depth-packets" module:"openconfig-qos"`
+	MaxQueueDepthPercent *uint8                                                       `path:"config/max-queue-depth-percent" module:"openconfig-qos"`
+	QueuingBehavior      E_OpenconfigQos_QueueBehavior                                `path:"config/queuing-behavior" module:"openconfig-qos"`
 }
 
 // IsYANGGoStruct ensures that Qos_SchedulerPolicy_Scheduler_OneRateTwoColor implements the yang.GoStruct
@@ -4181,7 +4196,8 @@ func (t *Qos_SchedulerPolicy_Scheduler_OneRateTwoColor) Validate(opts ...ygot.Va
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Qos_SchedulerPolicy_Scheduler_OneRateTwoColor) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Qos_SchedulerPolicy_Scheduler_OneRateTwoColor) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Qos_SchedulerPolicy_Scheduler_OneRateTwoColor_ConformAction represents the /openconfig-qos/qos/scheduler-policies/scheduler-policy/schedulers/scheduler/one-rate-two-color/conform-action YANG schema element.
@@ -4206,7 +4222,8 @@ func (t *Qos_SchedulerPolicy_Scheduler_OneRateTwoColor_ConformAction) Validate(o
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Qos_SchedulerPolicy_Scheduler_OneRateTwoColor_ConformAction) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Qos_SchedulerPolicy_Scheduler_OneRateTwoColor_ConformAction) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Qos_SchedulerPolicy_Scheduler_OneRateTwoColor_ExceedAction represents the /openconfig-qos/qos/scheduler-policies/scheduler-policy/schedulers/scheduler/one-rate-two-color/exceed-action YANG schema element.
@@ -4232,14 +4249,15 @@ func (t *Qos_SchedulerPolicy_Scheduler_OneRateTwoColor_ExceedAction) Validate(op
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Qos_SchedulerPolicy_Scheduler_OneRateTwoColor_ExceedAction) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Qos_SchedulerPolicy_Scheduler_OneRateTwoColor_ExceedAction) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Qos_SchedulerPolicy_Scheduler_Output represents the /openconfig-qos/qos/scheduler-policies/scheduler-policy/schedulers/scheduler/output YANG schema element.
 type Qos_SchedulerPolicy_Scheduler_Output struct {
-	ChildScheduler	*string	`path:"config/child-scheduler" module:"openconfig-qos"`
-	OutputFwdGroup	*string	`path:"config/output-fwd-group" module:"openconfig-qos"`
-	OutputType	E_Output_OutputType	`path:"config/output-type" module:"openconfig-qos"`
+	ChildScheduler *string             `path:"config/child-scheduler" module:"openconfig-qos"`
+	OutputFwdGroup *string             `path:"config/output-fwd-group" module:"openconfig-qos"`
+	OutputType     E_Output_OutputType `path:"config/output-type" module:"openconfig-qos"`
 }
 
 // IsYANGGoStruct ensures that Qos_SchedulerPolicy_Scheduler_Output implements the yang.GoStruct
@@ -4257,22 +4275,23 @@ func (t *Qos_SchedulerPolicy_Scheduler_Output) Validate(opts ...ygot.ValidationO
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Qos_SchedulerPolicy_Scheduler_Output) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Qos_SchedulerPolicy_Scheduler_Output) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor represents the /openconfig-qos/qos/scheduler-policies/scheduler-policy/schedulers/scheduler/two-rate-three-color YANG schema element.
 type Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor struct {
-	Bc	*uint32	`path:"config/bc" module:"openconfig-qos"`
-	Be	*uint32	`path:"config/be" module:"openconfig-qos"`
-	Cir	*uint64	`path:"config/cir" module:"openconfig-qos"`
-	CirPct	*uint8	`path:"config/cir-pct" module:"openconfig-qos"`
-	CirPctRemaining	*uint8	`path:"config/cir-pct-remaining" module:"openconfig-qos"`
-	ConformAction	*Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor_ConformAction	`path:"conform-action" module:"openconfig-qos"`
-	ExceedAction	*Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor_ExceedAction	`path:"exceed-action" module:"openconfig-qos"`
-	Pir	*uint64	`path:"config/pir" module:"openconfig-qos"`
-	PirPct	*uint8	`path:"config/pir-pct" module:"openconfig-qos"`
-	PirPctRemaining	*uint8	`path:"config/pir-pct-remaining" module:"openconfig-qos"`
-	ViolateAction	*Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor_ViolateAction	`path:"violate-action" module:"openconfig-qos"`
+	Bc	*uint32                                                                   `path:"config/bc" module:"openconfig-qos"`
+	Be	*uint32                                                                   `path:"config/be" module:"openconfig-qos"`
+	Cir	*uint64                                                                  `path:"config/cir" module:"openconfig-qos"`
+	CirPct	*uint8                                                                `path:"config/cir-pct" module:"openconfig-qos"`
+	CirPctRemaining	*uint8                                                       `path:"config/cir-pct-remaining" module:"openconfig-qos"`
+	ConformAction	*Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor_ConformAction `path:"conform-action" module:"openconfig-qos"`
+	ExceedAction	*Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor_ExceedAction   `path:"exceed-action" module:"openconfig-qos"`
+	Pir	*uint64                                                                  `path:"config/pir" module:"openconfig-qos"`
+	PirPct	*uint8                                                                `path:"config/pir-pct" module:"openconfig-qos"`
+	PirPctRemaining	*uint8                                                       `path:"config/pir-pct-remaining" module:"openconfig-qos"`
+	ViolateAction	*Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor_ViolateAction `path:"violate-action" module:"openconfig-qos"`
 }
 
 // IsYANGGoStruct ensures that Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor implements the yang.GoStruct
@@ -4350,7 +4369,8 @@ func (t *Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor) Validate(opts ...ygot.
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor_ConformAction represents the /openconfig-qos/qos/scheduler-policies/scheduler-policy/schedulers/scheduler/two-rate-three-color/conform-action YANG schema element.
@@ -4375,7 +4395,8 @@ func (t *Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor_ConformAction) Validate
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor_ConformAction) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor_ConformAction) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor_ExceedAction represents the /openconfig-qos/qos/scheduler-policies/scheduler-policy/schedulers/scheduler/two-rate-three-color/exceed-action YANG schema element.
@@ -4401,7 +4422,8 @@ func (t *Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor_ExceedAction) Validate(
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor_ExceedAction) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor_ExceedAction) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor_ViolateAction represents the /openconfig-qos/qos/scheduler-policies/scheduler-policy/schedulers/scheduler/two-rate-three-color/violate-action YANG schema element.
@@ -4427,7 +4449,8 @@ func (t *Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor_ViolateAction) Validate
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor_ViolateAction) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Qos_SchedulerPolicy_Scheduler_TwoRateThreeColor_ViolateAction) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // E_IETFInterfaces_InterfaceType is a derived int64 type which is used to represent

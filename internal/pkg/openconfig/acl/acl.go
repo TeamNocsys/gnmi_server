@@ -22,8 +22,8 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/openconfig/ygot/ygot"
 	"github.com/openconfig/goyang/pkg/yang"
+	"github.com/openconfig/ygot/ygot"
 	"github.com/openconfig/ygot/ytypes"
 )
 
@@ -57,9 +57,9 @@ func Schema() (*ytypes.Schema, error) {
 	}
 
 	return &ytypes.Schema{
-		Root: nil,
+		Root:       nil,
 		SchemaTree: uzp,
-		Unmarshal: Unmarshal,
+		Unmarshal:  Unmarshal,
 	}, nil
 }
 
@@ -95,9 +95,9 @@ func Unmarshal(data []byte, destStruct ygot.GoStruct, opts ...ytypes.UnmarshalOp
 
 // Acl represents the /openconfig-acl/acl YANG schema element.
 type Acl struct {
-	AclSet	map[Acl_AclSet_Key]*Acl_AclSet	`path:"acl-sets/acl-set" module:"openconfig-acl"`
-	CounterCapability	E_OpenconfigAcl_ACL_COUNTER_CAPABILITY	`path:"state/counter-capability" module:"openconfig-acl"`
-	Interface	map[string]*Acl_Interface	`path:"interfaces/interface" module:"openconfig-acl"`
+	AclSet            map[Acl_AclSet_Key]*Acl_AclSet         `path:"acl-sets/acl-set" module:"openconfig-acl"`
+	CounterCapability E_OpenconfigAcl_ACL_COUNTER_CAPABILITY `path:"state/counter-capability" module:"openconfig-acl"`
+	Interface         map[string]*Acl_Interface              `path:"interfaces/interface" module:"openconfig-acl"`
 }
 
 // IsYANGGoStruct ensures that Acl implements the yang.GoStruct
@@ -107,8 +107,8 @@ func (*Acl) IsYANGGoStruct() {}
 
 // Acl_AclSet_Key represents the key for list AclSet of element /openconfig-acl/acl.
 type Acl_AclSet_Key struct {
-	Name	string	`path:"name"`
-	Type	E_OpenconfigAcl_ACL_TYPE	`path:"type"`
+	Name string                   `path:"name"`
+	Type E_OpenconfigAcl_ACL_TYPE `path:"type"`
 }
 
 // NewAclSet creates a new entry in the AclSet list of the
@@ -264,10 +264,10 @@ func (t *Acl) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
 
 // Acl_AclSet represents the /openconfig-acl/acl/acl-sets/acl-set YANG schema element.
 type Acl_AclSet struct {
-	AclEntry	map[uint32]*Acl_AclSet_AclEntry	`path:"acl-entries/acl-entry" module:"openconfig-acl"`
-	Description	*string	`path:"config/description" module:"openconfig-acl"`
-	Name	*string	`path:"config/name|name" module:"openconfig-acl"`
-	Type	E_OpenconfigAcl_ACL_TYPE	`path:"config/type|type" module:"openconfig-acl"`
+	AclEntry    map[uint32]*Acl_AclSet_AclEntry `path:"acl-entries/acl-entry" module:"openconfig-acl"`
+	Description *string                         `path:"config/description" module:"openconfig-acl"`
+	Name        *string                         `path:"config/name|name" module:"openconfig-acl"`
+	Type        E_OpenconfigAcl_ACL_TYPE        `path:"config/type|type" module:"openconfig-acl"`
 }
 
 // IsYANGGoStruct ensures that Acl_AclSet implements the yang.GoStruct
@@ -367,16 +367,16 @@ func (t *Acl_AclSet) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTy
 
 // Acl_AclSet_AclEntry represents the /openconfig-acl/acl/acl-sets/acl-set/acl-entries/acl-entry YANG schema element.
 type Acl_AclSet_AclEntry struct {
-	Actions	*Acl_AclSet_AclEntry_Actions	`path:"actions" module:"openconfig-acl"`
-	Description	*string	`path:"config/description" module:"openconfig-acl"`
-	InputInterface	*Acl_AclSet_AclEntry_InputInterface	`path:"input-interface" module:"openconfig-acl"`
-	Ipv4	*Acl_AclSet_AclEntry_Ipv4	`path:"ipv4" module:"openconfig-acl"`
-	Ipv6	*Acl_AclSet_AclEntry_Ipv6	`path:"ipv6" module:"openconfig-acl"`
-	L2	*Acl_AclSet_AclEntry_L2	`path:"l2" module:"openconfig-acl"`
-	MatchedOctets	*uint64	`path:"state/matched-octets" module:"openconfig-acl"`
-	MatchedPackets	*uint64	`path:"state/matched-packets" module:"openconfig-acl"`
-	SequenceId	*uint32	`path:"config/sequence-id|sequence-id" module:"openconfig-acl"`
-	Transport	*Acl_AclSet_AclEntry_Transport	`path:"transport" module:"openconfig-acl"`
+	Actions	*Acl_AclSet_AclEntry_Actions               `path:"actions" module:"openconfig-acl"`
+	Description	*string                                `path:"config/description" module:"openconfig-acl"`
+	InputInterface	*Acl_AclSet_AclEntry_InputInterface `path:"input-interface" module:"openconfig-acl"`
+	Ipv4	*Acl_AclSet_AclEntry_Ipv4                     `path:"ipv4" module:"openconfig-acl"`
+	Ipv6	*Acl_AclSet_AclEntry_Ipv6                     `path:"ipv6" module:"openconfig-acl"`
+	L2	*Acl_AclSet_AclEntry_L2                         `path:"l2" module:"openconfig-acl"`
+	MatchedOctets	*uint64                              `path:"state/matched-octets" module:"openconfig-acl"`
+	MatchedPackets	*uint64                             `path:"state/matched-packets" module:"openconfig-acl"`
+	SequenceId	*uint32                                 `path:"config/sequence-id|sequence-id" module:"openconfig-acl"`
+	Transport	*Acl_AclSet_AclEntry_Transport           `path:"transport" module:"openconfig-acl"`
 }
 
 // IsYANGGoStruct ensures that Acl_AclSet_AclEntry implements the yang.GoStruct
@@ -530,8 +530,8 @@ func (t *Acl_AclSet_AclEntry) ΛEnumTypeMap() map[string][]reflect.Type { return
 
 // Acl_AclSet_AclEntry_Actions represents the /openconfig-acl/acl/acl-sets/acl-set/acl-entries/acl-entry/actions YANG schema element.
 type Acl_AclSet_AclEntry_Actions struct {
-	ForwardingAction	E_OpenconfigAcl_FORWARDING_ACTION	`path:"config/forwarding-action" module:"openconfig-acl"`
-	LogAction	E_OpenconfigAcl_LOG_ACTION	`path:"config/log-action" module:"openconfig-acl"`
+	ForwardingAction E_OpenconfigAcl_FORWARDING_ACTION `path:"config/forwarding-action" module:"openconfig-acl"`
+	LogAction        E_OpenconfigAcl_LOG_ACTION        `path:"config/log-action" module:"openconfig-acl"`
 }
 
 // IsYANGGoStruct ensures that Acl_AclSet_AclEntry_Actions implements the yang.GoStruct
@@ -554,7 +554,7 @@ func (t *Acl_AclSet_AclEntry_Actions) ΛEnumTypeMap() map[string][]reflect.Type 
 
 // Acl_AclSet_AclEntry_InputInterface represents the /openconfig-acl/acl/acl-sets/acl-set/acl-entries/acl-entry/input-interface YANG schema element.
 type Acl_AclSet_AclEntry_InputInterface struct {
-	InterfaceRef	*Acl_AclSet_AclEntry_InputInterface_InterfaceRef	`path:"interface-ref" module:"openconfig-acl"`
+	InterfaceRef	*Acl_AclSet_AclEntry_InputInterface_InterfaceRef `path:"interface-ref" module:"openconfig-acl"`
 }
 
 // IsYANGGoStruct ensures that Acl_AclSet_AclEntry_InputInterface implements the yang.GoStruct
@@ -592,7 +592,8 @@ func (t *Acl_AclSet_AclEntry_InputInterface) Validate(opts ...ygot.ValidationOpt
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Acl_AclSet_AclEntry_InputInterface) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Acl_AclSet_AclEntry_InputInterface) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Acl_AclSet_AclEntry_InputInterface_InterfaceRef represents the /openconfig-acl/acl/acl-sets/acl-set/acl-entries/acl-entry/input-interface/interface-ref YANG schema element.
@@ -616,16 +617,17 @@ func (t *Acl_AclSet_AclEntry_InputInterface_InterfaceRef) Validate(opts ...ygot.
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Acl_AclSet_AclEntry_InputInterface_InterfaceRef) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Acl_AclSet_AclEntry_InputInterface_InterfaceRef) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Acl_AclSet_AclEntry_Ipv4 represents the /openconfig-acl/acl/acl-sets/acl-set/acl-entries/acl-entry/ipv4 YANG schema element.
 type Acl_AclSet_AclEntry_Ipv4 struct {
-	DestinationAddress	*string	`path:"config/destination-address" module:"openconfig-acl"`
-	Dscp	*uint8	`path:"config/dscp" module:"openconfig-acl"`
-	HopLimit	*uint8	`path:"config/hop-limit" module:"openconfig-acl"`
-	Protocol	Acl_AclSet_AclEntry_Ipv4_Protocol_Union	`path:"config/protocol" module:"openconfig-acl"`
-	SourceAddress	*string	`path:"config/source-address" module:"openconfig-acl"`
+	DestinationAddress *string                                 `path:"config/destination-address" module:"openconfig-acl"`
+	Dscp               *uint8                                  `path:"config/dscp" module:"openconfig-acl"`
+	HopLimit           *uint8                                  `path:"config/hop-limit" module:"openconfig-acl"`
+	Protocol           Acl_AclSet_AclEntry_Ipv4_Protocol_Union `path:"config/protocol" module:"openconfig-acl"`
+	SourceAddress      *string                                 `path:"config/source-address" module:"openconfig-acl"`
 }
 
 // IsYANGGoStruct ensures that Acl_AclSet_AclEntry_Ipv4 implements the yang.GoStruct
@@ -654,7 +656,7 @@ type Acl_AclSet_AclEntry_Ipv4_Protocol_Union interface {
 // Acl_AclSet_AclEntry_Ipv4_Protocol_Union_E_OpenconfigPacketMatchTypes_IP_PROTOCOL is used when /openconfig-acl/acl/acl-sets/acl-set/acl-entries/acl-entry/ipv4/config/protocol
 // is to be set to a E_OpenconfigPacketMatchTypes_IP_PROTOCOL value.
 type Acl_AclSet_AclEntry_Ipv4_Protocol_Union_E_OpenconfigPacketMatchTypes_IP_PROTOCOL struct {
-	E_OpenconfigPacketMatchTypes_IP_PROTOCOL	E_OpenconfigPacketMatchTypes_IP_PROTOCOL
+	E_OpenconfigPacketMatchTypes_IP_PROTOCOL E_OpenconfigPacketMatchTypes_IP_PROTOCOL
 }
 
 // Is_Acl_AclSet_AclEntry_Ipv4_Protocol_Union ensures that Acl_AclSet_AclEntry_Ipv4_Protocol_Union_E_OpenconfigPacketMatchTypes_IP_PROTOCOL
@@ -688,13 +690,13 @@ func (t *Acl_AclSet_AclEntry_Ipv4) To_Acl_AclSet_AclEntry_Ipv4_Protocol_Union(i 
 
 // Acl_AclSet_AclEntry_Ipv6 represents the /openconfig-acl/acl/acl-sets/acl-set/acl-entries/acl-entry/ipv6 YANG schema element.
 type Acl_AclSet_AclEntry_Ipv6 struct {
-	DestinationAddress	*string	`path:"config/destination-address" module:"openconfig-acl"`
-	DestinationFlowLabel	*uint32	`path:"config/destination-flow-label" module:"openconfig-acl"`
-	Dscp	*uint8	`path:"config/dscp" module:"openconfig-acl"`
-	HopLimit	*uint8	`path:"config/hop-limit" module:"openconfig-acl"`
-	Protocol	Acl_AclSet_AclEntry_Ipv6_Protocol_Union	`path:"config/protocol" module:"openconfig-acl"`
-	SourceAddress	*string	`path:"config/source-address" module:"openconfig-acl"`
-	SourceFlowLabel	*uint32	`path:"config/source-flow-label" module:"openconfig-acl"`
+	DestinationAddress   *string                                 `path:"config/destination-address" module:"openconfig-acl"`
+	DestinationFlowLabel *uint32                                 `path:"config/destination-flow-label" module:"openconfig-acl"`
+	Dscp                 *uint8                                  `path:"config/dscp" module:"openconfig-acl"`
+	HopLimit             *uint8                                  `path:"config/hop-limit" module:"openconfig-acl"`
+	Protocol             Acl_AclSet_AclEntry_Ipv6_Protocol_Union `path:"config/protocol" module:"openconfig-acl"`
+	SourceAddress        *string                                 `path:"config/source-address" module:"openconfig-acl"`
+	SourceFlowLabel      *uint32                                 `path:"config/source-flow-label" module:"openconfig-acl"`
 }
 
 // IsYANGGoStruct ensures that Acl_AclSet_AclEntry_Ipv6 implements the yang.GoStruct
@@ -723,7 +725,7 @@ type Acl_AclSet_AclEntry_Ipv6_Protocol_Union interface {
 // Acl_AclSet_AclEntry_Ipv6_Protocol_Union_E_OpenconfigPacketMatchTypes_IP_PROTOCOL is used when /openconfig-acl/acl/acl-sets/acl-set/acl-entries/acl-entry/ipv6/config/protocol
 // is to be set to a E_OpenconfigPacketMatchTypes_IP_PROTOCOL value.
 type Acl_AclSet_AclEntry_Ipv6_Protocol_Union_E_OpenconfigPacketMatchTypes_IP_PROTOCOL struct {
-	E_OpenconfigPacketMatchTypes_IP_PROTOCOL	E_OpenconfigPacketMatchTypes_IP_PROTOCOL
+	E_OpenconfigPacketMatchTypes_IP_PROTOCOL E_OpenconfigPacketMatchTypes_IP_PROTOCOL
 }
 
 // Is_Acl_AclSet_AclEntry_Ipv6_Protocol_Union ensures that Acl_AclSet_AclEntry_Ipv6_Protocol_Union_E_OpenconfigPacketMatchTypes_IP_PROTOCOL
@@ -757,11 +759,11 @@ func (t *Acl_AclSet_AclEntry_Ipv6) To_Acl_AclSet_AclEntry_Ipv6_Protocol_Union(i 
 
 // Acl_AclSet_AclEntry_L2 represents the /openconfig-acl/acl/acl-sets/acl-set/acl-entries/acl-entry/l2 YANG schema element.
 type Acl_AclSet_AclEntry_L2 struct {
-	DestinationMac	*string	`path:"config/destination-mac" module:"openconfig-acl"`
-	DestinationMacMask	*string	`path:"config/destination-mac-mask" module:"openconfig-acl"`
-	Ethertype	Acl_AclSet_AclEntry_L2_Ethertype_Union	`path:"config/ethertype" module:"openconfig-acl"`
-	SourceMac	*string	`path:"config/source-mac" module:"openconfig-acl"`
-	SourceMacMask	*string	`path:"config/source-mac-mask" module:"openconfig-acl"`
+	DestinationMac     *string                                `path:"config/destination-mac" module:"openconfig-acl"`
+	DestinationMacMask *string                                `path:"config/destination-mac-mask" module:"openconfig-acl"`
+	Ethertype          Acl_AclSet_AclEntry_L2_Ethertype_Union `path:"config/ethertype" module:"openconfig-acl"`
+	SourceMac          *string                                `path:"config/source-mac" module:"openconfig-acl"`
+	SourceMacMask      *string                                `path:"config/source-mac-mask" module:"openconfig-acl"`
 }
 
 // IsYANGGoStruct ensures that Acl_AclSet_AclEntry_L2 implements the yang.GoStruct
@@ -790,7 +792,7 @@ type Acl_AclSet_AclEntry_L2_Ethertype_Union interface {
 // Acl_AclSet_AclEntry_L2_Ethertype_Union_E_OpenconfigPacketMatchTypes_ETHERTYPE is used when /openconfig-acl/acl/acl-sets/acl-set/acl-entries/acl-entry/l2/config/ethertype
 // is to be set to a E_OpenconfigPacketMatchTypes_ETHERTYPE value.
 type Acl_AclSet_AclEntry_L2_Ethertype_Union_E_OpenconfigPacketMatchTypes_ETHERTYPE struct {
-	E_OpenconfigPacketMatchTypes_ETHERTYPE	E_OpenconfigPacketMatchTypes_ETHERTYPE
+	E_OpenconfigPacketMatchTypes_ETHERTYPE E_OpenconfigPacketMatchTypes_ETHERTYPE
 }
 
 // Is_Acl_AclSet_AclEntry_L2_Ethertype_Union ensures that Acl_AclSet_AclEntry_L2_Ethertype_Union_E_OpenconfigPacketMatchTypes_ETHERTYPE
@@ -824,9 +826,9 @@ func (t *Acl_AclSet_AclEntry_L2) To_Acl_AclSet_AclEntry_L2_Ethertype_Union(i int
 
 // Acl_AclSet_AclEntry_Transport represents the /openconfig-acl/acl/acl-sets/acl-set/acl-entries/acl-entry/transport YANG schema element.
 type Acl_AclSet_AclEntry_Transport struct {
-	DestinationPort	Acl_AclSet_AclEntry_Transport_DestinationPort_Union	`path:"config/destination-port" module:"openconfig-acl"`
-	SourcePort	Acl_AclSet_AclEntry_Transport_SourcePort_Union	`path:"config/source-port" module:"openconfig-acl"`
-	TcpFlags	[]E_OpenconfigPacketMatchTypes_TCP_FLAGS	`path:"config/tcp-flags" module:"openconfig-acl"`
+	DestinationPort Acl_AclSet_AclEntry_Transport_DestinationPort_Union `path:"config/destination-port" module:"openconfig-acl"`
+	SourcePort      Acl_AclSet_AclEntry_Transport_SourcePort_Union      `path:"config/source-port" module:"openconfig-acl"`
+	TcpFlags        []E_OpenconfigPacketMatchTypes_TCP_FLAGS            `path:"config/tcp-flags" module:"openconfig-acl"`
 }
 
 // IsYANGGoStruct ensures that Acl_AclSet_AclEntry_Transport implements the yang.GoStruct
@@ -855,7 +857,7 @@ type Acl_AclSet_AclEntry_Transport_DestinationPort_Union interface {
 // Acl_AclSet_AclEntry_Transport_DestinationPort_Union_E_Transport_DestinationPort is used when /openconfig-acl/acl/acl-sets/acl-set/acl-entries/acl-entry/transport/config/destination-port
 // is to be set to a E_Transport_DestinationPort value.
 type Acl_AclSet_AclEntry_Transport_DestinationPort_Union_E_Transport_DestinationPort struct {
-	E_Transport_DestinationPort	E_Transport_DestinationPort
+	E_Transport_DestinationPort E_Transport_DestinationPort
 }
 
 // Is_Acl_AclSet_AclEntry_Transport_DestinationPort_Union ensures that Acl_AclSet_AclEntry_Transport_DestinationPort_Union_E_Transport_DestinationPort
@@ -907,7 +909,7 @@ type Acl_AclSet_AclEntry_Transport_SourcePort_Union interface {
 // Acl_AclSet_AclEntry_Transport_SourcePort_Union_E_Transport_SourcePort is used when /openconfig-acl/acl/acl-sets/acl-set/acl-entries/acl-entry/transport/config/source-port
 // is to be set to a E_Transport_SourcePort value.
 type Acl_AclSet_AclEntry_Transport_SourcePort_Union_E_Transport_SourcePort struct {
-	E_Transport_SourcePort	E_Transport_SourcePort
+	E_Transport_SourcePort E_Transport_SourcePort
 }
 
 // Is_Acl_AclSet_AclEntry_Transport_SourcePort_Union ensures that Acl_AclSet_AclEntry_Transport_SourcePort_Union_E_Transport_SourcePort
@@ -953,10 +955,10 @@ func (t *Acl_AclSet_AclEntry_Transport) To_Acl_AclSet_AclEntry_Transport_SourceP
 
 // Acl_Interface represents the /openconfig-acl/acl/interfaces/interface YANG schema element.
 type Acl_Interface struct {
-	EgressAclSet	map[Acl_Interface_EgressAclSet_Key]*Acl_Interface_EgressAclSet	`path:"egress-acl-sets/egress-acl-set" module:"openconfig-acl"`
-	Id	*string	`path:"config/id|id" module:"openconfig-acl"`
-	IngressAclSet	map[Acl_Interface_IngressAclSet_Key]*Acl_Interface_IngressAclSet	`path:"ingress-acl-sets/ingress-acl-set" module:"openconfig-acl"`
-	InterfaceRef	*Acl_Interface_InterfaceRef	`path:"interface-ref" module:"openconfig-acl"`
+	EgressAclSet	map[Acl_Interface_EgressAclSet_Key]*Acl_Interface_EgressAclSet    `path:"egress-acl-sets/egress-acl-set" module:"openconfig-acl"`
+	Id	*string                                                                     `path:"config/id|id" module:"openconfig-acl"`
+	IngressAclSet	map[Acl_Interface_IngressAclSet_Key]*Acl_Interface_IngressAclSet `path:"ingress-acl-sets/ingress-acl-set" module:"openconfig-acl"`
+	InterfaceRef	*Acl_Interface_InterfaceRef                                       `path:"interface-ref" module:"openconfig-acl"`
 }
 
 // IsYANGGoStruct ensures that Acl_Interface implements the yang.GoStruct
@@ -966,14 +968,14 @@ func (*Acl_Interface) IsYANGGoStruct() {}
 
 // Acl_Interface_EgressAclSet_Key represents the key for list EgressAclSet of element /openconfig-acl/acl/interfaces/interface.
 type Acl_Interface_EgressAclSet_Key struct {
-	SetName	string	`path:"set-name"`
-	Type	E_OpenconfigAcl_ACL_TYPE	`path:"type"`
+	SetName string                   `path:"set-name"`
+	Type    E_OpenconfigAcl_ACL_TYPE `path:"type"`
 }
 
 // Acl_Interface_IngressAclSet_Key represents the key for list IngressAclSet of element /openconfig-acl/acl/interfaces/interface.
 type Acl_Interface_IngressAclSet_Key struct {
-	SetName	string	`path:"set-name"`
-	Type	E_OpenconfigAcl_ACL_TYPE	`path:"type"`
+	SetName string                   `path:"set-name"`
+	Type    E_OpenconfigAcl_ACL_TYPE `path:"type"`
 }
 
 // NewEgressAclSet creates a new entry in the EgressAclSet list of the
@@ -1170,9 +1172,9 @@ func (t *Acl_Interface) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnu
 
 // Acl_Interface_EgressAclSet represents the /openconfig-acl/acl/interfaces/interface/egress-acl-sets/egress-acl-set YANG schema element.
 type Acl_Interface_EgressAclSet struct {
-	AclEntry	map[uint32]*Acl_Interface_EgressAclSet_AclEntry	`path:"acl-entries/acl-entry" module:"openconfig-acl"`
-	SetName	*string	`path:"config/set-name|set-name" module:"openconfig-acl"`
-	Type	E_OpenconfigAcl_ACL_TYPE	`path:"config/type|type" module:"openconfig-acl"`
+	AclEntry map[uint32]*Acl_Interface_EgressAclSet_AclEntry `path:"acl-entries/acl-entry" module:"openconfig-acl"`
+	SetName  *string                                         `path:"config/set-name|set-name" module:"openconfig-acl"`
+	Type     E_OpenconfigAcl_ACL_TYPE                        `path:"config/type|type" module:"openconfig-acl"`
 }
 
 // IsYANGGoStruct ensures that Acl_Interface_EgressAclSet implements the yang.GoStruct
@@ -1303,14 +1305,15 @@ func (t *Acl_Interface_EgressAclSet_AclEntry) Validate(opts ...ygot.ValidationOp
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Acl_Interface_EgressAclSet_AclEntry) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Acl_Interface_EgressAclSet_AclEntry) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Acl_Interface_IngressAclSet represents the /openconfig-acl/acl/interfaces/interface/ingress-acl-sets/ingress-acl-set YANG schema element.
 type Acl_Interface_IngressAclSet struct {
-	AclEntry	map[uint32]*Acl_Interface_IngressAclSet_AclEntry	`path:"acl-entries/acl-entry" module:"openconfig-acl"`
-	SetName	*string	`path:"config/set-name|set-name" module:"openconfig-acl"`
-	Type	E_OpenconfigAcl_ACL_TYPE	`path:"config/type|type" module:"openconfig-acl"`
+	AclEntry map[uint32]*Acl_Interface_IngressAclSet_AclEntry `path:"acl-entries/acl-entry" module:"openconfig-acl"`
+	SetName  *string                                          `path:"config/set-name|set-name" module:"openconfig-acl"`
+	Type     E_OpenconfigAcl_ACL_TYPE                         `path:"config/type|type" module:"openconfig-acl"`
 }
 
 // IsYANGGoStruct ensures that Acl_Interface_IngressAclSet implements the yang.GoStruct
@@ -1441,7 +1444,8 @@ func (t *Acl_Interface_IngressAclSet_AclEntry) Validate(opts ...ygot.ValidationO
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *Acl_Interface_IngressAclSet_AclEntry) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *Acl_Interface_IngressAclSet_AclEntry) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // Acl_Interface_InterfaceRef represents the /openconfig-acl/acl/interfaces/interface/interface-ref YANG schema element.
@@ -1470,20 +1474,20 @@ func (t *Acl_Interface_InterfaceRef) ΛEnumTypeMap() map[string][]reflect.Type {
 
 // Interface represents the /openconfig-interfaces/interfaces/interface YANG schema element.
 type Interface struct {
-	AdminStatus	E_Interface_AdminStatus	`path:"state/admin-status" module:"openconfig-interfaces"`
-	Counters	*Interface_Counters	`path:"state/counters" module:"openconfig-interfaces"`
-	Description	*string	`path:"config/description" module:"openconfig-interfaces"`
-	Enabled	*bool	`path:"config/enabled" module:"openconfig-interfaces"`
-	HoldTime	*Interface_HoldTime	`path:"hold-time" module:"openconfig-interfaces"`
-	Ifindex	*uint32	`path:"state/ifindex" module:"openconfig-interfaces"`
-	LastChange	*uint64	`path:"state/last-change" module:"openconfig-interfaces"`
-	Logical	*bool	`path:"state/logical" module:"openconfig-interfaces"`
-	LoopbackMode	*bool	`path:"config/loopback-mode" module:"openconfig-interfaces"`
-	Mtu	*uint16	`path:"config/mtu" module:"openconfig-interfaces"`
-	Name	*string	`path:"config/name|name" module:"openconfig-interfaces"`
-	OperStatus	E_Interface_OperStatus	`path:"state/oper-status" module:"openconfig-interfaces"`
-	Subinterface	map[uint32]*Interface_Subinterface	`path:"subinterfaces/subinterface" module:"openconfig-interfaces"`
-	Type	E_IETFInterfaces_InterfaceType	`path:"config/type" module:"openconfig-interfaces"`
+	AdminStatus  E_Interface_AdminStatus            `path:"state/admin-status" module:"openconfig-interfaces"`
+	Counters     *Interface_Counters                `path:"state/counters" module:"openconfig-interfaces"`
+	Description  *string                            `path:"config/description" module:"openconfig-interfaces"`
+	Enabled      *bool                              `path:"config/enabled" module:"openconfig-interfaces"`
+	HoldTime     *Interface_HoldTime                `path:"hold-time" module:"openconfig-interfaces"`
+	Ifindex      *uint32                            `path:"state/ifindex" module:"openconfig-interfaces"`
+	LastChange   *uint64                            `path:"state/last-change" module:"openconfig-interfaces"`
+	Logical      *bool                              `path:"state/logical" module:"openconfig-interfaces"`
+	LoopbackMode *bool                              `path:"config/loopback-mode" module:"openconfig-interfaces"`
+	Mtu          *uint16                            `path:"config/mtu" module:"openconfig-interfaces"`
+	Name         *string                            `path:"config/name|name" module:"openconfig-interfaces"`
+	OperStatus   E_Interface_OperStatus             `path:"state/oper-status" module:"openconfig-interfaces"`
+	Subinterface map[uint32]*Interface_Subinterface `path:"subinterfaces/subinterface" module:"openconfig-interfaces"`
+	Type         E_IETFInterfaces_InterfaceType     `path:"config/type" module:"openconfig-interfaces"`
 }
 
 // IsYANGGoStruct ensures that Interface implements the yang.GoStruct
@@ -1685,16 +1689,16 @@ func (t *Interface_HoldTime) ΛEnumTypeMap() map[string][]reflect.Type { return 
 
 // Interface_Subinterface represents the /openconfig-interfaces/interfaces/interface/subinterfaces/subinterface YANG schema element.
 type Interface_Subinterface struct {
-	AdminStatus	E_Interface_AdminStatus	`path:"state/admin-status" module:"openconfig-interfaces"`
-	Counters	*Interface_Subinterface_Counters	`path:"state/counters" module:"openconfig-interfaces"`
-	Description	*string	`path:"config/description" module:"openconfig-interfaces"`
-	Enabled	*bool	`path:"config/enabled" module:"openconfig-interfaces"`
-	Ifindex	*uint32	`path:"state/ifindex" module:"openconfig-interfaces"`
-	Index	*uint32	`path:"config/index|index" module:"openconfig-interfaces"`
-	LastChange	*uint64	`path:"state/last-change" module:"openconfig-interfaces"`
-	Logical	*bool	`path:"state/logical" module:"openconfig-interfaces"`
-	Name	*string	`path:"state/name" module:"openconfig-interfaces"`
-	OperStatus	E_Interface_OperStatus	`path:"state/oper-status" module:"openconfig-interfaces"`
+	AdminStatus E_Interface_AdminStatus          `path:"state/admin-status" module:"openconfig-interfaces"`
+	Counters    *Interface_Subinterface_Counters `path:"state/counters" module:"openconfig-interfaces"`
+	Description *string                          `path:"config/description" module:"openconfig-interfaces"`
+	Enabled     *bool                            `path:"config/enabled" module:"openconfig-interfaces"`
+	Ifindex     *uint32                          `path:"state/ifindex" module:"openconfig-interfaces"`
+	Index       *uint32                          `path:"config/index|index" module:"openconfig-interfaces"`
+	LastChange  *uint64                          `path:"state/last-change" module:"openconfig-interfaces"`
+	Logical     *bool                            `path:"state/logical" module:"openconfig-interfaces"`
+	Name        *string                          `path:"state/name" module:"openconfig-interfaces"`
+	OperStatus  E_Interface_OperStatus           `path:"state/oper-status" module:"openconfig-interfaces"`
 }
 
 // IsYANGGoStruct ensures that Interface_Subinterface implements the yang.GoStruct

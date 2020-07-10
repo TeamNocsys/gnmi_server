@@ -20,8 +20,8 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/openconfig/ygot/ygot"
 	"github.com/openconfig/goyang/pkg/yang"
+	"github.com/openconfig/ygot/ygot"
 	"github.com/openconfig/ygot/ytypes"
 )
 
@@ -55,9 +55,9 @@ func Schema() (*ytypes.Schema, error) {
 	}
 
 	return &ytypes.Schema{
-		Root: nil,
+		Root:       nil,
 		SchemaTree: uzp,
-		Unmarshal: Unmarshal,
+		Unmarshal:  Unmarshal,
 	}, nil
 }
 
@@ -93,20 +93,20 @@ func Unmarshal(data []byte, destStruct ygot.GoStruct, opts ...ytypes.UnmarshalOp
 
 // Interface represents the /openconfig-interfaces/interfaces/interface YANG schema element.
 type Interface struct {
-	AdminStatus	E_Interface_AdminStatus	`path:"state/admin-status" module:"openconfig-interfaces"`
-	Counters	*Interface_Counters	`path:"state/counters" module:"openconfig-interfaces"`
-	Description	*string	`path:"config/description" module:"openconfig-interfaces"`
-	Enabled	*bool	`path:"config/enabled" module:"openconfig-interfaces"`
-	HoldTime	*Interface_HoldTime	`path:"hold-time" module:"openconfig-interfaces"`
-	Ifindex	*uint32	`path:"state/ifindex" module:"openconfig-interfaces"`
-	LastChange	*uint64	`path:"state/last-change" module:"openconfig-interfaces"`
-	Logical	*bool	`path:"state/logical" module:"openconfig-interfaces"`
-	LoopbackMode	*bool	`path:"config/loopback-mode" module:"openconfig-interfaces"`
-	Mtu	*uint16	`path:"config/mtu" module:"openconfig-interfaces"`
-	Name	*string	`path:"config/name|name" module:"openconfig-interfaces"`
-	OperStatus	E_Interface_OperStatus	`path:"state/oper-status" module:"openconfig-interfaces"`
-	Subinterface	map[uint32]*Interface_Subinterface	`path:"subinterfaces/subinterface" module:"openconfig-interfaces"`
-	Type	E_IETFInterfaces_InterfaceType	`path:"config/type" module:"openconfig-interfaces"`
+	AdminStatus  E_Interface_AdminStatus            `path:"state/admin-status" module:"openconfig-interfaces"`
+	Counters     *Interface_Counters                `path:"state/counters" module:"openconfig-interfaces"`
+	Description  *string                            `path:"config/description" module:"openconfig-interfaces"`
+	Enabled      *bool                              `path:"config/enabled" module:"openconfig-interfaces"`
+	HoldTime     *Interface_HoldTime                `path:"hold-time" module:"openconfig-interfaces"`
+	Ifindex      *uint32                            `path:"state/ifindex" module:"openconfig-interfaces"`
+	LastChange   *uint64                            `path:"state/last-change" module:"openconfig-interfaces"`
+	Logical      *bool                              `path:"state/logical" module:"openconfig-interfaces"`
+	LoopbackMode *bool                              `path:"config/loopback-mode" module:"openconfig-interfaces"`
+	Mtu          *uint16                            `path:"config/mtu" module:"openconfig-interfaces"`
+	Name         *string                            `path:"config/name|name" module:"openconfig-interfaces"`
+	OperStatus   E_Interface_OperStatus             `path:"state/oper-status" module:"openconfig-interfaces"`
+	Subinterface map[uint32]*Interface_Subinterface `path:"subinterfaces/subinterface" module:"openconfig-interfaces"`
+	Type         E_IETFInterfaces_InterfaceType     `path:"config/type" module:"openconfig-interfaces"`
 }
 
 // IsYANGGoStruct ensures that Interface implements the yang.GoStruct
@@ -308,16 +308,16 @@ func (t *Interface_HoldTime) ΛEnumTypeMap() map[string][]reflect.Type { return 
 
 // Interface_Subinterface represents the /openconfig-interfaces/interfaces/interface/subinterfaces/subinterface YANG schema element.
 type Interface_Subinterface struct {
-	AdminStatus	E_Interface_AdminStatus	`path:"state/admin-status" module:"openconfig-interfaces"`
-	Counters	*Interface_Subinterface_Counters	`path:"state/counters" module:"openconfig-interfaces"`
-	Description	*string	`path:"config/description" module:"openconfig-interfaces"`
-	Enabled	*bool	`path:"config/enabled" module:"openconfig-interfaces"`
-	Ifindex	*uint32	`path:"state/ifindex" module:"openconfig-interfaces"`
-	Index	*uint32	`path:"config/index|index" module:"openconfig-interfaces"`
-	LastChange	*uint64	`path:"state/last-change" module:"openconfig-interfaces"`
-	Logical	*bool	`path:"state/logical" module:"openconfig-interfaces"`
-	Name	*string	`path:"state/name" module:"openconfig-interfaces"`
-	OperStatus	E_Interface_OperStatus	`path:"state/oper-status" module:"openconfig-interfaces"`
+	AdminStatus E_Interface_AdminStatus          `path:"state/admin-status" module:"openconfig-interfaces"`
+	Counters    *Interface_Subinterface_Counters `path:"state/counters" module:"openconfig-interfaces"`
+	Description *string                          `path:"config/description" module:"openconfig-interfaces"`
+	Enabled     *bool                            `path:"config/enabled" module:"openconfig-interfaces"`
+	Ifindex     *uint32                          `path:"state/ifindex" module:"openconfig-interfaces"`
+	Index       *uint32                          `path:"config/index|index" module:"openconfig-interfaces"`
+	LastChange  *uint64                          `path:"state/last-change" module:"openconfig-interfaces"`
+	Logical     *bool                            `path:"state/logical" module:"openconfig-interfaces"`
+	Name        *string                          `path:"state/name" module:"openconfig-interfaces"`
+	OperStatus  E_Interface_OperStatus           `path:"state/oper-status" module:"openconfig-interfaces"`
 }
 
 // IsYANGGoStruct ensures that Interface_Subinterface implements the yang.GoStruct
@@ -411,8 +411,8 @@ func (t *Interface_Subinterface_Counters) ΛEnumTypeMap() map[string][]reflect.T
 
 // LocalRoutes represents the /openconfig-local-routing/local-routes YANG schema element.
 type LocalRoutes struct {
-	Aggregate	map[string]*LocalRoutes_Aggregate	`path:"local-aggregates/aggregate" module:"openconfig-local-routing"`
-	Static	map[string]*LocalRoutes_Static	`path:"static-routes/static" module:"openconfig-local-routing"`
+	Aggregate	map[string]*LocalRoutes_Aggregate `path:"local-aggregates/aggregate" module:"openconfig-local-routing"`
+	Static	map[string]*LocalRoutes_Static       `path:"static-routes/static" module:"openconfig-local-routing"`
 }
 
 // IsYANGGoStruct ensures that LocalRoutes implements the yang.GoStruct
@@ -563,10 +563,10 @@ func (t *LocalRoutes) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumT
 
 // LocalRoutes_Aggregate represents the /openconfig-local-routing/local-routes/local-aggregates/aggregate YANG schema element.
 type LocalRoutes_Aggregate struct {
-	Description	*string	`path:"config/description" module:"openconfig-local-routing"`
-	Discard	*bool	`path:"config/discard" module:"openconfig-local-routing"`
-	Prefix	*string	`path:"config/prefix|prefix" module:"openconfig-local-routing"`
-	SetTag	LocalRoutes_Aggregate_SetTag_Union	`path:"config/set-tag" module:"openconfig-local-routing"`
+	Description *string                            `path:"config/description" module:"openconfig-local-routing"`
+	Discard     *bool                              `path:"config/discard" module:"openconfig-local-routing"`
+	Prefix      *string                            `path:"config/prefix|prefix" module:"openconfig-local-routing"`
+	SetTag      LocalRoutes_Aggregate_SetTag_Union `path:"config/set-tag" module:"openconfig-local-routing"`
 }
 
 // IsYANGGoStruct ensures that LocalRoutes_Aggregate implements the yang.GoStruct
@@ -640,10 +640,10 @@ func (t *LocalRoutes_Aggregate) To_LocalRoutes_Aggregate_SetTag_Union(i interfac
 
 // LocalRoutes_Static represents the /openconfig-local-routing/local-routes/static-routes/static YANG schema element.
 type LocalRoutes_Static struct {
-	Description	*string	`path:"config/description" module:"openconfig-local-routing"`
-	NextHop	map[string]*LocalRoutes_Static_NextHop	`path:"next-hops/next-hop" module:"openconfig-local-routing"`
-	Prefix	*string	`path:"config/prefix|prefix" module:"openconfig-local-routing"`
-	SetTag	LocalRoutes_Static_SetTag_Union	`path:"config/set-tag" module:"openconfig-local-routing"`
+	Description *string                                `path:"config/description" module:"openconfig-local-routing"`
+	NextHop     map[string]*LocalRoutes_Static_NextHop `path:"next-hops/next-hop" module:"openconfig-local-routing"`
+	Prefix      *string                                `path:"config/prefix|prefix" module:"openconfig-local-routing"`
+	SetTag      LocalRoutes_Static_SetTag_Union        `path:"config/set-tag" module:"openconfig-local-routing"`
 }
 
 // IsYANGGoStruct ensures that LocalRoutes_Static implements the yang.GoStruct
@@ -781,11 +781,11 @@ func (t *LocalRoutes_Static) To_LocalRoutes_Static_SetTag_Union(i interface{}) (
 
 // LocalRoutes_Static_NextHop represents the /openconfig-local-routing/local-routes/static-routes/static/next-hops/next-hop YANG schema element.
 type LocalRoutes_Static_NextHop struct {
-	Index	*string	`path:"config/index|index" module:"openconfig-local-routing"`
-	InterfaceRef	*LocalRoutes_Static_NextHop_InterfaceRef	`path:"interface-ref" module:"openconfig-local-routing"`
-	Metric	*uint32	`path:"config/metric" module:"openconfig-local-routing"`
-	NextHop	LocalRoutes_Static_NextHop_NextHop_Union	`path:"config/next-hop" module:"openconfig-local-routing"`
-	Recurse	*bool	`path:"config/recurse" module:"openconfig-local-routing"`
+	Index        *string                                  `path:"config/index|index" module:"openconfig-local-routing"`
+	InterfaceRef *LocalRoutes_Static_NextHop_InterfaceRef `path:"interface-ref" module:"openconfig-local-routing"`
+	Metric       *uint32                                  `path:"config/metric" module:"openconfig-local-routing"`
+	NextHop      LocalRoutes_Static_NextHop_NextHop_Union `path:"config/next-hop" module:"openconfig-local-routing"`
+	Recurse      *bool                                    `path:"config/recurse" module:"openconfig-local-routing"`
 }
 
 // IsYANGGoStruct ensures that LocalRoutes_Static_NextHop implements the yang.GoStruct
@@ -845,7 +845,7 @@ type LocalRoutes_Static_NextHop_NextHop_Union interface {
 // LocalRoutes_Static_NextHop_NextHop_Union_E_OpenconfigLocalRouting_LOCAL_DEFINED_NEXT_HOP is used when /openconfig-local-routing/local-routes/static-routes/static/next-hops/next-hop/config/next-hop
 // is to be set to a E_OpenconfigLocalRouting_LOCAL_DEFINED_NEXT_HOP value.
 type LocalRoutes_Static_NextHop_NextHop_Union_E_OpenconfigLocalRouting_LOCAL_DEFINED_NEXT_HOP struct {
-	E_OpenconfigLocalRouting_LOCAL_DEFINED_NEXT_HOP	E_OpenconfigLocalRouting_LOCAL_DEFINED_NEXT_HOP
+	E_OpenconfigLocalRouting_LOCAL_DEFINED_NEXT_HOP E_OpenconfigLocalRouting_LOCAL_DEFINED_NEXT_HOP
 }
 
 // Is_LocalRoutes_Static_NextHop_NextHop_Union ensures that LocalRoutes_Static_NextHop_NextHop_Union_E_OpenconfigLocalRouting_LOCAL_DEFINED_NEXT_HOP
@@ -898,7 +898,8 @@ func (t *LocalRoutes_Static_NextHop_InterfaceRef) Validate(opts ...ygot.Validati
 
 // ΛEnumTypeMap returns a map, keyed by YANG schema path, of the enumerated types
 // that are included in the generated code.
-func (t *LocalRoutes_Static_NextHop_InterfaceRef) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes }
+func (t *LocalRoutes_Static_NextHop_InterfaceRef) ΛEnumTypeMap() map[string][]reflect.Type { return ΛEnumTypes
+}
 
 
 // E_IETFInterfaces_InterfaceType is a derived int64 type which is used to represent

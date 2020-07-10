@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	deepcopy "github.com/getlantern/deepcopy"
 	"github.com/golang/glog"
-	"gnmi_server/openconfig/platform"
 	gpb "github.com/openconfig/gnmi/proto/gnmi"
-	"gnmi_server/utils"
+	"gnmi_server/internal/pkg/openconfig/platform"
+	"gnmi_server/internal/pkg/utils"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"regexp"
@@ -162,8 +162,6 @@ func Get_temperature_info(ctx context.Context, r *gpb.GetRequest) (*gpb.GetRespo
 			}
 		}
 	}
-
-	str, err := 
 
 	return nil, status.Errorf(codes.Unimplemented, "unimplemented")
 }
