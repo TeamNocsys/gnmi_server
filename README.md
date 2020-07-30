@@ -3,7 +3,7 @@
 > 更新openconfig子项目
 
 ```
-$ go submodule update --init
+$ git submodule update --init
 ```
 
 > yang文件处理
