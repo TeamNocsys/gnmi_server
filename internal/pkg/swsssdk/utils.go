@@ -65,9 +65,15 @@ const (
     	ACS Redis db mainly uses hash, therefore h is selected.
     */
 
-    CONFIG_DB_NAME      = "CONFIG_DB"
-    APPLICATION_DB_NAME = "APPL_DB"
-    COUNTERS_DB_NAME    = "COUNTERS_DB"
+    CONFIG_DB       = "CONFIG_DB"
+    APPL_DB         = "APPL_DB"
+    ASIC_DB         = "ASIC_DB"
+    COUNTERS_DB     = "COUNTERS_DB"
+    LOGLEVEL_DB     = "LOGLEVEL_DB"
+    PFC_WD_DB       = "PFC_WD_DB"
+    FLEX_COUNTER_DB = "FLEX_COUNTER_DB"
+    STATE_DB        = "STATE_DB"
+    SNMP_OVERLAY_DB = "SNMP_OVERLAY_DB"
 )
 
 // Errors raised by package swsssdk.

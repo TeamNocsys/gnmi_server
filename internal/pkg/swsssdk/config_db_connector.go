@@ -23,21 +23,21 @@ func (cc *ConfigDBConnector) Close() {
 }
 
 func (cc *ConfigDBConnector) Connect() bool {
-    if id := gscfg.GetDBId(CONFIG_DB_NAME); id > 0 {
-        return cc.mgmt.connect(id, gscfg.GetDBHostname(CONFIG_DB_NAME), gscfg.GetDBPort(CONFIG_DB_NAME))
+    if id := gscfg.GetDBId(CONFIG_DB); id > 0 {
+        return cc.mgmt.connect(id, gscfg.GetDBHostname(CONFIG_DB), gscfg.GetDBPort(CONFIG_DB))
     }
     return false
 }
 
 func (cc *ConfigDBConnector) Disconnect() {
-    cc.Connector.Disconnect(CONFIG_DB_NAME)
+    cc.Connector.Disconnect(CONFIG_DB)
 }
 
 func (cc *ConfigDBConnector) SetEntry(table string, key interface{}, values map[string]interface{}) (bool, error) {
     if hkey, err := NewHashKey(table, key); err != nil {
         return false, err
     } else {
-        if id := gscfg.GetDBId(CONFIG_DB_NAME); id > 0 {
+        if id := gscfg.GetDBId(CONFIG_DB); id > 0 {
             if values == nil {
                 num, err := cc.mgmt.delete(id, hkey.Get())
                 return num > 0, err
@@ -67,7 +67,7 @@ func (cc *ConfigDBConnector) ModEntry(table string, key interface{}, values map[
     if hkey, err := NewHashKey(table, key); err != nil {
         return false, err
     } else {
-        if id := gscfg.GetDBId(CONFIG_DB_NAME); id > 0 {
+        if id := gscfg.GetDBId(CONFIG_DB); id > 0 {
             if values == nil {
                 num, err := cc.mgmt.delete(id, hkey.Get())
                 return num > 0, err
@@ -84,7 +84,7 @@ func (cc *ConfigDBConnector) GetEntry(table string, key interface{}) (map[string
     if hkey, err := NewHashKey(table, key); err != nil {
         return map[string]interface{}{}, err
     } else {
-        if id := gscfg.GetDBId(CONFIG_DB_NAME); id > 0 {
+        if id := gscfg.GetDBId(CONFIG_DB); id > 0 {
             if values, err := cc.mgmt.get_all(id, hkey.Get()); err != nil {
                 return map[string]interface{}{}, err
             } else {
@@ -98,7 +98,7 @@ func (cc *ConfigDBConnector) GetEntry(table string, key interface{}) (map[string
 
 func (cc *ConfigDBConnector) GetKeys(table string) ([]HashKey, error) {
     keys := []HashKey{}
-    if id := gscfg.GetDBId(CONFIG_DB_NAME); id > 0 {
+    if id := gscfg.GetDBId(CONFIG_DB); id > 0 {
         if pattern, err := NewHashKey(table, "*"); err == nil {
             if hash_keys, err := cc.mgmt.keys(id, pattern.Get()); err == nil {
                 for _, hash_key := range hash_keys {
@@ -113,7 +113,7 @@ func (cc *ConfigDBConnector) GetKeys(table string) ([]HashKey, error) {
 
 func (cc *ConfigDBConnector) GetTable(table string) (map[HashKey](map[string]interface{}), error) {
     content := make(map[HashKey](map[string]interface{}))
-    if id := gscfg.GetDBId(CONFIG_DB_NAME); id > 0 {
+    if id := gscfg.GetDBId(CONFIG_DB); id > 0 {
         if pattern, err := NewHashKey(table, "*"); err == nil {
             if hash_keys, err := cc.mgmt.keys(id, pattern.Get()); err != nil {
                 return content, err
@@ -133,7 +133,7 @@ func (cc *ConfigDBConnector) GetTable(table string) (map[HashKey](map[string]int
 }
 
 func (cc *ConfigDBConnector) DeleteTable(table string) (bool, error) {
-    if id := gscfg.GetDBId(CONFIG_DB_NAME); id > 0 {
+    if id := gscfg.GetDBId(CONFIG_DB); id > 0 {
         if pattern, err := NewHashKey(table, "*"); err == nil {
             num, err := cc.mgmt.delete_all_by_pattern(id, pattern.Get())
             return num > 0, err

@@ -23,11 +23,32 @@ func NewGnmiClient() (*GnmiClient, error) {
     }
 
     if !cli.config.Connect() {
-        return nil, fmt.Errorf("Connect to database %s failed!", swsssdk.CONFIG_DB_NAME)
+        return nil, fmt.Errorf("Connect to database %s failed!", swsssdk.CONFIG_DB)
     }
 
-    if !cli.state.Connect(swsssdk.APPLICATION_DB_NAME) {
-        return nil, fmt.Errorf("Connect to database %s failed!", swsssdk.APPLICATION_DB_NAME)
+    if !cli.state.Connect(swsssdk.APPL_DB) {
+        return nil, fmt.Errorf("Connect to database %s failed!", swsssdk.APPL_DB)
+    }
+    if !cli.state.Connect(swsssdk.ASIC_DB) {
+        return nil, fmt.Errorf("Connect to database %s failed!", swsssdk.ASIC_DB)
+    }
+    if !cli.state.Connect(swsssdk.COUNTERS_DB) {
+        return nil, fmt.Errorf("Connect to database %s failed!", swsssdk.COUNTERS_DB)
+    }
+    if !cli.state.Connect(swsssdk.LOGLEVEL_DB) {
+        return nil, fmt.Errorf("Connect to database %s failed!", swsssdk.LOGLEVEL_DB)
+    }
+    if !cli.state.Connect(swsssdk.PFC_WD_DB) {
+        return nil, fmt.Errorf("Connect to database %s failed!", swsssdk.PFC_WD_DB)
+    }
+    if !cli.state.Connect(swsssdk.FLEX_COUNTER_DB) {
+        return nil, fmt.Errorf("Connect to database %s failed!", swsssdk.FLEX_COUNTER_DB)
+    }
+    if !cli.state.Connect(swsssdk.STATE_DB) {
+        return nil, fmt.Errorf("Connect to database %s failed!", swsssdk.STATE_DB)
+    }
+    if !cli.state.Connect(swsssdk.SNMP_OVERLAY_DB) {
+        return nil, fmt.Errorf("Connect to database %s failed!", swsssdk.SNMP_OVERLAY_DB)
     }
 
     return cli, nil
