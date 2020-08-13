@@ -15,9 +15,10 @@ import (
 func newGetServeMux() *gnmi.GetServeMux {
 	mux := gnmi.NewGetServeMux()
 	mux.AddRouter("/test", get_handler.Test).
-		AddRouter("/sonic-platform/platform/component-list/fan", get_handler.Get_fan_info).
-		AddRouter("/sonic-platform/platform/component-list/power-supply", get_handler.Get_psu_info).
-		AddRouter("/sonic-platform/platform/component-list/temperature", get_handler.Get_temperature_info)
+		AddRouter("/sonic-platform/platform", get_handler.ComponentInfoHandler).
+		AddRouter("/sonic-platform/platform/component-list/fan", get_handler.FanInfoHandler).
+		AddRouter("/sonic-platform/platform/component-list/power-supply", get_handler.PowerSupplyInfoHandler).
+		AddRouter("/sonic-platform/platform/component-list/temperature", get_handler.TemperatureInfoHandler)
 	return mux
 }
 
