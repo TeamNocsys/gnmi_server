@@ -61,6 +61,26 @@ func (conn *Connector) GetAll(db_name string, key string) (map[string]string, er
     }
 }
 
+func (conn *Connector) GetAllByPattern(db_name string, pattern string) (map[string]map[string]string, error) {
+    content := make(map[string]map[string]string)
+    if id := gscfg.GetDBId(db_name); id >= 0 {
+        if keys, err := conn.mgmt.keys(id, pattern); err != nil {
+            return content, err
+        } else {
+            for _, key := range keys {
+                if entry, err := conn.mgmt.get_all(id, key); err != nil {
+                    return content, err
+                } else {
+                    content[key] = entry
+                }
+            }
+            return content, nil
+        }
+    } else {
+        return content, ErrDatabaseNotExist
+    }
+}
+
 func (conn *Connector) Delete(db_name string, key string) (bool, error) {
     if id := gscfg.GetDBId(db_name); id >= 0 {
         num, err := conn.mgmt.delete(id, key)
