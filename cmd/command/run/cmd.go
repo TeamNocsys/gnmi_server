@@ -84,7 +84,7 @@ func NewRunCommand(gnmiCli command.Client) *cobra.Command {
                 return err
             }
             grpcServer := grpc.NewServer(grpc.RPCDecompressor(grpc.NewGZIPDecompressor()))
-            server := gnmi.DefaultServer(get.GetServeMux(), set.SetServeMux())
+            server := gnmi.DefaultServer(gnmiCli, get.GetServeMux(), set.SetServeMux())
             gpb.RegisterGNMIServer(grpcServer, &server)
             return grpcServer.Serve(listener)
         },

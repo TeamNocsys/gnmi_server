@@ -3,20 +3,21 @@ package gnmi
 import (
     "context"
     gpb "github.com/openconfig/gnmi/proto/gnmi"
+    "gnmi_server/cmd/command"
     "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
     "sync"
 )
 
-type GetHandler func(context.Context, *gpb.GetRequest) (*gpb.GetResponse, error)
+type GetHandler func(context.Context, *gpb.GetRequest, command.Client) (*gpb.GetResponse, error)
 
 type getMuxEntry struct {
     h       GetHandler
     pattern string
 }
 
-func (entry *getMuxEntry) handle(ctx context.Context, r *gpb.GetRequest) (*gpb.GetResponse, error) {
-    return entry.h(ctx, r)
+func (entry *getMuxEntry) handle(ctx context.Context, r *gpb.GetRequest, db command.Client) (*gpb.GetResponse, error) {
+    return entry.h(ctx, r, db)
 }
 
 type GetServeMux struct {
@@ -37,7 +38,7 @@ func (gsm *GetServeMux) AddRouter(pattern string, h GetHandler) *GetServeMux {
     return gsm
 }
 
-func (gsm *GetServeMux) DoHandle(ctx context.Context, r *gpb.GetRequest) (*gpb.GetResponse, error) {
+func (gsm *GetServeMux) DoHandle(ctx context.Context, r *gpb.GetRequest, db command.Client) (*gpb.GetResponse, error) {
     paths := r.GetPath()
     if len(paths) == 0 {
         return nil, status.Errorf(codes.InvalidArgument, "get request path is empty")
@@ -51,18 +52,18 @@ func (gsm *GetServeMux) DoHandle(ctx context.Context, r *gpb.GetRequest) (*gpb.G
         return nil, status.Errorf(codes.NotFound, "invalid path")
     }
 
-    return h.handle(ctx, r)
+    return h.handle(ctx, r, db)
 }
 
-type SetHandler func(context.Context, *gpb.SetRequest) (*gpb.SetResponse, error)
+type SetHandler func(context.Context, *gpb.SetRequest, command.Client) (*gpb.SetResponse, error)
 
 type setMuxEntry struct {
     h       SetHandler
     pattern string
 }
 
-func (entry *setMuxEntry) handle(ctx context.Context, r *gpb.SetRequest) (*gpb.SetResponse, error) {
-    return entry.h(ctx, r)
+func (entry *setMuxEntry) handle(ctx context.Context, r *gpb.SetRequest, db command.Client) (*gpb.SetResponse, error) {
+    return entry.h(ctx, r, db)
 }
 
 type SetServeMux struct {
@@ -101,7 +102,7 @@ func (ssm *SetServeMux) AddUpdateRouter(pattern string, h SetHandler) *SetServeM
     return ssm
 }
 
-func (ssm *SetServeMux) DoHandle(ctx context.Context, r *gpb.SetRequest) (*gpb.SetResponse, error) {
+func (ssm *SetServeMux) DoHandle(ctx context.Context, r *gpb.SetRequest, db command.Client) (*gpb.SetResponse, error) {
     if (len(r.Delete) + len(r.Replace) + len(r.Update)) > 1 {
         return nil, status.Errorf(codes.Unimplemented, "unsupported more than one path in single request")
     }
@@ -125,7 +126,7 @@ func (ssm *SetServeMux) DoHandle(ctx context.Context, r *gpb.SetRequest) (*gpb.S
         return nil, status.Errorf(codes.NotFound, "invalid path")
     }
 
-    return h.handle(ctx, r)
+    return h.handle(ctx, r, db)
 }
 
 func generalPath(path *gpb.Path) string {

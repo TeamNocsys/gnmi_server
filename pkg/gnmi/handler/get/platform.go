@@ -7,6 +7,7 @@ import (
     "github.com/golang/glog"
     "github.com/openconfig/gnmi/proto/gnmi"
     "github.com/openconfig/ygot/proto/ywrapper"
+    "gnmi_server/cmd/command"
     "gnmi_server/internal/pkg/utils"
     "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
@@ -15,7 +16,7 @@ import (
     "strings"
 )
 
-func ComponentInfoHandler(ctx context.Context, r *gnmi.GetRequest) (*gnmi.GetResponse, error) {
+func ComponentInfoHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*gnmi.GetResponse, error) {
     platform := &sonicpb.SonicPlatform_Platform{}
 
     err := getFanInfo(ctx, platform)
@@ -47,7 +48,7 @@ func ComponentInfoHandler(ctx context.Context, r *gnmi.GetRequest) (*gnmi.GetRes
     return response, nil
 }
 
-func FanInfoHandler(ctx context.Context, r *gnmi.GetRequest) (*gnmi.GetResponse, error) {
+func FanInfoHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*gnmi.GetResponse, error) {
     platform := &sonicpb.SonicPlatform_Platform{}
 
     err := getFanInfo(ctx, platform)
@@ -69,7 +70,7 @@ func FanInfoHandler(ctx context.Context, r *gnmi.GetRequest) (*gnmi.GetResponse,
     return response, nil
 }
 
-func TemperatureInfoHandler(ctx context.Context, r *gnmi.GetRequest) (*gnmi.GetResponse, error) {
+func TemperatureInfoHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*gnmi.GetResponse, error) {
     platform := &sonicpb.SonicPlatform_Platform{}
 
     err := getTemperatureInfo(ctx, platform)
@@ -91,7 +92,7 @@ func TemperatureInfoHandler(ctx context.Context, r *gnmi.GetRequest) (*gnmi.GetR
     return response, nil
 }
 
-func PowerSupplyInfoHandler(ctx context.Context, r *gnmi.GetRequest) (*gnmi.GetResponse, error) {
+func PowerSupplyInfoHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*gnmi.GetResponse, error) {
     platform := &sonicpb.SonicPlatform_Platform{}
 
     err := getPowerSupplyInfo(ctx, platform)
