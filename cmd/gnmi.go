@@ -6,6 +6,7 @@ import (
     "gnmi_server/cmd/command"
     "gnmi_server/cmd/command/config"
     "gnmi_server/cmd/command/run"
+    "gnmi_server/cmd/command/show"
     "gnmi_server/internal/pkg/swsssdk"
     "os"
 )
@@ -32,6 +33,7 @@ func exec(gnmiCli *command.GnmiClient) error {
     cmd.AddCommand(
         config.NewConfigCommand(gnmiCli),
         run.NewRunCommand(gnmiCli),
+        show.NewShowCommand(gnmiCli),
     )
 
     return cmd.Execute()
