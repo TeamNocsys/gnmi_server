@@ -36,11 +36,12 @@ func (hk *HashKey) Get() string {
 }
 
 func (hk *HashKey) GetTable() string {
-    return strings.SplitN(hk.value, TABLE_NAME_SEPARATOR, 1)[0]
+    return strings.SplitN(hk.value, TABLE_NAME_SEPARATOR, 2)[0]
 }
 
 func (hk *HashKey) GetKey() string {
-    return strings.SplitN(hk.value, TABLE_NAME_SEPARATOR, 1)[1]
+    keys := strings.SplitN(hk.value, TABLE_NAME_SEPARATOR, 2)
+    return keys[len(keys) - 1]
 }
 
 func (hk *HashKey) GetKeys() []string {
