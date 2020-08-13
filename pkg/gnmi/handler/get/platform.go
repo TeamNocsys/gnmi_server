@@ -16,7 +16,7 @@ import (
 )
 
 func ComponentInfoHandler(ctx context.Context, r *gnmi.GetRequest) (*gnmi.GetResponse, error) {
-    platform := &sonicpb.SonicPlatform_Platform {}
+    platform := &sonicpb.SonicPlatform_Platform{}
 
     err := getFanInfo(ctx, platform)
     if err != nil {
@@ -48,7 +48,7 @@ func ComponentInfoHandler(ctx context.Context, r *gnmi.GetRequest) (*gnmi.GetRes
 }
 
 func FanInfoHandler(ctx context.Context, r *gnmi.GetRequest) (*gnmi.GetResponse, error) {
-    platform := &sonicpb.SonicPlatform_Platform {}
+    platform := &sonicpb.SonicPlatform_Platform{}
 
     err := getFanInfo(ctx, platform)
     if err != nil {
@@ -70,7 +70,7 @@ func FanInfoHandler(ctx context.Context, r *gnmi.GetRequest) (*gnmi.GetResponse,
 }
 
 func TemperatureInfoHandler(ctx context.Context, r *gnmi.GetRequest) (*gnmi.GetResponse, error) {
-    platform := &sonicpb.SonicPlatform_Platform {}
+    platform := &sonicpb.SonicPlatform_Platform{}
 
     err := getTemperatureInfo(ctx, platform)
     if err != nil {
@@ -92,7 +92,7 @@ func TemperatureInfoHandler(ctx context.Context, r *gnmi.GetRequest) (*gnmi.GetR
 }
 
 func PowerSupplyInfoHandler(ctx context.Context, r *gnmi.GetRequest) (*gnmi.GetResponse, error) {
-    platform := &sonicpb.SonicPlatform_Platform {}
+    platform := &sonicpb.SonicPlatform_Platform{}
 
     err := getPowerSupplyInfo(ctx, platform)
     if err != nil {
@@ -155,16 +155,16 @@ func getFanInfo(ctx context.Context, platform *sonicpb.SonicPlatform_Platform) e
                     }
                     speedU32 := uint64(speed)
 
-                    fan := &sonicpb.SonicPlatform_Platform_ComponentList_Fan {
-                        State: &sonicpb.SonicPlatform_Platform_ComponentList_Fan_State {
+                    fan := &sonicpb.SonicPlatform_Platform_ComponentList_Fan{
+                        State: &sonicpb.SonicPlatform_Platform_ComponentList_Fan_State{
                             Speed: &ywrapper.UintValue{
                                 Value: speedU32,
                             },
                         },
                     }
-                    componentListKey := &sonicpb.SonicPlatform_Platform_ComponentListKey {
+                    componentListKey := &sonicpb.SonicPlatform_Platform_ComponentListKey{
                         ComponentName: subName,
-                        ComponentList: &sonicpb.SonicPlatform_Platform_ComponentList {
+                        ComponentList: &sonicpb.SonicPlatform_Platform_ComponentList{
                             Fan:         fan,
                             PowerSupply: nil,
                             Temperature: nil,
@@ -233,17 +233,17 @@ func getTemperatureInfo(ctx context.Context, platform *sonicpb.SonicPlatform_Pla
                         }
                     }
 
-                    temperature := &sonicpb.SonicPlatform_Platform_ComponentList_Temperature {
+                    temperature := &sonicpb.SonicPlatform_Platform_ComponentList_Temperature{
                         Config: nil,
-                        State:  &sonicpb.SonicPlatform_Platform_ComponentList_Temperature_State {
+                        State: &sonicpb.SonicPlatform_Platform_ComponentList_Temperature_State{
                             Instant: &ywrapper.Decimal64Value{
                                 Digits:    intPart,
                                 Precision: uint32(fracPart),
                             }},
                     }
-                    componentListKey := &sonicpb.SonicPlatform_Platform_ComponentListKey {
+                    componentListKey := &sonicpb.SonicPlatform_Platform_ComponentListKey{
                         ComponentName: subName,
-                        ComponentList: &sonicpb.SonicPlatform_Platform_ComponentList {
+                        ComponentList: &sonicpb.SonicPlatform_Platform_ComponentList{
                             Fan:         nil,
                             PowerSupply: nil,
                             Temperature: temperature,
@@ -288,15 +288,15 @@ func getPowerSupplyInfo(ctx context.Context, platform *sonicpb.SonicPlatform_Pla
                 enabled = true
             }
 
-            psu := &sonicpb.SonicPlatform_Platform_ComponentList_PowerSupply {
+            psu := &sonicpb.SonicPlatform_Platform_ComponentList_PowerSupply{
                 Config: nil,
-                State:  &sonicpb.SonicPlatform_Platform_ComponentList_PowerSupply_State {
-                    Enabled: &ywrapper.BoolValue { Value: enabled },
+                State: &sonicpb.SonicPlatform_Platform_ComponentList_PowerSupply_State{
+                    Enabled: &ywrapper.BoolValue{Value: enabled},
                 },
             }
-            componentListKey := &sonicpb.SonicPlatform_Platform_ComponentListKey {
+            componentListKey := &sonicpb.SonicPlatform_Platform_ComponentListKey{
                 ComponentName: name,
-                ComponentList: &sonicpb.SonicPlatform_Platform_ComponentList {
+                ComponentList: &sonicpb.SonicPlatform_Platform_ComponentList{
                     Fan:         nil,
                     PowerSupply: psu,
                     Temperature: nil,

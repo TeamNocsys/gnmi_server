@@ -10,7 +10,6 @@ func GetServeMux() *my_gnmi.GetServeMux {
     return mux
 }
 
-
 func route(mux *my_gnmi.GetServeMux) {
     mux.AddRouter("/test", Test).
         AddRouter("/sonic-platform/platform", ComponentInfoHandler).

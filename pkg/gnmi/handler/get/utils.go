@@ -29,12 +29,12 @@ func createResponse(ctx context.Context, req *gnmi.GetRequest, bytes []byte) (*g
         Prefix:    &prefix,
         Update: []*gnmi.Update{
             &gnmi.Update{
-            Path: &path,
-            Val: &gnmi.TypedValue{
-                Value: &gnmi.TypedValue_BytesVal{
-                    BytesVal: bytes,
+                Path: &path,
+                Val: &gnmi.TypedValue{
+                    Value: &gnmi.TypedValue_BytesVal{
+                        BytesVal: bytes,
+                    },
                 },
-            },
             },
         },
     }

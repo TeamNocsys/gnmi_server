@@ -1,15 +1,12 @@
 package swsssdk
 
 import (
-	"encoding/json"
-	"io/ioutil"
-	"log"
-	"os"
+    "encoding/json"
+    "log"
 )
 
 const (
-	default_config_filename = "/var/run/redis/sonic-db/database_config.json"
-	default_config_content = `
+    default_config_content = `
 	{
 		"INSTANCES": {
 			"redis":{
@@ -72,39 +69,34 @@ const (
 var gscfg SonicConfig
 
 func init() {
-	content := []byte(default_config_content)
-	if _, err := os.Stat(default_config_filename); err == nil {
-		if content, err = ioutil.ReadFile(default_config_filename); err != nil {
-			log.Fatalln(err)
-		}
-	}
-	var cfg struct {
-		Instances map[string]struct {
-			Hostname         string
-			Port             int
-			Unix_socket_path string
-		} `json:"INSTANCES"`
-		Databases map[string]struct {
-			Id        int
-			Separator string
-			Instance  string
-		} `json:"DATABASES"`
-		Version string `json:VERSION`
-	}
-	if err := json.Unmarshal(content, &cfg); err != nil {
-		log.Fatalln(err)
-	} else {
-		dbcfgs := make(map[string]DBConfig)
-		for k, v := range cfg.Databases {
-			if instance, ok := cfg.Instances[v.Instance]; ok {
-				dbcfgs[k] = DBConfig{
-					v.Id,
-					v.Separator,
-					instance.Hostname,
-					instance.Port,
-				}
-			}
-		}
-		gscfg = SonicConfig{cfg.Version, dbcfgs}
-	}
+    content := []byte(default_config_content)
+    var cfg struct {
+        Instances map[string]struct {
+            Hostname         string
+            Port             int
+            Unix_socket_path string
+        } `json:"INSTANCES"`
+        Databases map[string]struct {
+            Id        int
+            Separator string
+            Instance  string
+        } `json:"DATABASES"`
+        Version string `json:VERSION`
+    }
+    if err := json.Unmarshal(content, &cfg); err != nil {
+        log.Fatalln(err)
+    } else {
+        dbcfgs := make(map[string]DBConfig)
+        for k, v := range cfg.Databases {
+            if instance, ok := cfg.Instances[v.Instance]; ok {
+                dbcfgs[k] = DBConfig{
+                    v.Id,
+                    v.Separator,
+                    instance.Hostname,
+                    instance.Port,
+                }
+            }
+        }
+        gscfg = SonicConfig{cfg.Version, dbcfgs}
+    }
 }

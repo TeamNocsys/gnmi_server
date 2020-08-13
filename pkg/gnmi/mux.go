@@ -73,7 +73,7 @@ type SetServeMux struct {
 }
 
 func NewSetServeMux() *SetServeMux {
-    serveMux :=  SetServeMux{}
+    serveMux := SetServeMux{}
     serveMux.dm = make(map[string]setMuxEntry)
     serveMux.rm = make(map[string]setMuxEntry)
     serveMux.um = make(map[string]setMuxEntry)
