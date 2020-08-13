@@ -35,7 +35,7 @@ func NewDelCommand(gnmiCli command.Client) *cobra.Command {
 }
 
 func runDel(gnmiCli command.Client, opts *delOptions) error {
-    if conn := gnmiCli.Connector(); conn == nil {
+    if conn := gnmiCli.Config(); conn == nil {
         return swsssdk.ErrDatabaseNotExist
     } else {
         info, err := conn.GetEntry(helper.VLAN_TABLE_NAME, helper.VID(opts.vid))

@@ -32,7 +32,7 @@ func NewAddCommand(gnmiCli command.Client) *cobra.Command {
 }
 
 func runAdd(gnmiCli command.Client, opts *addOptions) error {
-    if conn := gnmiCli.Connector(); conn == nil {
+    if conn := gnmiCli.Config(); conn == nil {
         return swsssdk.ErrDatabaseNotExist
     } else {
         _, err := conn.SetEntry(helper.VLAN_TABLE_NAME, helper.VID(opts.vid), map[string]interface{}{
