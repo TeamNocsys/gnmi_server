@@ -3,6 +3,7 @@ package swsssdk
 import (
     "context"
     "github.com/go-redis/redis/v8"
+    "strings"
 )
 
 type ConfigDBConnector struct {
@@ -33,18 +34,18 @@ func (cc *ConfigDBConnector) Disconnect() {
     cc.Connector.Disconnect(CONFIG_DB)
 }
 
-func (cc *ConfigDBConnector) SetEntry(table string, key interface{}, values map[string]interface{}) (bool, error) {
-    if hkey, err := NewHashKey(table, key); err != nil {
-        return false, err
+func (cc *ConfigDBConnector) SetEntry(table string, keys interface{}, values map[string]interface{}) (bool, error) {
+    if key := cc.serialize_key(table, keys); key == "" {
+        return false, ErrInvalidParameters
     } else {
         if id := gscfg.GetDBId(CONFIG_DB); id > 0 {
             if values == nil {
-                num, err := cc.mgmt.delete(id, hkey.Get())
+                num, err := cc.mgmt.delete(id, key)
                 return num > 0, err
             } else {
-                if entries, err := cc.GetEntry(table, key); err != nil {
+                if entries, err := cc.GetEntry(table, keys); err != nil {
                     return false, err
-                } else if num, err := cc.mgmt.hset(id, hkey.Get(), cc.typed_to_raw(values)); err != nil {
+                } else if num, err := cc.mgmt.hset(id, key, cc.typed_to_raw(values)); err != nil {
                     return num > 0, err
                 } else {
                     // 删除旧的无效条目
@@ -63,16 +64,16 @@ func (cc *ConfigDBConnector) SetEntry(table string, key interface{}, values map[
     }
 }
 
-func (cc *ConfigDBConnector) ModEntry(table string, key interface{}, values map[string]interface{}) (bool, error) {
-    if hkey, err := NewHashKey(table, key); err != nil {
-        return false, err
+func (cc *ConfigDBConnector) ModEntry(table string, keys interface{}, values map[string]interface{}) (bool, error) {
+    if key := cc.serialize_key(table, keys); key == "" {
+        return false, ErrInvalidParameters
     } else {
         if id := gscfg.GetDBId(CONFIG_DB); id > 0 {
             if values == nil {
-                num, err := cc.mgmt.delete(id, hkey.Get())
+                num, err := cc.mgmt.delete(id, key)
                 return num > 0, err
             } else {
-                num, err := cc.mgmt.hset(id, hkey.Get(), cc.typed_to_raw(values))
+                num, err := cc.mgmt.hset(id, key, cc.typed_to_raw(values))
                 return num > 0, err
             }
         }
@@ -80,12 +81,12 @@ func (cc *ConfigDBConnector) ModEntry(table string, key interface{}, values map[
     }
 }
 
-func (cc *ConfigDBConnector) GetEntry(table string, key interface{}) (map[string]interface{}, error) {
-    if hkey, err := NewHashKey(table, key); err != nil {
-        return map[string]interface{}{}, err
+func (cc *ConfigDBConnector) GetEntry(table string, keys interface{}) (map[string]interface{}, error) {
+    if key := cc.serialize_key(table, keys); key == "" {
+        return map[string]interface{}{}, ErrInvalidParameters
     } else {
         if id := gscfg.GetDBId(CONFIG_DB); id > 0 {
-            if values, err := cc.mgmt.get_all(id, hkey.Get()); err != nil {
+            if values, err := cc.mgmt.get_all(id, key); err != nil {
                 return map[string]interface{}{}, err
             } else {
                 return cc.raw_to_typed(values), nil
@@ -96,33 +97,27 @@ func (cc *ConfigDBConnector) GetEntry(table string, key interface{}) (map[string
 
 }
 
-func (cc *ConfigDBConnector) GetKeys(table string) ([]HashKey, error) {
-    keys := []HashKey{}
+func (cc *ConfigDBConnector) GetKeys(table string) ([]string, error) {
     if id := gscfg.GetDBId(CONFIG_DB); id > 0 {
-        if pattern, err := NewHashKey(table, "*"); err == nil {
-            if hash_keys, err := cc.mgmt.keys(id, pattern.Get()); err == nil {
-                for _, hash_key := range hash_keys {
-                    keys = append(keys, NewHashKeyByRaw(hash_key))
-                }
-            }
-            return keys, err
+        if pattern := cc.serialize_key(table, "*"); pattern != "" {
+            return cc.mgmt.keys(id, pattern)
         }
     }
-    return keys, ErrDatabaseNotExist
+    return []string{}, ErrDatabaseNotExist
 }
 
-func (cc *ConfigDBConnector) GetTable(table string) (map[HashKey](map[string]interface{}), error) {
-    content := make(map[HashKey](map[string]interface{}))
+func (cc *ConfigDBConnector) GetTable(table string) (map[string]map[string]interface{}, error) {
+    content := make(map[string]map[string]interface{})
     if id := gscfg.GetDBId(CONFIG_DB); id > 0 {
-        if pattern, err := NewHashKey(table, "*"); err == nil {
-            if hash_keys, err := cc.mgmt.keys(id, pattern.Get()); err != nil {
+        if pattern := cc.serialize_key(table, "*"); pattern != "" {
+            if keys, err := cc.mgmt.keys(id, pattern); err != nil {
                 return content, err
             } else {
-                for _, hash_key := range hash_keys {
-                    if entry, err := cc.mgmt.get_all(id, hash_key); err != nil {
+                for _, key := range keys {
+                    if entry, err := cc.mgmt.get_all(id, key); err != nil {
                         return content, err
                     } else {
-                        content[NewHashKeyByRaw(hash_key)] = cc.raw_to_typed(entry)
+                        content[key] = cc.raw_to_typed(entry)
                     }
                 }
                 return content, nil
@@ -134,10 +129,24 @@ func (cc *ConfigDBConnector) GetTable(table string) (map[HashKey](map[string]int
 
 func (cc *ConfigDBConnector) DeleteTable(table string) (bool, error) {
     if id := gscfg.GetDBId(CONFIG_DB); id > 0 {
-        if pattern, err := NewHashKey(table, "*"); err == nil {
-            num, err := cc.mgmt.delete_all_by_pattern(id, pattern.Get())
+        if pattern := cc.serialize_key(table, "*"); pattern != "" {
+            num, err := cc.mgmt.delete_all_by_pattern(id, pattern)
             return num > 0, err
         }
     }
     return false, ErrDatabaseNotExist
+}
+
+func (conn *ConfigDBConnector) serialize_key(table string, keys interface{}) string {
+    switch keys.(type) {
+    case string:
+        return strings.Join([]string{table, keys.(string)}, gscfg.GetDBSeparator(CONFIG_DB))
+    case []string:
+        var merge []string
+        merge = append(merge, table)
+        merge = append(merge,  keys.([]string)...)
+        return strings.Join(merge, gscfg.GetDBSeparator(CONFIG_DB))
+    default:
+        return ""
+    }
 }

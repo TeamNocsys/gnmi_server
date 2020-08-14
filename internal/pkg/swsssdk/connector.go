@@ -36,66 +36,101 @@ func (conn *Connector) Disconnect(db_name string) {
     }
 }
 
-func (conn *Connector) Set(db_name string, key string, value interface{}) (bool, error) {
+func (conn *Connector) Set(db_name string, keys interface{}, value interface{}) (bool, error) {
     if id := gscfg.GetDBId(db_name); id >= 0 {
-        num, err := conn.mgmt.hset(id, key, value)
-        return num > 0, err
+        if key := conn.serialize_key(db_name, keys); key != "" {
+            num, err := conn.mgmt.hset(id, key, value)
+            return num > 0, err
+        } else {
+            return false, ErrInvalidParameters
+        }
     } else {
         return false, ErrDatabaseNotExist
     }
 }
 
-func (conn *Connector) Get(db_name string, key, field string) (string, error) {
+func (conn *Connector) Get(db_name string, keys interface{}, field string) (string, error) {
     if id := gscfg.GetDBId(db_name); id >= 0 {
-        return conn.mgmt.get(id, key, field)
+        if key := conn.serialize_key(db_name, keys); key != "" {
+            return conn.mgmt.get(id, key, field)
+        } else {
+            return "", ErrInvalidParameters
+        }
     } else {
         return "", ErrDatabaseNotExist
     }
 }
 
-func (conn *Connector) GetAll(db_name string, key string) (map[string]string, error) {
+func (conn *Connector) GetAll(db_name string, keys interface{}) (map[string]string, error) {
     if id := gscfg.GetDBId(db_name); id >= 0 {
-        return conn.mgmt.get_all(id, key)
+        if key := conn.serialize_key(db_name, keys); key != "" {
+            return conn.mgmt.get_all(id, key)
+        } else {
+            return map[string]string{}, ErrInvalidParameters
+        }
     } else {
         return map[string]string{}, ErrDatabaseNotExist
     }
 }
 
-func (conn *Connector) GetAllByPattern(db_name string, pattern string) (map[string]map[string]string, error) {
+func (conn *Connector) GetAllByPattern(db_name string, patterns string) (map[string]map[string]string, error) {
     content := make(map[string]map[string]string)
     if id := gscfg.GetDBId(db_name); id >= 0 {
-        if keys, err := conn.mgmt.keys(id, pattern); err != nil {
-            return content, err
-        } else {
-            for _, key := range keys {
-                if entry, err := conn.mgmt.get_all(id, key); err != nil {
-                    return content, err
-                } else {
-                    content[key] = entry
+        if pattern := conn.serialize_key(db_name, patterns); pattern != "" {
+            if keys, err := conn.mgmt.keys(id, pattern); err != nil {
+                return content, err
+            } else {
+                for _, key := range keys {
+                    if entry, err := conn.mgmt.get_all(id, key); err != nil {
+                        return content, err
+                    } else {
+                        content[key] = entry
+                    }
                 }
+                return content, nil
             }
-            return content, nil
+        } else {
+            return content, ErrInvalidParameters
         }
     } else {
         return content, ErrDatabaseNotExist
     }
 }
 
-func (conn *Connector) Delete(db_name string, key string) (bool, error) {
+func (conn *Connector) Delete(db_name string, keys interface{}) (bool, error) {
     if id := gscfg.GetDBId(db_name); id >= 0 {
-        num, err := conn.mgmt.delete(id, key)
-        return num > 0, err
+        if key := conn.serialize_key(db_name, keys); key != "" {
+            num, err := conn.mgmt.delete(id, key)
+            return num > 0, err
+        } else {
+            return false, ErrInvalidParameters
+        }
     } else {
         return false, ErrDatabaseNotExist
     }
 }
 
-func (conn *Connector) DeleteAllByPattern(db_name string, pattern string) (bool, error) {
+func (conn *Connector) DeleteAllByPattern(db_name string, patterns interface{}) (bool, error) {
     if id := gscfg.GetDBId(db_name); id >= 0 {
-        num, err := conn.mgmt.delete_all_by_pattern(id, pattern)
-        return num > 0, err
+        if pattern := conn.serialize_key(db_name, patterns); pattern != "" {
+            num, err := conn.mgmt.delete_all_by_pattern(id, pattern)
+            return num > 0, err
+        } else {
+            return false, ErrInvalidParameters
+        }
     } else {
         return false, ErrDatabaseNotExist
+    }
+}
+
+func (conn *Connector) serialize_key(db_name string, keys interface{}) string {
+    switch keys.(type) {
+    case string:
+        return keys.(string)
+    case []string:
+        return strings.Join(keys.([]string), gscfg.GetDBSeparator(db_name))
+    default:
+        return ""
     }
 }
 
