@@ -2,8 +2,8 @@ package get
 
 import (
     "context"
-    "encoding/json"
     sonicpb "github.com/TeamNocsys/sonicpb/api/protobuf/sonic"
+    "github.com/golang/protobuf/proto"
     "github.com/openconfig/ygot/proto/ywrapper"
     "gnmi_server/cmd/command"
     "gnmi_server/internal/pkg/swsssdk"
@@ -98,7 +98,7 @@ func LLDPHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*g
         lldp.DeviceList = append(lldp.DeviceList, deviceListKey)
     }
 
-    bytes, err := json.Marshal(lldp)
+    bytes, err := proto.Marshal(lldp)
     if err != nil {
         logrus.Errorf("marshal struct failed: %s", err.Error())
         return nil, status.Errorf(codes.Internal, "marshal json failed")
