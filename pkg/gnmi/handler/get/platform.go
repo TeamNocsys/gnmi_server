@@ -2,9 +2,9 @@ package get
 
 import (
     "context"
-    "encoding/json"
     sonicpb "github.com/TeamNocsys/sonicpb/api/protobuf/sonic"
     "github.com/golang/glog"
+    "github.com/golang/protobuf/proto"
     "github.com/openconfig/gnmi/proto/gnmi"
     "github.com/openconfig/ygot/proto/ywrapper"
     "gnmi_server/cmd/command"
@@ -34,7 +34,7 @@ func ComponentInfoHandler(ctx context.Context, r *gnmi.GetRequest, db command.Cl
         return nil, status.Errorf(codes.Internal, err.Error())
     }
 
-    bytes, err := json.Marshal(platform)
+    bytes, err := proto.Marshal(platform)
     if err != nil {
         glog.Errorf("marshal struct platform failed: %s", err.Error())
         return nil, status.Errorf(codes.Internal, "marshal json failed")
@@ -56,7 +56,7 @@ func FanInfoHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) 
         return nil, status.Errorf(codes.Internal, err.Error())
     }
 
-    bytes, err := json.Marshal(platform)
+    bytes, err := proto.Marshal(platform)
     if err != nil {
         glog.Errorf("marshal struct platform failed: %s", err.Error())
         return nil, status.Errorf(codes.Internal, "marshal json failed")
@@ -78,7 +78,7 @@ func TemperatureInfoHandler(ctx context.Context, r *gnmi.GetRequest, db command.
         return nil, status.Errorf(codes.Internal, err.Error())
     }
 
-    bytes, err := json.Marshal(platform)
+    bytes, err := proto.Marshal(platform)
     if err != nil {
         glog.Errorf("marshal struct components failed: %s", err.Error())
         return nil, status.Errorf(codes.Internal, "marshal json failed")
@@ -100,7 +100,7 @@ func PowerSupplyInfoHandler(ctx context.Context, r *gnmi.GetRequest, db command.
         return nil, status.Errorf(codes.Internal, err.Error())
     }
 
-    bytes, err := json.Marshal(platform)
+    bytes, err := proto.Marshal(platform)
     if err != nil {
         glog.Errorf("marshal struct platform failed: %s", err.Error())
         return nil, status.Errorf(codes.Internal, "marshal json failed")
