@@ -83,6 +83,10 @@ var (
     ErrConnNotExist      = fmt.Errorf("database connection does not exist")
 )
 
+func Config() SonicConfig {
+    return gscfg
+}
+
 func LoadConfig(path string) error {
     content := []byte(default_config_content)
     if _, err := os.Stat(path); err == nil {
