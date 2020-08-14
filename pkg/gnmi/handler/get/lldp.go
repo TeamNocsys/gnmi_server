@@ -98,7 +98,11 @@ func LLDPHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*g
         lldp.DeviceList = append(lldp.DeviceList, deviceListKey)
     }
 
+<<<<<<< HEAD
     bytes, err := proto.Marshal(lldp)
+=======
+    bytes, err := json.Marshal(lldp)
+>>>>>>> 763cc9f9825617056299f41f635e1a84dc4c3b70
     if err != nil {
         logrus.Errorf("marshal struct failed: %s", err.Error())
         return nil, status.Errorf(codes.Internal, "marshal json failed")
