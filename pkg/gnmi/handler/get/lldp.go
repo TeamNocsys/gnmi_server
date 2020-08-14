@@ -23,6 +23,9 @@ const (
 func LLDPHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*gnmi.GetResponse, error) {
     otherDB := db.State()
 
+    dbConfig := swsssdk.Config()
+    delimiter := dbConfig.GetDBSeparator(swsssdk.APPL_DB)
+
     lldpEntry, err := otherDB.GetAllByPattern(swsssdk.APPL_DB, LLDP_ENTRY_TABLE)
     if err != nil {
         logrus.Errorf("Get key %s from %s failed: %s", LLDP_ENTRY_TABLE,
@@ -33,7 +36,7 @@ func LLDPHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*g
     lldp := &sonicpb.SonicLldp_Lldp{}
 
     for key, value := range lldpEntry {
-        words := strings.Split(key, ":")
+        words := strings.Split(key, delimiter)
         if len(words) != 2 {
             logrus.Errorf("Error key-%s when process lldp entry", key)
             continue
