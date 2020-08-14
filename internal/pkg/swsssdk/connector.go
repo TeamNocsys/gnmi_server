@@ -73,7 +73,7 @@ func (conn *Connector) GetAll(db_name string, keys interface{}) (map[string]stri
     }
 }
 
-func (conn *Connector) GetAllByPattern(db_name string, patterns string) (map[string]map[string]string, error) {
+func (conn *Connector) GetAllByPattern(db_name string, patterns interface{}) (map[string]map[string]string, error) {
     content := make(map[string]map[string]string)
     if id := gscfg.GetDBId(db_name); id >= 0 {
         if pattern := conn.serialize_key(db_name, patterns); pattern != "" {
