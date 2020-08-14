@@ -9,6 +9,7 @@ import (
     "github.com/openconfig/ygot/proto/ywrapper"
     "gnmi_server/cmd/command"
     "gnmi_server/internal/pkg/utils"
+    "gnmi_server/pkg/gnmi/handler"
     "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
     "regexp"
@@ -17,30 +18,24 @@ import (
 )
 
 func ComponentInfoHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*gnmi.GetResponse, error) {
-    platform := &sonicpb.SonicPlatform_Platform{}
+    platform := &sonicpb.SonicPlatform{Platform: &sonicpb.SonicPlatform_Platform{}}
 
-    err := getFanInfo(ctx, platform)
+    err := getFanInfo(ctx, platform.Platform)
     if err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
     }
 
-    err = getTemperatureInfo(ctx, platform)
+    err = getTemperatureInfo(ctx, platform.Platform)
     if err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
     }
 
-    err = getPowerSupplyInfo(ctx, platform)
+    err = getPowerSupplyInfo(ctx, platform.Platform)
     if err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
     }
 
-    bytes, err := json.Marshal(platform)
-    if err != nil {
-        glog.Errorf("marshal struct platform failed: %s", err.Error())
-        return nil, status.Errorf(codes.Internal, "marshal json failed")
-    }
-
-    response, err := createResponse(ctx, r, bytes)
+    response, err := handler.CreateResponse(ctx, r, platform)
     if err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
     }

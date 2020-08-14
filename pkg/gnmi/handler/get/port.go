@@ -4,12 +4,12 @@ import (
     "context"
     "errors"
     sonicpb "github.com/TeamNocsys/sonicpb/api/protobuf/sonic"
-    "github.com/golang/protobuf/proto"
     "github.com/openconfig/gnmi/proto/gnmi"
     "github.com/openconfig/ygot/proto/ywrapper"
     "gnmi_server/cmd/command"
     "gnmi_server/internal/pkg/swsssdk"
     "gnmi_server/internal/pkg/swsssdk/helper"
+    "gnmi_server/pkg/gnmi/handler"
     "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
     "strconv"
@@ -26,7 +26,7 @@ func PortInfoHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client)
     if err != nil {
         return nil, status.Error(codes.Internal, err.Error())
     }
-    sp := sonicpb.SonicPort{
+    sp := &sonicpb.SonicPort{
         Port: &sonicpb.SonicPort_Port{},
     }
     for key, value := range states {
@@ -40,11 +40,7 @@ func PortInfoHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client)
             })
         }
     }
-    bytes, err := proto.Marshal(&sp)
-    if err != nil {
-        return nil, status.Error(codes.Internal, err.Error())
-    }
-    response, err := createResponse(ctx, r, bytes)
+    response, err := handler.CreateResponse(ctx, r, sp)
     if err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
     }
