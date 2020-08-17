@@ -3,7 +3,11 @@ module gnmi_server
 go 1.14
 
 require (
+<<<<<<< HEAD
 	github.com/TeamNocsys/sonicpb v0.1.3
+=======
+	github.com/TeamNocsys/sonicpb v0.1.2
+>>>>>>> 1.
 	github.com/elgs/gojq v0.0.0-20160421194050-81fa9a608a13 // indirect
 	github.com/elgs/gosplitargs v0.0.0-20161028071935-a491c5eeb3c8 // indirect
 	github.com/getlantern/deepcopy v0.0.0-20160317154340-7f45deb8130a

@@ -1,13 +1,15 @@
 package set
 
-import my_gnmi "gnmi_server/pkg/gnmi"
+import (
+    "gnmi_server/pkg/gnmi"
+)
 
-func SetServeMux() *my_gnmi.SetServeMux {
-    mux := my_gnmi.NewSetServeMux()
+func SetServeMux() *gnmi.SetServeMux {
+    mux := gnmi.NewSetServeMux()
     route(mux)
     return mux
 }
 
-func route(mux *my_gnmi.SetServeMux) {
+func route(mux *gnmi.SetServeMux) {
 
 }
