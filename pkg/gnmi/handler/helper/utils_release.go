@@ -1,33 +1,43 @@
-package get
+// +build release
+
+package helper
 
 import (
     "context"
     "github.com/getlantern/deepcopy"
-    "github.com/golang/glog"
+    "github.com/golang/protobuf/proto"
     "github.com/openconfig/gnmi/proto/gnmi"
+    "github.com/sirupsen/logrus"
     "time"
 )
 
-func createResponse(ctx context.Context, req *gnmi.GetRequest, bytes []byte) (*gnmi.GetResponse, error) {
+func CreateGetResponse(ctx context.Context, req *gnmi.GetRequest, message proto.Message) (*gnmi.GetResponse, error) {
     var prefix gnmi.Path
     var path gnmi.Path
 
     err := deepcopy.Copy(&prefix, req.Prefix)
     if err != nil {
-        glog.Errorf("deep copy struct Prefix failed: %s", err.Error())
+        logrus.Errorf("Deep copy struct Prefix failed: %s", err.Error())
         return nil, err
     }
 
     err = deepcopy.Copy(&path, req.Path[0])
     if err != nil {
-        glog.Errorf("deep copy struct Path failed: %s", err.Error())
+        logrus.Errorf("Deep copy struct Path failed: %s", err.Error())
+        return nil, err
+    }
+
+    bytes, err := proto.Marshal(message)
+    if err != nil {
+        logrus.Errorf("Marshal sonic struct failed: %s", err.Error())
         return nil, err
     }
 
     notification := gnmi.Notification{
         Timestamp: time.Now().Unix(),
         Prefix:    &prefix,
-        Update: []*gnmi.Update{
+        Alias:     "",
+        Update:    []*gnmi.Update{
             &gnmi.Update{
                 Path: &path,
                 Val: &gnmi.TypedValue{
@@ -37,6 +47,8 @@ func createResponse(ctx context.Context, req *gnmi.GetRequest, bytes []byte) (*g
                 },
             },
         },
+        Delete:    nil,
+        Atomic:    false,
     }
 
     response := &gnmi.GetResponse{}
