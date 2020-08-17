@@ -30,7 +30,7 @@ func runCounters(gnmiCli command.Client, opts *countersOptions) error {
     if conn := gnmiCli.State(); conn == nil {
         return swsssdk.ErrDatabaseNotExist
     } else {
-        content, err := conn.GetAll(swsssdk.COUNTERS_DB, shelper.COUNTERS_PORT_NAME_MAP_TABLE_NAME)
+        content, err := conn.GetAll(swsssdk.COUNTERS_DB, shelper.COUNTERS_PORT_NAME_MAP)
         if err != nil {
             return err
         }

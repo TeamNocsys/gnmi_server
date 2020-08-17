@@ -16,5 +16,6 @@ func route(mux *my_gnmi.GetServeMux) {
         AddRouter("/sonic-platform/platform/component-list/fan", FanInfoHandler).
         AddRouter("/sonic-platform/platform/component-list/power-supply", PowerSupplyInfoHandler).
         AddRouter("/sonic-platform/platform/component-list/temperature", TemperatureInfoHandler).
-        AddRouter("/sonic-port/port/port-state-list", PortInfoHandler)
+        AddRouter("/sonic-port/port/port-state-list", PortStateHandler).
+        AddRouter("/sonic-port/port/port-state-list/counters", PortStateHandler)
 }
