@@ -346,162 +346,164 @@ func getPowerSupplyInfo(ctx context.Context, platform *sonicpb.SonicPlatform_Pla
 }
 
 func getSystemInfo(ctx context.Context, platform *sonicpb.SonicPlatform_Platform) error {
-	entries := make(map[string]string)
+    entries := make(map[string]string)
 
-	// err, output := utils.Utils_execute_cmd("show", "platform", "syseeprom")
-	err, output := utils.Utils_execute_cmd("decode-syseeprom", "-d")
-	if err != nil {
-		// logrus.Errorf("Execute command show platform syseeprom failed: %s", err.Error())
-		logrus.Errorf("Execute command decode-syseeprom failed: %s", err.Error())
-		return err
-	}
+    // err, output := utils.Utils_execute_cmd("show", "platform", "syseeprom")
+    err, output := utils.Utils_execute_cmd("decode-syseeprom", "-d")
+    if err != nil {
+        // logrus.Errorf("Execute command show platform syseeprom failed: %s", err.Error())
+        logrus.Errorf("Execute command decode-syseeprom failed: %s", err.Error())
+        return err
+    }
 
-	startParse := false
-	lines := strings.Split(output, "\n")
-	for _, line := range lines {
-		if startParse {
-			line = strings.TrimSpace(line)
-			startIdx := 0
+    startParse := false
+    lines := strings.Split(output, "\n")
+    for _, line := range lines {
+        if startParse {
+            line = strings.TrimSpace(line)
+            startIdx := 0
 
-			// get name
-			endIdx := strings.Index(line, "0x")
-			if endIdx == -1 {
-				break
-			}
-			name := strings.TrimSpace(line[0 : endIdx-1])
+            // get name
+            endIdx := strings.Index(line, "0x")
+            if endIdx == -1 {
+                break
+            }
+            name := strings.TrimSpace(line[0 : endIdx-1])
 
-			// get value
-			startIdx = strings.LastIndex(line, " ")
-			if endIdx == -1 {
-				logrus.Errorf("parse TLV failed when process show platform syseeprom output line: %s",
-					line)
-				continue
-			}
+            // get value
+            startIdx = strings.LastIndex(line, " ")
+            if endIdx == -1 {
+                logrus.Errorf("parse TLV failed when process show platform syseeprom output line: %s",
+                    line)
+                continue
+            }
 
-			entries[name] = strings.TrimSpace(line[startIdx:])
-		} else if strings.HasPrefix(line, "--") {
-			startParse = true
-		}
-	}
+            entries[name] = strings.TrimSpace(line[startIdx:])
+        } else if strings.HasPrefix(line, "--") {
+            startParse = true
+        }
+    }
 
-	err, output = utils.Utils_execute_cmd("show", "version")
-	if err != nil {
-		logrus.Errorf("Execute command show version failed: %s", err.Error())
-		return err
-	}
-	lines = strings.Split(output, "\n")
-	for _, line := range lines {
-		if strings.Contains(line, "Software Version") {
-			words := strings.Split(line, ":")
-			if len(words) != 2 {
-				logrus.Errorf("parse software version failed, origin line: %s", line)
-			} else {
-				entries["Software Version"] = words[1]
-			}
-		}
-	}
+    err, output = utils.Utils_execute_cmd("show", "version")
+    if err != nil {
+        logrus.Errorf("Execute command show version failed: %s", err.Error())
+        return err
+    }
+    lines = strings.Split(output, "\n")
+    for _, line := range lines {
+        if strings.Contains(line, "Software Version") {
+            words := strings.Split(line, ":")
+            if len(words) != 2 {
+                logrus.Errorf("parse software version failed, origin line: %s", line)
+            } else {
+                entries["Software Version"] = words[1]
+            }
+        }
+    }
 
-	compType := sonicpb.SonicPlatform_Platform_ComponentList_State_TypeSonicplatformtypessonicsoftwarecomponent{
-		sonicpb.SonicPlatformTypesSONICSOFTWARECOMPONENT_SONICPLATFORMTYPESSONICSOFTWARECOMPONENT_OPERATING_SYSTEM,
-	}
 
-	state := &sonicpb.SonicPlatform_Platform_ComponentList_State{
-		Type: &compType,
-	}
 
-	// Serial No.
-	serialNo, ok := entries["Serial Number"]
-	if ok {
-		state.SerialNo = &ywrapper.StringValue{Value: serialNo}
-	} else {
-		logrus.Error("Serial No. is not exists")
-	}
+    compType := sonicpb.SonicPlatform_Platform_ComponentList_State_TypeSonicplatformtypessonicsoftwarecomponent {
+        sonicpb.SonicPlatformTypesSONICSOFTWARECOMPONENT_SONICPLATFORMTYPESSONICSOFTWARECOMPONENT_OPERATING_SYSTEM,
+    }
 
-	// Part Number
-	partNumber, ok := entries["Part Number"]
-	if ok {
-		state.PartNo = &ywrapper.StringValue{Value: partNumber}
-	} else {
-		logrus.Error("Part Number is not exists")
-	}
+    state := &sonicpb.SonicPlatform_Platform_ComponentList_State {
+        Type: &compType,
+    }
 
-	// Hardware Version
-	hardwareVersion, ok := entries["Platform Name"]
-	if ok {
-		state.HardwareVersion = &ywrapper.StringValue{Value: hardwareVersion}
-	} else {
-		logrus.Error("Hardware Version is not exists")
-	}
+    // Serial No.
+    serialNo, ok := entries["Serial Number"]
+    if ok {
+        state.SerialNo = &ywrapper.StringValue{Value: serialNo}
+    } else {
+        logrus.Error("Serial No. is not exists")
+    }
 
-	// Software Version
-	softwareVersion, ok := entries["Software Version"]
-	if ok {
-		state.SoftwareVersion = &ywrapper.StringValue{Value: softwareVersion}
-	} else {
-		logrus.Error("Software Version is not exists")
-	}
+    // Part Number
+    partNumber, ok := entries["Part Number"]
+    if ok {
+        state.PartNo = &ywrapper.StringValue{Value: partNumber}
+    } else {
+        logrus.Error("Part Number is not exists")
+    }
 
-	// Manufacturer
-	manufacture, ok := entries["Manufacturer"]
-	if ok {
-		state.MfgName = &ywrapper.StringValue{Value: manufacture}
-	} else {
-		logrus.Error("Manufacturer is  not exists")
-	}
+    // Hardware Version
+    hardwareVersion, ok := entries["Platform Name"]
+    if ok {
+        state.HardwareVersion = &ywrapper.StringValue{Value: hardwareVersion}
+    } else {
+        logrus.Error("Hardware Version is not exists")
+    }
 
-	// Manufacture Date
-	manufactureDate, ok := entries["Manufacture Date"]
-	if ok {
-		state.MfgDate = &ywrapper.StringValue{Value: manufactureDate}
-	} else {
-		logrus.Error("Manufacturer is not exists")
-	}
+    // Software Version
+    softwareVersion, ok := entries["Software Version"]
+    if ok {
+        state.SoftwareVersion = &ywrapper.StringValue{Value: softwareVersion}
+    } else {
+        logrus.Error("Software Version is not exists")
+    }
 
-	component := &sonicpb.SonicPlatform_Platform_ComponentList{}
-	component.State = state
+    // Manufacturer
+    manufacture, ok := entries["Manufacturer"]
+    if ok {
+        state.MfgName = &ywrapper.StringValue{Value: manufacture}
+    } else {
+        logrus.Error("Manufacturer is  not exists")
+    }
 
-	eth0Mac, ok := entries["Base MAC Address"]
-	if !ok {
-		logrus.Error("eth0's mac is not exists")
-	} else {
-		state := &sonicpb.SonicPlatform_Platform_ComponentList_Properrties_Property_State{
-			Configurable: &ywrapper.BoolValue{Value: true},
-			Name:         &ywrapper.StringValue{Value: "ETH0_MAC"},
-			Value: &sonicpb.SonicPlatform_Platform_ComponentList_Properrties_Property_State_ValueString{
-				ValueString: eth0Mac,
-			},
-		}
+    // Manufacture Date
+    manufactureDate, ok := entries["Manufacture Date"]
+    if ok {
+        state.MfgDate = &ywrapper.StringValue{Value: manufactureDate}
+    } else {
+        logrus.Error("Manufacturer is not exists")
+    }
 
-		config := &sonicpb.SonicPlatform_Platform_ComponentList_Properrties_Property_Config{
-			Name: &ywrapper.StringValue{Value: "ETH0_MAC"},
-		}
+    component := &sonicpb.SonicPlatform_Platform_ComponentList{}
+    component.State = state
 
-		property := &sonicpb.SonicPlatform_Platform_ComponentList_Properrties_Property{
-			State:  state,
-			Config: config,
-		}
+    eth0Mac, ok := entries["Base MAC Address"]
+    if !ok {
+       logrus.Error("eth0's mac is not exists")
+    } else {
+        state := &sonicpb.SonicPlatform_Platform_ComponentList_Properrties_Property_State{
+            Configurable: &ywrapper.BoolValue{Value: true},
+            Name:         &ywrapper.StringValue{Value: "ETH0_MAC"},
+            Value:        &sonicpb.SonicPlatform_Platform_ComponentList_Properrties_Property_State_ValueString{
+                ValueString: eth0Mac,
+            },
+        }
 
-		propertyKey := &sonicpb.SonicPlatform_Platform_ComponentList_Properrties_PropertyKey{
-			Property: property,
-		}
+        config := &sonicpb.SonicPlatform_Platform_ComponentList_Properrties_Property_Config {
+            Name: &ywrapper.StringValue{Value: "ETH0_MAC"},
+        }
 
-		properties := &sonicpb.SonicPlatform_Platform_ComponentList_Properrties{}
-		properties.Property = append(properties.Property, propertyKey)
-		component.Properrties = properties
-	}
+        property := &sonicpb.SonicPlatform_Platform_ComponentList_Properrties_Property{
+            State: state,
+            Config: config,
+        }
 
-	componentName := "unknown"
-	componentName, ok = entries["Product Name"]
-	if !ok {
-		logrus.Error("Product name is not exists")
-	}
+        propertyKey := &sonicpb.SonicPlatform_Platform_ComponentList_Properrties_PropertyKey{
+            Property: property,
+        }
 
-	componentListKey := &sonicpb.SonicPlatform_Platform_ComponentListKey{
-		Name:          componentName,
-		ComponentList: component,
-	}
+        properties := &sonicpb.SonicPlatform_Platform_ComponentList_Properrties{}
+        properties.Property = append(properties.Property, propertyKey)
+        component.Properrties = properties
+    }
 
-	platform.ComponentList = append(platform.ComponentList, componentListKey)
+    componentName := "unknown"
+    componentName, ok = entries["Product Name"]
+    if !ok {
+        logrus.Error("Product name is not exists")
+    }
 
-	return nil
+    componentListKey := &sonicpb.SonicPlatform_Platform_ComponentListKey{
+        Name:          componentName,
+        ComponentList: component,
+    }
+
+    platform.ComponentList = append(platform.ComponentList, componentListKey)
+
+    return nil
 }

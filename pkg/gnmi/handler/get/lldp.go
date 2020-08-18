@@ -10,7 +10,6 @@ import (
 
     sonicpb "github.com/TeamNocsys/sonicpb/api/protobuf/sonic"
     "github.com/openconfig/ygot/proto/ywrapper"
-
     "github.com/openconfig/gnmi/proto/gnmi"
     "github.com/sirupsen/logrus"
     "google.golang.org/grpc/codes"

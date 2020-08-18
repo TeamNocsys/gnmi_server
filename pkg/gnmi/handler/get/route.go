@@ -1,16 +1,16 @@
 package get
 
 import (
-    my_gnmi "gnmi_server/pkg/gnmi"
+    "gnmi_server/pkg/gnmi"
 )
 
-func GetServeMux() *my_gnmi.GetServeMux {
-    mux := my_gnmi.NewGetServeMux()
+func GetServeMux() *gnmi.GetServeMux {
+    mux := gnmi.NewGetServeMux()
     route(mux)
     return mux
 }
 
-func route(mux *my_gnmi.GetServeMux) {
+func route(mux *gnmi.GetServeMux) {
     mux.AddRouter("/test", Test).
         AddRouter("/sonic-platform/platform", ComponentInfoHandler).
         AddRouter("/sonic-platform/platform/component-list/fan", FanInfoHandler).
