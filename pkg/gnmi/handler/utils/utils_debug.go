@@ -1,9 +1,10 @@
-// +build release
+// +build debug
 
-package helper
+package utils
 
 import (
     "context"
+    "encoding/json"
     "github.com/getlantern/deepcopy"
     "github.com/golang/protobuf/proto"
     "github.com/openconfig/gnmi/proto/gnmi"
@@ -23,13 +24,13 @@ func CreateGetResponse(ctx context.Context, req *gnmi.GetRequest, message proto.
 
     err = deepcopy.Copy(&path, req.Path[0])
     if err != nil {
-        logrus.Errorf("Deep copy struct Path failed: %s", err.Error())
+        logrus.Errorf("deep copy struct Path failed: %s", err.Error())
         return nil, err
     }
 
-    bytes, err := proto.Marshal(message)
+    bytes, err := json.Marshal(message)
     if err != nil {
-        logrus.Errorf("Marshal sonic struct failed: %s", err.Error())
+        logrus.Errorf("marshal struct failed: %s", err.Error())
         return nil, err
     }
 
@@ -41,8 +42,8 @@ func CreateGetResponse(ctx context.Context, req *gnmi.GetRequest, message proto.
             &gnmi.Update{
                 Path: &path,
                 Val: &gnmi.TypedValue{
-                    Value: &gnmi.TypedValue_BytesVal{
-                        BytesVal: bytes,
+                    Value: &gnmi.TypedValue_JsonVal{
+                        JsonVal: bytes,
                     },
                 },
             },

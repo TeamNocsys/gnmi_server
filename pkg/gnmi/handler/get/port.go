@@ -11,6 +11,7 @@ import (
     "gnmi_server/internal/pkg/swsssdk"
     "gnmi_server/internal/pkg/swsssdk/helper"
     "gnmi_server/pkg/gnmi/handler"
+    handler_utils "gnmi_server/pkg/gnmi/handler/utils"
     "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
     "strconv"
@@ -64,7 +65,7 @@ func PortStateHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client
         })
     }
 
-    response, err := handler.CreateResponse(ctx, r, sp)
+    response, err := handler_utils.CreateGetResponse(ctx, r, sp)
     if err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
     }
