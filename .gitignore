@@ -5,5 +5,4 @@ internal/pkg/openconfig/**/*.go
 
 main
 cmd/gnmi/gnmi
-cmd/gnmi
 cmd/cmd
