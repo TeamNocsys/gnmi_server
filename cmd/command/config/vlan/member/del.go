@@ -6,6 +6,7 @@ import (
     "gnmi_server/cmd/command"
     "gnmi_server/internal/pkg/swsssdk"
     "gnmi_server/internal/pkg/swsssdk/helper"
+    "gnmi_server/internal/pkg/swsssdk/helper/config_db"
     "strconv"
 )
 
@@ -38,7 +39,7 @@ func runDel(gnmiCli command.Client, opts *delOptions) error {
     if conn := gnmiCli.Config(); conn == nil {
         return swsssdk.ErrDatabaseNotExist
     } else {
-        info, err := conn.GetEntry(helper.VLAN_TABLE_NAME, helper.VID(opts.vid))
+        info, err := conn.GetEntry(config_db.VLAN_TABLE, helper.VID(opts.vid))
         if err != nil {
             return err
         }
@@ -58,11 +59,11 @@ func runDel(gnmiCli command.Client, opts *delOptions) error {
             } else {
                 delete(info, "members")
             }
-            if _, err := conn.SetEntry(helper.VLAN_TABLE_NAME, helper.VID(opts.vid), info); err != nil {
+            if _, err := conn.SetEntry(config_db.VLAN_TABLE, helper.VID(opts.vid), info); err != nil {
                 return err
             }
         }
-        if _, err := conn.SetEntry(helper.VLAN_MEMBERTABLE_NAME, []string{helper.VID(opts.vid), opts.intf}, nil); err != nil {
+        if _, err := conn.SetEntry(config_db.VLAN_MEMBER_TABLE, []string{helper.VID(opts.vid), opts.intf}, nil); err != nil {
             return err
         }
         return nil

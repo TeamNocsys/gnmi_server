@@ -10,6 +10,7 @@ import (
     "gnmi_server/cmd/command"
     "gnmi_server/internal/pkg/swsssdk"
     "gnmi_server/internal/pkg/swsssdk/helper"
+    "gnmi_server/internal/pkg/swsssdk/helper/config_db"
     "gnmi_server/pkg/gnmi/handler"
     handler_utils "gnmi_server/pkg/gnmi/handler/utils"
     "google.golang.org/grpc/codes"
@@ -221,6 +222,123 @@ func getPortStateCounters(counters map[string]string) (*sonicpb.SonicPort_Port_P
         }
     } else {
         return nil, errors.New("missing " + helper.COUNTERS_PORT_OUT_OCTETS + " field")
+    }
+
+    return r, nil
+}
+
+func PortHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*gnmi.GetResponse, error) {
+    conn := db.Config()
+    if conn == nil {
+        return nil, status.Error(codes.Internal, "")
+    }
+    // 获取指定Port或全部Port
+    kvs := handler.FetchPathKey(r)
+    spec := "*"
+    if v, ok := kvs["port-name"]; ok {
+        spec = v
+    }
+
+    infos, err := conn.GetAllByPattern(swsssdk.CONFIG_DB, []string{config_db.PORT_TABLE, spec})
+    if err != nil {
+        return nil, status.Error(codes.Internal, err.Error())
+    }
+    sp := &sonicpb.SonicPort{
+        Port: &sonicpb.SonicPort_Port{},
+    }
+    s := swsssdk.Config().GetDBSeparator(swsssdk.CONFIG_DB)
+    for hash, info := range infos {
+        keys := strings.Split(hash, s)
+        if len(keys) != 2 {
+            continue
+        }
+        name := keys[len(keys)-1]
+        v, err := getPortList(info)
+        if err != nil {
+            return nil, status.Error(codes.Internal, err.Error())
+        }
+        sp.Port.PortList = append(sp.Port.PortList, &sonicpb.SonicPort_Port_PortListKey{
+            PortName: name,
+            PortList: v,
+        })
+    }
+
+    response, err := handler_utils.CreateGetResponse(ctx, r, sp)
+    if err != nil {
+        return nil, status.Errorf(codes.Internal, err.Error())
+    }
+    return response, nil
+}
+
+func getPortList(info map[string]string) (*sonicpb.SonicPort_Port_PortList, error) {
+    r := &sonicpb.SonicPort_Port_PortList{}
+
+    if v, ok := info[config_db.PORT_ALIAS]; ok {
+        r.Alias = &ywrapper.StringValue{Value: v}
+    } else  {
+        r.Alias = &ywrapper.StringValue{Value: ""}
+    }
+
+    if v, ok := info[config_db.PORT_LANES]; ok {
+        r.Lanes = &ywrapper.StringValue{Value: v}
+    } else  {
+        r.Lanes = &ywrapper.StringValue{Value: ""}
+    }
+
+    if v, ok := info[config_db.PORT_DESCRIPTION]; ok {
+        r.Description = &ywrapper.StringValue{Value: v}
+    } else  {
+        r.Description = &ywrapper.StringValue{Value: ""}
+    }
+
+    if v, ok := info[config_db.PORT_SPEED]; ok {
+        if index, err := strconv.ParseUint(v, 10, 64); err != nil {
+            return nil, err
+        } else {
+            r.Speed = &ywrapper.UintValue{Value: index}
+        }
+    } else  {
+        r.Speed = &ywrapper.UintValue{Value: 0}
+    }
+
+    if v, ok := info[config_db.PORT_MTU]; ok {
+        if index, err := strconv.ParseUint(v, 10, 64); err != nil {
+            return nil, err
+        } else {
+            r.Mtu = &ywrapper.UintValue{Value: index}
+        }
+    } else  {
+        r.Mtu = &ywrapper.UintValue{Value: 0}
+    }
+
+    if v, ok := info[config_db.PORT_INDEX]; ok {
+        if index, err := strconv.ParseUint(v, 10, 64); err != nil {
+            return nil, err
+        } else {
+            r.Index = &ywrapper.UintValue{Value: index}
+        }
+    } else  {
+        r.Index = &ywrapper.UintValue{Value: 0}
+    }
+
+    if v, ok := info[config_db.PORT_ADMIN_STATUS]; ok {
+        if strings.ToUpper(v) == config_db.ADMIN_STATUS_UP {
+            r.AdminStatus = sonicpb.SonicPortAdminStatus_SONICPORTADMINSTATUS_up
+        } else {
+            r.AdminStatus = sonicpb.SonicPortAdminStatus_SONICPORTADMINSTATUS_down
+        }
+    } else  {
+        r.AdminStatus = sonicpb.SonicPortAdminStatus_SONICPORTADMINSTATUS_down
+    }
+
+    if v, ok := info[config_db.PORT_FEC]; ok {
+        if v == "fc" || v == "rc"{
+            r.Fec = &ywrapper.StringValue{Value: v}
+        } else {
+            r.Fec = &ywrapper.StringValue{Value: "None"}
+        }
+    } else  {
+        r.Fec = &ywrapper.StringValue{Value: "None"}
     }
 
     return r, nil

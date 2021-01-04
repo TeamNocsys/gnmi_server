@@ -4,6 +4,7 @@ import (
     "context"
     "fmt"
     "github.com/go-redis/redis/v8"
+    "github.com/sirupsen/logrus"
     "strings"
 )
 
@@ -124,14 +125,22 @@ func (conn *Connector) DeleteAllByPattern(db_name string, patterns interface{}) 
 }
 
 func (conn *Connector) serialize_key(db_name string, keys interface{}) string {
+    key := ""
     switch keys.(type) {
     case string:
-        return keys.(string)
+        key = keys.(string)
     case []string:
-        return strings.Join(keys.([]string), gscfg.GetDBSeparator(db_name))
-    default:
-        return ""
+        sep := ""
+        if gscfg.GetDBSeparator(db_name) == "|" {
+            sep = "\\" + gscfg.GetDBSeparator(db_name)
+        } else {
+            sep = gscfg.GetDBSeparator(db_name)
+        }
+        key = strings.Join(keys.([]string), sep)
     }
+
+    logrus.WithField("pattern", key).Debug("serialize key")
+    return key
 }
 
 func (conn *Connector) raw_to_typed(raw_data map[string]string) map[string]interface{} {

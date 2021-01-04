@@ -3,23 +3,13 @@ package helper
 import (
     "fmt"
     "os"
+    "strings"
 )
 
 const (
-    VLAN_TABLE_NAME       = "VLAN"
-    VLAN_MEMBERTABLE_NAME = "VLAN_MEMBER"
-    INTERFACE_TABLE_NAME  = "INTERFACE"
-
-    VLAN_SUB_INTERFACE_SEPARATOR = "."
-
     PORT_NAME_PREFIX     = "Ethernet"
     COUNTER_TABLE_PREFIX = "COUNTERS:"
     PORT_STATUS_VALUE_UP = "UP"
-
-    // CONFIG_DB
-    // 表名
-
-    // 字段名
 
     // COUNTERS_DB
     // 表名
@@ -58,6 +48,14 @@ var (
 
 func VID(id int) string {
     return fmt.Sprintf("Vlan%d", id)
+}
+
+func ArrayToField(s []string) string {
+    return strings.Join(s, ",")
+}
+
+func FieldToArray(s string) []string {
+    return strings.Split(s, ",")
 }
 
 func init() {
