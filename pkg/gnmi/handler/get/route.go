@@ -27,5 +27,7 @@ func route(mux *gnmi.GetServeMux) {
         AddRouter("/sonic-vlan/vlan-interface/vlan-interface-list", VlanInterfaceHandler).
         AddRouter("/sonic-vlan/vlan-interface/vlan-interface-ipprefix-list", VlanInterfaceIPPrefixHandler).
         AddRouter("/sonic-interface/interface/interface-list", InterfaceHandler).
-        AddRouter("/sonic-interface/interface/interface-ipprefix-list", InterfaceIPPrefixHandler)
+        AddRouter("/sonic-interface/interface/interface-ipprefix-list", InterfaceIPPrefixHandler).
+        AddRouter("/sonic-acl/acl-rule/acl-rule-list", AclRuleHandler).
+        AddRouter("/sonic-acl/acl-table/acl-table-list", AclTableHandler)
 }
