@@ -122,4 +122,11 @@ const (
     ACL_TABLE_TYPE                      = "type"
     ACL_TABLE_STAGE                     = "stage"
     ACL_TABLE_PORTS                     = "ports"
+
+    // 表名
+    LOOPBACK_INTERFACE_TABLE            = "LOOPBACK_INTERFACE"
+    // 字段名
+    LOOPBACK_INTERFACE_VRF_NAME         = "vrf_name"
+    LOOPBACK_INTERFACE_IPPREFIX_SCOPE   = "scope"
+    LOOPBACK_INTERFACE_IPPREFIX_FAMILY  = "family"
 )
