@@ -137,6 +137,16 @@ func (cc *ConfigDBConnector) DeleteTable(table string) (bool, error) {
     return false, ErrDatabaseNotExist
 }
 
+func (cc *ConfigDBConnector) HasEntry(table string, keys interface{}) (bool, error) {
+    if id := gscfg.GetDBId(CONFIG_DB); id > 0 {
+        if pattern := cc.serialize_key(table, keys); pattern != "" {
+            num, err := cc.mgmt.exists(id, pattern)
+            return num > 0, err
+        }
+    }
+    return false, ErrDatabaseNotExist
+}
+
 func (conn *ConfigDBConnector) serialize_key(table string, keys interface{}) string {
     switch keys.(type) {
     case string:

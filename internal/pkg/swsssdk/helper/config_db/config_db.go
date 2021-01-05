@@ -1,5 +1,7 @@
 package config_db
 
+import sonicpb "github.com/TeamNocsys/sonicpb/api/protobuf/sonic"
+
 // CONFIG_DB
 const (
     ADMIN_STATUS_UP                     = "UP"
@@ -12,12 +14,12 @@ const (
     // 表名
     VLAN_TABLE                          = "VLAN"
     // 字段名
-    VLAN_TABLE_VLANID                   = "vlanid"
-    VLAN_TABLE_DESCRIPTION              = "description"
-    VLAN_TABLE_DHCP_SERVERS             = "dhcp-servers"
-    VLAN_TABLE_MTU                      = "mtu"
-    VLAN_TABLE_ADMIN_STATUS             = "admin_status"
-    VLAN_TABLE_MEMBERS                  = "members"
+    VLAN_VLANID                   = "vlanid"
+    VLAN_DESCRIPTION              = "description"
+    VLAN_DHCP_SERVERS             = "dhcp-servers"
+    VLAN_MTU                      = "mtu"
+    VLAN_ADMIN_STATUS             = "admin_status"
+    VLAN_MEMBERS                  = "members"
 
     // 表名
     VLAN_MEMBER_TABLE                   = "VLAN_MEMBER"
@@ -130,3 +132,21 @@ const (
     LOOPBACK_INTERFACE_IPPREFIX_SCOPE   = "scope"
     LOOPBACK_INTERFACE_IPPREFIX_FAMILY  = "family"
 )
+
+func AdminStatusToString(status interface{}) string {
+    switch status.(type) {
+    case sonicpb.SonicPortAdminStatus:
+        if status == sonicpb.SonicPortAdminStatus_SONICPORTADMINSTATUS_up {
+            return "up"
+        }
+    case sonicpb.SonicPortchannelAdminStatus:
+        if status == sonicpb.SonicPortAdminStatus_SONICPORTADMINSTATUS_up {
+            return "up"
+        }
+    case sonicpb.SonicVlanAdminStatus:
+        if status == sonicpb.SonicVlanAdminStatus_SONICVLANADMINSTATUS_up {
+            return "up"
+        }
+    }
+    return "down"
+}

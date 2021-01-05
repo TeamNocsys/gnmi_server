@@ -75,7 +75,7 @@ func getVlanMemberList(info map[string]string) (*sonicpb.SonicVlan_VlanMember_Vl
             r.TaggingMode = sonicpb.SonicVlanVlanTaggingMode_SONICVLANVLANTAGGINGMODE_untagged
         }
     } else  {
-        return nil, errors.New("missing " + config_db.VLAN_TABLE_DESCRIPTION + " field")
+        return nil, errors.New("missing " + config_db.VLAN_MEMBER_TAGGING_MODE + " field")
     }
 
     return r, nil

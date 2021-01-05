@@ -1,30 +1,27 @@
-package vlan
+package portchannel
 
 import (
     "github.com/spf13/cobra"
     "gnmi_server/cmd/command"
+    "gnmi_server/cmd/command/config/utils"
     "gnmi_server/internal/pkg/swsssdk"
-    "gnmi_server/internal/pkg/swsssdk/helper"
     "gnmi_server/internal/pkg/swsssdk/helper/config_db"
-    "strconv"
+    "regexp"
 )
 
 type addOptions struct {
-    vid int
+    name string
 }
 
 func NewAddCommand(gnmiCli command.Client) *cobra.Command {
     var opts addOptions
 
     cmd := &cobra.Command{
-        Use:   "add <vid>",
-        Short: "Add vlan to the switch",
+        Use:   "add <name>",
+        Short: "Add port channel to the switch",
         Args:  cobra.ExactArgs(1),
         RunE: func(cmd *cobra.Command, args []string) error {
-            var err error
-            if opts.vid, err = strconv.Atoi(args[0]); err != nil {
-                return err
-            }
+            opts.name = args[0]
             return runAdd(gnmiCli, &opts)
         },
     }
@@ -36,7 +33,12 @@ func runAdd(gnmiCli command.Client, opts *addOptions) error {
     if conn := gnmiCli.Config(); conn == nil {
         return swsssdk.ErrDatabaseNotExist
     } else {
-        _, err := conn.SetEntry(config_db.VLAN_TABLE, helper.VID(opts.vid), nil)
-        return err
+        if ok, err := regexp.MatchString(utils.PORT_CHANNEL_PATTERN, opts.name); err != nil {
+            return err
+        } else if ok {
+            _, err := conn.SetEntry(config_db.PORTCHANNEL_TABLE, opts.name, map[string]interface{}{})
+            return err
+        }
+        return ErrInvaildPattern
     }
 }
