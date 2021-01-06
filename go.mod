@@ -28,4 +28,5 @@ require (
 	github.com/spf13/cobra v1.0.0
 	golang.org/x/sys v0.0.0-20200817085935-3ff754bf58a9 // indirect
 	google.golang.org/grpc v1.30.0
+	google.golang.org/protobuf v1.25.0
 )

@@ -42,6 +42,7 @@ const (
 
     // 表名
     PORTCHANNEL_TABLE                   = "PORTCHANNEL"
+    PORTCHANNEL_MEMBER_TABLE            = "PORTCHANNEL_MEMBER"
     // 字段名
     PORTCHANNEL_MEMBERS                 = "members"
     PORTCHANNEL_MIN_LINKS               = "min_links"

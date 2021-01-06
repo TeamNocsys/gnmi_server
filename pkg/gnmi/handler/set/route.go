@@ -11,5 +11,12 @@ func SetServeMux() *gnmi.SetServeMux {
 }
 
 func route(mux *gnmi.SetServeMux) {
-
+    mux.AddUpdateRouter("/sonic-port/port/port-list", PortListHandler)
+    mux.AddUpdateRouter("/sonic-loopback-interface/loopback-interface", LoopbackUpdateHandler)
+    mux.AddDeleteRouter("/sonic-loopback-interface/loopback-interface", LoopbackDeleteHandler)
+    mux.AddUpdateRouter("/sonic", SonicUpdateHandler)
+    mux.AddReplaceRouter("/sonic-portchannel/portchannel", PortChannelReplaceHandler)
+    mux.AddDeleteRouter("/sonic-portchannel/portchannel", PortChannelDeleteHandler)
+    mux.AddUpdateRouter("/sonic-portchannel/portchannel/portchannel-list/members", PortChannelMemberUpdateHandler)
+    mux.AddDeleteRouter("/sonic-portchannel/portchannel/portchannel-list/members", PortChannelMemberDeleteHandler)
 }
