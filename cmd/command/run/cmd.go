@@ -47,7 +47,7 @@ type GsFormatter struct {
 }
 
 func (gf *GsFormatter) Format(e *logrus.Entry) ([]byte, error) {
-    return []byte(fmt.Sprintf("[%-5s] %s %s\n", strings.ToUpper(e.Level.String()), e.Time.Format("2006-01-02 15:04:05"), e.Message)), nil
+    return []byte(fmt.Sprintf("%s [%-5s] %s\n", e.Time.Format("2006-01-02 15:04:05"), strings.ToUpper(e.Level.String()), e.Message)), nil
 }
 
 type runOptions struct {
