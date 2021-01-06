@@ -3,6 +3,7 @@ package gnmi
 import (
     "context"
     gpb "github.com/openconfig/gnmi/proto/gnmi"
+    "github.com/sirupsen/logrus"
     "gnmi_server/cmd/command"
     "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
@@ -49,6 +50,7 @@ func (gsm *GetServeMux) DoHandle(ctx context.Context, r *gpb.GetRequest, db comm
     path := generalPath(paths[0])
     h, ok := gsm.m[path]
     if !ok {
+        logrus.Error("Unhandled Get XPath: ", path)
         return nil, status.Errorf(codes.NotFound, "invalid path")
     }
 
@@ -109,20 +111,22 @@ func (ssm *SetServeMux) DoHandle(ctx context.Context, r *gpb.SetRequest, db comm
 
     var h setMuxEntry
     var ok bool
+    var path string
     if len(r.Delete) == 1 {
-        path := generalPath(r.Delete[0])
+        path = generalPath(r.Delete[0])
         h, ok = ssm.dm[path]
     } else if len(r.Replace) == 1 {
-        path := generalPath(r.Replace[0].Path)
+        path = generalPath(r.Replace[0].Path)
         h, ok = ssm.rm[path]
     } else if len(r.Update) == 1 {
-        path := generalPath(r.Update[0].Path)
+        path = generalPath(r.Update[0].Path)
         h, ok = ssm.um[path]
     } else {
         return nil, status.Errorf(codes.InvalidArgument, "set request path is empty")
     }
 
     if !ok {
+        logrus.Error("Unhandled Set XPath: ", path)
         return nil, status.Errorf(codes.NotFound, "invalid path")
     }
 

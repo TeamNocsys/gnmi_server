@@ -47,7 +47,15 @@ type GsFormatter struct {
 }
 
 func (gf *GsFormatter) Format(e *logrus.Entry) ([]byte, error) {
-    return []byte(fmt.Sprintf("%s [%-5s] %s\n", e.Time.Format("2006-01-02 15:04:05"), strings.ToUpper(e.Level.String()), e.Message)), nil
+    msg := e.Message
+    for k,v := range e.Data {
+        s, ok := v.(string)
+        if !ok {
+            s = fmt.Sprint(v)
+        }
+        msg += " " + k + "=" + s
+    }
+    return []byte(fmt.Sprintf("%s [%-5s] %s\n", e.Time.Format("2006-01-02 15:04:05"), strings.ToUpper(e.Level.String()), msg)), nil
 }
 
 type runOptions struct {
@@ -81,9 +89,9 @@ func NewRunCommand(gnmiCli command.Client) *cobra.Command {
             logrus.SetOutput(w)
             logrus.AddHook(&ConsoleHook{debug: !opts.quiet})
             if opts.verbose {
-                logrus.SetLevel(logrus.DebugLevel)
+                logrus.SetLevel(logrus.TraceLevel)
             } else {
-                logrus.SetLevel(logrus.InfoLevel)
+                logrus.SetLevel(logrus.DebugLevel)
             }
             logrus.SetFormatter(new(GsFormatter))
 
@@ -104,8 +112,8 @@ func NewRunCommand(gnmiCli command.Client) *cobra.Command {
     flags := cmd.Flags()
     flags.StringVar(&opts.address, "address", "0.0.0.0", "the ip address for gnmi serve on")
     flags.IntVar(&opts.port, "port", 5002, "the port for gnmi serve on")
-    flags.BoolVarP(&opts.quiet, "quiet", "q", false, "whether to print the log to the screen")
-    flags.BoolVarP(&opts.verbose, "verbose", "v", false, "whether to print debug information")
+    flags.BoolVarP(&opts.quiet, "quiet", "q", false, "whether to print the log below info level to the screen")
+    flags.BoolVarP(&opts.verbose, "verbose", "v", false, "whether to print detail information")
     flags.StringVarP(&opts.path, "path", "p", "/var/log", "log file output path")
 
     return cmd

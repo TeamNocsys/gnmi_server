@@ -4,7 +4,6 @@ import (
     "context"
     "fmt"
     "github.com/go-redis/redis/v8"
-    "github.com/sirupsen/logrus"
     "strings"
 )
 
@@ -139,7 +138,6 @@ func (conn *Connector) serialize_key(db_name string, keys interface{}) string {
         key = strings.Join(keys.([]string), sep)
     }
 
-    logrus.Debug("Serialize key")
     return key
 }
 
