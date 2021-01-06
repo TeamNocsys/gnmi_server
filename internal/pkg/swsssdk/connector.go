@@ -139,7 +139,7 @@ func (conn *Connector) serialize_key(db_name string, keys interface{}) string {
         key = strings.Join(keys.([]string), sep)
     }
 
-    logrus.WithField("pattern", key).Debug("serialize key")
+    logrus.Debug("Serialize key")
     return key
 }
 

@@ -14,10 +14,12 @@ import (
     "net"
     "os"
     "path"
+    "strings"
     "time"
 )
 
 type ConsoleHook struct {
+    debug bool
 }
 
 func (ch *ConsoleHook) Levels() []logrus.Level {
@@ -31,7 +33,7 @@ func (ch *ConsoleHook) Fire(entry *logrus.Entry) error {
         return err
     }
 
-    if entry.Level < logrus.DebugLevel {
+    if entry.Level < logrus.DebugLevel || ch.debug {
         if _, err := fmt.Print(msg); err != nil {
             fmt.Fprintf(os.Stderr, "Unable to output entry to console, %v", err)
             return err
@@ -39,6 +41,13 @@ func (ch *ConsoleHook) Fire(entry *logrus.Entry) error {
     }
 
     return nil
+}
+
+type GsFormatter struct {
+}
+
+func (gf *GsFormatter) Format(e *logrus.Entry) ([]byte, error) {
+    return []byte(fmt.Sprintf("[%-5s] %s %s\n", strings.ToUpper(e.Level.String()), e.Time.Format("2006-01-02 15:04:05"), e.Message)), nil
 }
 
 type runOptions struct {
@@ -70,14 +79,13 @@ func NewRunCommand(gnmiCli command.Client) *cobra.Command {
             }
             defer w.Close()
             logrus.SetOutput(w)
-            if !opts.quiet {
-                logrus.AddHook(&ConsoleHook{})
-            }
+            logrus.AddHook(&ConsoleHook{debug: !opts.quiet})
             if opts.verbose {
                 logrus.SetLevel(logrus.DebugLevel)
             } else {
                 logrus.SetLevel(logrus.InfoLevel)
             }
+            logrus.SetFormatter(new(GsFormatter))
 
             listener, err := net.Listen("tcp", fmt.Sprintf("%s:%d", opts.address, opts.port))
             if err != nil {
@@ -86,7 +94,10 @@ func NewRunCommand(gnmiCli command.Client) *cobra.Command {
             grpcServer := grpc.NewServer(grpc.RPCDecompressor(grpc.NewGZIPDecompressor()))
             server := gnmi.DefaultServer(gnmiCli, get.GetServeMux(), set.SetServeMux())
             gpb.RegisterGNMIServer(grpcServer, &server)
-            return grpcServer.Serve(listener)
+            logrus.Info("Server start")
+            err = grpcServer.Serve(listener)
+            logrus.Info("Server stop")
+            return err
         },
     }
 
