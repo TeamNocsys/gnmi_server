@@ -136,20 +136,27 @@ func addLoopback(sonicLoopback *sonic.SonicLoopbackInterface, conn *swsssdk.Conf
         return err
     }
 
+    values := make(map[string]interface{})
+
     for _, key := range ipPrefixList {
         name := key.GetLoopbackInterfaceName()
         if !verifyLoopbackName(name) {
             return errors.New("invalid loopback name")
         }
 
-        // TODO(sgk): 确认原my_gnmi_server为什么不添加ip
-        //ipPrefix := key.GetIpPrefix()
+        ipPrefix := key.GetIpPrefix()
         //ipPrefixList := key.GetLoopbackInterfaceIpprefixList()
 
-        if _, ok := loopbackTable[name]; ok {
-            if _, err := conn.SetEntry(config_db.LOOPBACK_INTERFACE_TABLE, name, make(map[string]interface{})); err != nil {
+        if _, ok := loopbackTable[name]; !ok {
+            logrus.Warnf("%s already exist in configuration database", name)
+        } else {
+            if _, err := conn.SetEntry(config_db.LOOPBACK_INTERFACE_TABLE, name, values); err != nil {
                 return err
             }
+        }
+
+        if _, err := conn.SetEntry(config_db.LOOPBACK_INTERFACE_TABLE, []string{name, ipPrefix}, values); err != nil {
+            return err
         }
     }
 
@@ -161,19 +168,15 @@ func deleteLoopback(name string, conn *swsssdk.ConfigDBConnector) error {
         return errors.New("invalid loopback name")
     }
 
-    loopbackTables, err := conn.GetTable(config_db.LOOPBACK_INTERFACE_TABLE)
+    loopbackTables, err := conn.GetAllByPattern(swsssdk.CONFIG_DB, []string{config_db.LOOPBACK_INTERFACE_TABLE, name})
     if err != nil {
         return err
-    } else {
-        if _, ok := loopbackTables[name]; !ok {
-            logrus.Warnf("Loopback interface-%s is not exists when delete it", name)
-            return nil
-        }
     }
 
-    for key := range loopbackTables {
-        if strings.HasPrefix(key, name) && key != name {
-            if _, err := conn.SetEntry(config_db.LOOPBACK_INTERFACE_TABLE, key, nil); err != nil {
+    for entry := range loopbackTables {
+        keys := splitConfigDBKey(entry)
+        if len(keys) == 3 && keys[1] == name {
+            if _, err := conn.SetEntry(config_db.LOOPBACK_INTERFACE_TABLE, []string{keys[1], keys[2]}, nil); err != nil {
                 return err
             }
         }
