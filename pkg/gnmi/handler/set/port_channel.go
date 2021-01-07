@@ -123,7 +123,7 @@ func createPortChannel(sonicPortChannel *sonic.SonicPortchannel, conn *swsssdk.C
         } else {
             for entry, _ := range memberList {
                 keys := splitConfigDBKey(entry)
-                if len(keys) == 3 {
+                if len(keys) == 3 && keys[1] == name {
                     if _, err := conn.SetEntry(config_db.PORTCHANNEL_MEMBER_TABLE, []string{keys[1], keys[2]}, nil); err != nil {
                         return err
                     }
@@ -164,7 +164,7 @@ func deletePortChannel(name string, conn *swsssdk.ConfigDBConnector) error {
     } else {
         for entry, _ := range memberList {
             keys := splitConfigDBKey(entry)
-            if len(keys) == 3 {
+            if len(keys) == 3 && keys[1] == name {
                 if _, err := conn.SetEntry(config_db.PORTCHANNEL_MEMBER_TABLE, []string{keys[1], keys[2]}, nil); err != nil {
                     return err
                 }
@@ -296,7 +296,7 @@ func portChannelDelMember(member string, conn *swsssdk.ConfigDBConnector) error 
     } else {
         for entry := range memberTable {
             keys := splitConfigDBKey(entry)
-            if len(keys) == 3 {
+            if len(keys) == 3 && keys[2] == member {
                 if _, err := conn.SetEntry(config_db.PORTCHANNEL_MEMBER_TABLE, []string{keys[1], keys[2]}, nil); err != nil {
                     return err
                 }
