@@ -117,12 +117,14 @@ func createPortChannel(sonicPortChannel *sonic.SonicPortchannel, conn *swsssdk.C
         minLinks := key.GetPortchannelList().GetMinLinks()
         mtu := key.GetPortchannelList().GetMtu()
 
-        if memberList, err := conn.GetTable(config_db.PORTCHANNEL_MEMBER_TABLE); err != nil {
+        memberList, err := conn.GetAllByPattern(swsssdk.CONFIG_DB, []string{config_db.PORTCHANNEL_MEMBER_TABLE, name, "*"})
+        if err != nil {
             return err
         } else {
-            for k, _ := range memberList {
-                if k == name {
-                    if _, err := conn.SetEntry(config_db.PORTCHANNEL_MEMBER_TABLE, k, nil); err != nil {
+            for entry, _ := range memberList {
+                keys := splitConfigDBKey(entry)
+                if len(keys) == 3 {
+                    if _, err := conn.SetEntry(config_db.PORTCHANNEL_MEMBER_TABLE, []string{keys[1], keys[2]}, nil); err != nil {
                         return err
                     }
                 }
@@ -142,18 +144,28 @@ func createPortChannel(sonicPortChannel *sonic.SonicPortchannel, conn *swsssdk.C
         if _, err := conn.SetEntry(config_db.PORTCHANNEL_TABLE, name, values); err != nil {
             return err
         }
+
+        members := key.GetPortchannelList().GetMembers()
+        for _, member := range members {
+            memberName := member.GetValue()
+            if _, err := conn.SetEntry(config_db.PORTCHANNEL_MEMBER_TABLE, []string{name, memberName},
+                make(map[string]interface{})); err != nil {
+                return err
+            }
+        }
     }
 
     return nil
 }
 
 func deletePortChannel(name string, conn *swsssdk.ConfigDBConnector) error {
-    if memberList, err := conn.GetTable(config_db.PORTCHANNEL_MEMBER_TABLE); err != nil {
+    if memberList, err := conn.GetAllByPattern(swsssdk.CONFIG_DB, []string{config_db.PORTCHANNEL_MEMBER_TABLE, name, "*"}); err != nil {
         return err
     } else {
-        for k, _ := range memberList {
-            if k == name {
-                if _, err := conn.SetEntry(config_db.PORTCHANNEL_MEMBER_TABLE, k, nil); err != nil {
+        for entry, _ := range memberList {
+            keys := splitConfigDBKey(entry)
+            if len(keys) == 3 {
+                if _, err := conn.SetEntry(config_db.PORTCHANNEL_MEMBER_TABLE, []string{keys[1], keys[2]}, nil); err != nil {
                     return err
                 }
             }
@@ -232,11 +244,10 @@ func PortChannelMemberDeleteHandler(ctx context.Context, req *gnmi.SetRequest, d
     var results []*gnmi.UpdateResult
 
     delete := deletes[0]
-    portChannelName := delete.GetTarget()
-    memberName := delete.GetOrigin()
+    memberName := delete.GetTarget()
 
-    if err := portChannelDelMember(portChannelName, memberName, conn); err != nil {
-        logrus.Errorf("Delete port-%s from portchannel-%s failed: %s", memberName, portChannelName, err.Error())
+    if err := portChannelDelMember(memberName, conn); err != nil {
+        logrus.Errorf("Delete port-%s from portchannel failed: %s", memberName, err.Error())
         return nil, status.Error(codes.InvalidArgument, "Delete member from portchannel failed")
     }
 
@@ -276,12 +287,21 @@ func portChannelAddMember(sonicPortChannel *sonic.SonicPortchannel, conn *swsssd
     return nil
 }
 
-func portChannelDelMember(name string, member string, conn *swsssdk.ConfigDBConnector) error {
+func portChannelDelMember(member string, conn *swsssdk.ConfigDBConnector) error {
     values := make(map[string]interface{})
     values["NULL"] = "NULL"
 
-    if _, err := conn.SetEntry(config_db.PORTCHANNEL_MEMBER_TABLE, []string{name, member}, values); err != nil {
+    if memberTable, err := conn.GetAllByPattern(config_db.PORTCHANNEL_MEMBER_TABLE, []string{"*", member}); err != nil {
         return err
+    } else {
+        for entry := range memberTable {
+            keys := splitConfigDBKey(entry)
+            if len(keys) == 3 {
+                if _, err := conn.SetEntry(config_db.PORTCHANNEL_MEMBER_TABLE, []string{keys[1], keys[2]}, nil); err != nil {
+                    return err
+                }
+            }
+        }
     }
 
     return nil

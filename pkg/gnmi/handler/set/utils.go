@@ -6,6 +6,8 @@ import (
     "github.com/openconfig/gnmi/proto/gnmi"
     gpb "github.com/openconfig/gnmi/proto/gnmi"
     "github.com/sirupsen/logrus"
+    "gnmi_server/internal/pkg/swsssdk"
+    "strings"
     "time"
 )
 
@@ -36,5 +38,11 @@ func generalPrefixPath(path *gpb.Path) string {
         gPath += "/" + pathElem.GetName()
     }
     return gPath
+}
+
+func splitConfigDBKey(key string) []string {
+    delimiter := swsssdk.Config().GetDBSeparator(swsssdk.CONFIG_DB)
+
+    return strings.Split(key, delimiter)
 }
 
