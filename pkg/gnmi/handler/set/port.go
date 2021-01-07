@@ -15,7 +15,7 @@ import (
     "google.golang.org/protobuf/proto"
 )
 
-func PortListHandler(ctx context.Context, req *gnmi.SetRequest, db command.Client) (*gnmi.SetResponse, error) {
+func PortStatusUpdateHandler(ctx context.Context, req *gnmi.SetRequest, db command.Client) (*gnmi.SetResponse, error) {
     conn := db.Config()
     if conn == nil {
         message := "Database connection is null"
@@ -32,7 +32,7 @@ func PortListHandler(ctx context.Context, req *gnmi.SetRequest, db command.Clien
 
     update := updates[0]
     elements := update.GetPath().GetElem()
-    if len(elements) != 1 && elements[0].GetName() != "admin-status" {
+    if len(elements) != 1 || elements[0].GetName() != "admin-status" {
         message := "Unimplemented request: " + req.String()
         logrus.Error(message)
         return nil, status.Error(codes.Unimplemented, "Unimplemented request")
@@ -53,12 +53,7 @@ func PortListHandler(ctx context.Context, req *gnmi.SetRequest, db command.Clien
         portList := portListKey.GetPortList()
         adminStatus := portList.GetAdminStatus()
 
-        var newStatus = ""
-        if adminStatus == sonic.SonicPortAdminStatus_SONICPORTADMINSTATUS_up {
-            newStatus= "up"
-        } else {
-            newStatus= "down"
-        }
+        var newStatus = config_db.AdminStatusToString(adminStatus)
 
         oldValues, err := conn.GetEntry(config_db.PORT_TABLE, []string{config_db.PORT_TABLE, portName})
         if err == swsssdk.ErrDatabaseNotExist {
@@ -73,15 +68,13 @@ func PortListHandler(ctx context.Context, req *gnmi.SetRequest, db command.Clien
         }
 
         values := make(map[string]interface{})
-        values["admin_status"] = "up"
+        values["admin_status"] = newStatus
 
-        result, err := conn.ModEntry(config_db.PORT_TABLE, []string{config_db.PORT_TABLE, portName}, values)
+        _, err = conn.ModEntry(config_db.PORT_TABLE, portName, values)
         if err != nil {
-            message := fmt.Sprintf("set admin_status failed for port-%s", portName)
+            message := fmt.Sprintf("set admin_status failed for port-%s: %s", portName, err.Error())
+            logrus.Error(message)
             return nil, status.Error(codes.Internal, message)
-        } else if result == false {
-            message := fmt.Sprintf("port-%s is not exists", portName)
-            return nil, status.Error(codes.NotFound, message)
         }
     }
 

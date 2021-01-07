@@ -11,7 +11,7 @@ func SetServeMux() *gnmi.SetServeMux {
 }
 
 func route(mux *gnmi.SetServeMux) {
-    mux.AddUpdateRouter("/sonic-port/port/port-list", PortListHandler)
+    mux.AddUpdateRouter("/sonic-port/port/port-list/admin-status", PortStatusUpdateHandler)
     mux.AddUpdateRouter("/sonic-loopback-interface/loopback-interface", LoopbackUpdateHandler)
     mux.AddDeleteRouter("/sonic-loopback-interface/loopback-interface", LoopbackDeleteHandler)
     mux.AddUpdateRouter("/sonic", SonicUpdateHandler)

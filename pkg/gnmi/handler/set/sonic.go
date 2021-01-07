@@ -36,15 +36,7 @@ func SonicUpdateHandler(ctx context.Context, req *gnmi.SetRequest, db command.Cl
         return nil, status.Error(codes.Internal, "Execute sonic-cfggen failed")
     }
 
-    //var path gnmi.Path
-    //err = deepcopy.Copy(&path, update.GetPath())
-    //if err != nil {
-    //    logrus.Errorf("Deep copy struct path failed: %s", err.Error())
-    //    return nil, err
-    //}
-
     result := gnmi.UpdateResult{
-    //    Path: &path,
         Path: update.Path,
         Op: gnmi.UpdateResult_UPDATE,
     }
