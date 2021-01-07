@@ -113,11 +113,13 @@ func (cc *ConfigDBConnector) GetTable(table string) (map[string]map[string]inter
             if keys, err := cc.mgmt.keys(id, pattern); err != nil {
                 return content, err
             } else {
+                s := gscfg.GetDBSeparator(CONFIG_DB)
                 for _, key := range keys {
                     if entry, err := cc.mgmt.get_all(id, key); err != nil {
                         return content, err
                     } else {
-                        content[key] = cc.raw_to_typed(entry)
+                        mkeys := strings.SplitN(key, s, 2)
+                        content[mkeys[len(mkeys)-1]] = cc.raw_to_typed(entry)
                     }
                 }
                 return content, nil
