@@ -2,133 +2,56 @@ package get
 
 import (
     "context"
+    sonicpb "github.com/TeamNocsys/sonicpb/api/protobuf/sonic"
+    "github.com/openconfig/gnmi/proto/gnmi"
     "gnmi_server/cmd/command"
     "gnmi_server/internal/pkg/swsssdk"
+    "gnmi_server/internal/pkg/swsssdk/helper"
+    "gnmi_server/pkg/gnmi/handler"
     handler_utils "gnmi_server/pkg/gnmi/handler/utils"
-    "strconv"
-    "strings"
-
-    sonicpb "github.com/TeamNocsys/sonicpb/api/protobuf/sonic"
-    "github.com/openconfig/ygot/proto/ywrapper"
-    "github.com/openconfig/gnmi/proto/gnmi"
-    "github.com/sirupsen/logrus"
     "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
 )
 
-const (
-    LLDP_ENTRY_TABLE = "LLDP_ENTRY_TABLE*"
-)
-
 func LLDPHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*gnmi.GetResponse, error) {
-    otherDB := db.State()
-
-    dbConfig := swsssdk.Config()
-    delimiter := dbConfig.GetDBSeparator(swsssdk.APPL_DB)
-
-    lldpEntry, err := otherDB.GetAllByPattern(swsssdk.APPL_DB, LLDP_ENTRY_TABLE)
-    if err != nil {
-        logrus.Errorf("Get key %s from %s failed: %s", LLDP_ENTRY_TABLE,
-            swsssdk.APPL_DB, err.Error())
-        return nil, status.Errorf(codes.Internal, "Get table from database failed")
+    conn := db.State()
+    if conn == nil {
+        return nil, status.Error(codes.Internal, "")
+    }
+    // 获取指定LLDP或全部LLDP
+    kvs := handler.FetchPathKey(r)
+    spec := "*"
+    if v, ok := kvs["port-name"]; ok {
+        spec = v
     }
 
-    lldp := &sonicpb.SonicLldp_Lldp{}
-
-    for key, value := range lldpEntry {
-        words := strings.Split(key, delimiter)
-        if len(words) != 2 {
-            logrus.Errorf("Error key-%s when process lldp entry", key)
-            continue
-        }
-
-        state := &sonicpb.SonicLldp_Lldp_DeviceList_State{}
-        state.LocalPort = &ywrapper.StringValue{Value: words[1]}
-        var name string
-
-        for field, v := range value {
-            switch field {
-            case "lldp_rem_time_mark":
-                age, err := parseUint(v, key, field)
-                if err == nil {
-                    state.Age = &ywrapper.UintValue{Value: age}
-                }
-            case "lldp_rem_chassis_id":
-                state.ChassisId = &ywrapper.StringValue{Value: v}
-            case "lldp_rem_chassis_id_subtype":
-                subType, err := parseInt(v, key, field)
-                if err == nil {
-                    if subType < 0 || subType > 7 {
-                        logrus.Errorf("unknown chassis id type: %s in %s %s",
-                            v, swsssdk.APPL_DB, LLDP_ENTRY_TABLE)
-                    } else {
-                        state.ChassisIdType = sonicpb.SonicLldpChassisIdType(subType)
-                    }
-                }
-            case "lldp_rem_index":
-                index, err := parseUint(v, key, field)
-                if err == nil {
-                    state.Index = &ywrapper.UintValue{Value: index}
-                }
-            case "lldp_rem_port_desc":
-                state.PortDescription = &ywrapper.StringValue{Value: v}
-            case "lldp_rem_port_id":
-                state.PortId = &ywrapper.StringValue{Value: v}
-            case "lldp_rem_port_id_subtype":
-                portId, err := parseInt(v, key, field)
-                if err == nil {
-                    state.PortIdType = sonicpb.SonicLldpPortIdType(portId)
-                }
-            case "lldp_rem_sys_desc":
-                state.SystemDescription = &ywrapper.StringValue{Value: v}
-            case "lldp_rem_sys_name":
-                name = v
-                state.SystemName = &ywrapper.StringValue{Value: v}
+    sl := &sonicpb.SonicLldp{
+        Lldp: &sonicpb.SonicLldp_Lldp{},
+    }
+    if hkeys, err := conn.GetKeys(swsssdk.APPL_DB, []string{"LLDP_ENTRY_TABLE", spec}); err != nil {
+        return nil, status.Errorf(codes.Internal, err.Error())
+    } else {
+        for _, hkey := range hkeys {
+            keys := conn.SplitKeys(swsssdk.APPL_DB, hkey)
+            c := helper.Lldp{
+                Key: keys[0],
+                Client: db,
+                Data: nil,
             }
+            if err := c.LoadFromDB(helper.DATA_TYPE_ALL); err != nil {
+                return nil, status.Errorf(codes.Internal, err.Error())
+            }
+            sl.Lldp.LldpList = append(sl.Lldp.LldpList,
+                &sonicpb.SonicLldp_Lldp_LldpListKey{
+                    PortName: keys[0],
+                    LldpList: c.Data,
+                })
         }
-
-        deviceList := &sonicpb.SonicLldp_Lldp_DeviceList{
-            Config: nil,
-            State:  state,
-        }
-        deviceListKey := &sonicpb.SonicLldp_Lldp_DeviceListKey{
-            DeviceName: name,
-            DeviceList: deviceList,
-        }
-        lldp.DeviceList = append(lldp.DeviceList, deviceListKey)
     }
 
-    sonicLldp := &sonicpb.SonicLldp{
-        Lldp: lldp,
-    }
-
-    response, err := handler_utils.CreateGetResponse(ctx, r, sonicLldp)
+    response, err := handler_utils.CreateGetResponse(ctx, r, sl)
     if err != nil {
-        logrus.Errorf("create response failed: %s", err.Error())
         return nil, status.Errorf(codes.Internal, err.Error())
     }
-
     return response, nil
-}
-
-func parseUint(str string, key string, field string) (uint64, error) {
-    value, err := strconv.ParseUint(str, 10, 64)
-    if err != nil {
-        logrus.Errorf("parse %s value-%s from %s %s to uint64 failed: %s",
-            field, str, swsssdk.APPL_DB, key, err.Error())
-        return 0, err
-    }
-
-    return value, nil
-}
-
-func parseInt(str string, key string, field string) (int64, error) {
-    value, err := strconv.ParseInt(str, 10, 64)
-    if err != nil {
-        logrus.Errorf("parse %s value-%s from %s %s to int64 failed: %s",
-            field, str, swsssdk.APPL_DB, key, err.Error())
-        return 0, err
-    }
-
-    return value, nil
 }

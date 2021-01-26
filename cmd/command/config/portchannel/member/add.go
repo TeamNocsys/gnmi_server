@@ -6,7 +6,6 @@ import (
     "gnmi_server/cmd/command"
     "gnmi_server/cmd/command/config/utils"
     "gnmi_server/internal/pkg/swsssdk"
-    "gnmi_server/internal/pkg/swsssdk/helper/config_db"
     "regexp"
 )
 
@@ -46,7 +45,7 @@ func runAdd(gnmiCli command.Client, opts *addOptions) error {
     if conn := gnmiCli.Config(); conn == nil {
         return swsssdk.ErrDatabaseNotExist
     } else {
-        info, err := conn.GetEntry(config_db.PORTCHANNEL_TABLE, opts.name)
+        info, err := conn.GetEntry("PORTCHANNEL", opts.name)
         if err != nil {
             return err
         }
@@ -54,7 +53,7 @@ func runAdd(gnmiCli command.Client, opts *addOptions) error {
             return fmt.Errorf("%s doesn't exist", opts.name)
         }
 
-        ok, err := conn.HasEntry(config_db.PORT_TABLE, opts.port)
+        ok, err := conn.HasEntry("PORT", opts.port)
         if err != nil {
             return err
         }
@@ -74,7 +73,7 @@ func runAdd(gnmiCli command.Client, opts *addOptions) error {
             members = []string{opts.port}
         }
         info["members"] = members
-        conn.SetEntry(config_db.PORTCHANNEL_TABLE, opts.name, info)
+        conn.SetEntry("PORTCHANNEL", opts.name, info)
         return nil
     }
 }

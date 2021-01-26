@@ -5,7 +5,6 @@ import (
     "github.com/spf13/cobra"
     "gnmi_server/cmd/command"
     "gnmi_server/internal/pkg/swsssdk"
-    shelper "gnmi_server/internal/pkg/swsssdk/helper"
 )
 
 type countersOptions struct {
@@ -30,7 +29,7 @@ func runCounters(gnmiCli command.Client, opts *countersOptions) error {
     if conn := gnmiCli.State(); conn == nil {
         return swsssdk.ErrDatabaseNotExist
     } else {
-        content, err := conn.GetAll(swsssdk.COUNTERS_DB, shelper.COUNTERS_PORT_NAME_MAP)
+        content, err := conn.GetAll(swsssdk.COUNTERS_DB, "COUNTERS_PORT_NAME_MAP")
         if err != nil {
             return err
         }

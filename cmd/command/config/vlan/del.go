@@ -5,7 +5,6 @@ import (
     "gnmi_server/cmd/command"
     "gnmi_server/internal/pkg/swsssdk"
     "gnmi_server/internal/pkg/swsssdk/helper"
-    "gnmi_server/internal/pkg/swsssdk/helper/config_db"
     "strconv"
 )
 
@@ -36,7 +35,7 @@ func runDel(gnmiCli command.Client, opts *delOptions) error {
     if conn := gnmiCli.Config(); conn == nil {
         return swsssdk.ErrDatabaseNotExist
     } else {
-        _, err := conn.SetEntry(config_db.VLAN_TABLE, helper.VID(opts.vid), nil)
+        _, err := conn.SetEntry("VLAN", helper.VID(opts.vid), nil)
         return err
     }
 }

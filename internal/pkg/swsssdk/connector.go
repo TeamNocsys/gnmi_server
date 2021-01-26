@@ -4,6 +4,7 @@ import (
     "context"
     "fmt"
     "github.com/go-redis/redis/v8"
+    "github.com/sirupsen/logrus"
     "strings"
 )
 
@@ -25,6 +26,11 @@ func (conn *Connector) Close() {
 
 func (conn *Connector) Connect(db_name string) bool {
     if id := gscfg.GetDBId(db_name); id >= 0 {
+        logrus.Info(fmt.Sprintf("Connect|%s|id:%d|host:%s|port:%d",
+            db_name,
+            id,
+            gscfg.GetDBHostname(db_name),
+            gscfg.GetDBPort(db_name)))
         return conn.mgmt.connect(id, gscfg.GetDBHostname(db_name), gscfg.GetDBPort(db_name))
     }
     return false
@@ -123,19 +129,98 @@ func (conn *Connector) DeleteAllByPattern(db_name string, patterns interface{}) 
     }
 }
 
+func (conn *Connector) SetEntry(db_name string, keys interface{}, values map[string]interface{}) (bool, error) {
+    if key := conn.serialize_key(db_name, keys); key == "" {
+        return false, ErrInvalidParameters
+    } else {
+        if id := gscfg.GetDBId(db_name); id >= 0 {
+            if values == nil {
+                num, err := conn.mgmt.delete(id, key)
+                return num > 0, err
+            } else {
+                if entries, err := conn.GetEntry(db_name, keys); err != nil {
+                    return false, err
+                } else if num, err := conn.mgmt.hset(id, key, conn.typed_to_raw(values)); err != nil {
+                    return num > 0, err
+                } else {
+                    // 删除旧的无效条目
+                    for k, _ := range entries {
+                        if _, ok := values[k]; !ok {
+                            if _, err := conn.mgmt.delete(id, k); err != nil {
+                                return false, err
+                            }
+                        }
+                    }
+                    return true, nil
+                }
+            }
+        }
+        return false, ErrDatabaseNotExist
+    }
+}
+
+func (conn *Connector) ModEntry(db_name string, keys interface{}, values map[string]interface{}) (bool, error) {
+    if key := conn.serialize_key(db_name, keys); key == "" {
+        return false, ErrInvalidParameters
+    } else {
+        if id := gscfg.GetDBId(db_name); id >= 0 {
+            if values == nil {
+                num, err := conn.mgmt.delete(id, key)
+                return num > 0, err
+            } else {
+                num, err := conn.mgmt.hset(id, key, conn.typed_to_raw(values))
+                return num > 0, err
+            }
+        }
+        return false, ErrDatabaseNotExist
+    }
+}
+
+func (conn *Connector) GetEntry(db_name string, keys interface{}) (map[string]interface{}, error) {
+    if key := conn.serialize_key(db_name, keys); key == "" {
+        return map[string]interface{}{}, ErrInvalidParameters
+    } else {
+        if id := gscfg.GetDBId(db_name); id >= 0 {
+            if values, err := conn.mgmt.get_all(id, key); err != nil {
+                return map[string]interface{}{}, err
+            } else {
+                return conn.raw_to_typed(values), nil
+            }
+        }
+        return map[string]interface{}{}, ErrDatabaseNotExist
+    }
+
+}
+
+func (conn *Connector) GetKeys(db_name string, keys interface{}) ([]string, error) {
+    if id := gscfg.GetDBId(db_name); id >= 0 {
+        if pattern := conn.serialize_key(db_name, keys); pattern != "" {
+            if ss, err := conn.mgmt.keys(id, pattern); err != nil {
+                return []string{}, err
+            } else {
+                var hkeys []string
+                for _, s := range ss {
+                    hkeys = append(hkeys, s)
+                }
+                return hkeys, nil
+            }
+        }
+    }
+    return []string{}, ErrDatabaseNotExist
+}
+
+func (conn *Connector) SplitKeys(db_name string, keys string) []string {
+    s := gscfg.GetDBSeparator(db_name)
+    return strings.Split(keys, s)[1:]
+}
+
 func (conn *Connector) serialize_key(db_name string, keys interface{}) string {
     key := ""
     switch keys.(type) {
     case string:
         key = keys.(string)
     case []string:
-        sep := ""
-        if gscfg.GetDBSeparator(db_name) == "|" {
-            sep = "\\" + gscfg.GetDBSeparator(db_name)
-        } else {
-            sep = gscfg.GetDBSeparator(db_name)
-        }
-        key = strings.Join(keys.([]string), sep)
+        key = strings.Join(keys.([]string), gscfg.GetDBSeparator(db_name))
     }
 
     return key

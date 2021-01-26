@@ -4,15 +4,12 @@ import (
     "context"
     sonicpb "github.com/TeamNocsys/sonicpb/api/protobuf/sonic"
     "github.com/openconfig/gnmi/proto/gnmi"
-    "github.com/openconfig/ygot/proto/ywrapper"
     "gnmi_server/cmd/command"
-    "gnmi_server/internal/pkg/swsssdk"
-    "gnmi_server/internal/pkg/swsssdk/helper/config_db"
+    "gnmi_server/internal/pkg/swsssdk/helper"
     "gnmi_server/pkg/gnmi/handler"
     handler_utils "gnmi_server/pkg/gnmi/handler/utils"
     "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
-    "strings"
 )
 
 func InterfaceHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*gnmi.GetResponse, error) {
@@ -27,27 +24,31 @@ func InterfaceHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client
         spec = v
     }
 
-    infos, err := conn.GetAllByPattern(swsssdk.CONFIG_DB, []string{config_db.INTERFACE_TABLE, spec})
-    if err != nil {
-        return nil, status.Error(codes.Internal, err.Error())
-    }
     si := &sonicpb.SonicInterface{
         Interface: &sonicpb.SonicInterface_Interface{},
     }
-    s := swsssdk.Config().GetDBSeparator(swsssdk.CONFIG_DB)
-    for hash, info := range infos {
-        keys := strings.Split(hash, s)
-        if len(keys) != 2 {
-            continue
+    if hkeys, err := conn.GetKeys("INTERFACE", spec); err != nil {
+        return nil, status.Errorf(codes.Internal, err.Error())
+    } else {
+        for _, hkey := range hkeys {
+            keys := conn.SplitKeys(hkey)
+            if len(keys) != 1 {
+                continue
+            }
+            c := helper.Interface{
+                Key: keys[0],
+                Client: db,
+                Data: nil,
+            }
+            if err := c.LoadFromDB(); err != nil {
+                return nil, status.Errorf(codes.Internal, err.Error())
+            }
+            si.Interface.InterfaceList = append(si.Interface.InterfaceList,
+                &sonicpb.SonicInterface_Interface_InterfaceListKey{
+                    PortName: keys[0],
+                    InterfaceList: c.Data,
+                })
         }
-        v, err := getInterfaceList(info)
-        if err != nil {
-            return nil, status.Error(codes.Internal, err.Error())
-        }
-        si.Interface.InterfaceList = append(si.Interface.InterfaceList, &sonicpb.SonicInterface_Interface_InterfaceListKey{
-            PortName: keys[1],
-            InterfaceList: v,
-        })
     }
 
     response, err := handler_utils.CreateGetResponse(ctx, r, si)
@@ -55,16 +56,6 @@ func InterfaceHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client
         return nil, status.Errorf(codes.Internal, err.Error())
     }
     return response, nil
-}
-
-func getInterfaceList(info map[string]string) (*sonicpb.SonicInterface_Interface_InterfaceList, error) {
-    r := &sonicpb.SonicInterface_Interface_InterfaceList{}
-
-    if v, ok := info[config_db.INTERFACE_VRF_NAME]; ok {
-        r.VrfName = &ywrapper.StringValue{Value: v}
-    }
-
-    return r, nil
 }
 
 func InterfaceIPPrefixHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*gnmi.GetResponse, error) {
@@ -86,28 +77,29 @@ func InterfaceIPPrefixHandler(ctx context.Context, r *gnmi.GetRequest, db comman
         spec = append(spec, "*")
     }
 
-    infos, err := conn.GetAllByPattern(swsssdk.CONFIG_DB, append([]string{config_db.INTERFACE_TABLE}, spec...))
-    if err != nil {
-        return nil, status.Error(codes.Internal, err.Error())
-    }
     si := &sonicpb.SonicInterface{
         Interface: &sonicpb.SonicInterface_Interface{},
     }
-    s := swsssdk.Config().GetDBSeparator(swsssdk.CONFIG_DB)
-    for hash, info := range infos {
-        keys := strings.Split(hash, s)
-        if len(keys) != 3 {
-            continue
+    if hkeys, err := conn.GetKeys("INTERFACE", spec); err != nil {
+        return nil, status.Errorf(codes.Internal, err.Error())
+    } else {
+        for _, hkey := range hkeys {
+            keys := conn.SplitKeys(hkey)
+            c := helper.InterfaceIPPrefix{
+                Keys: keys,
+                Client: db,
+                Data: nil,
+            }
+            if err := c.LoadFromDB(); err != nil {
+                return nil, status.Errorf(codes.Internal, err.Error())
+            }
+            si.Interface.InterfaceIpprefixList = append(si.Interface.InterfaceIpprefixList,
+                &sonicpb.SonicInterface_Interface_InterfaceIpprefixListKey{
+                    PortName: keys[0],
+                    IpPrefix: keys[1],
+                    InterfaceIpprefixList: c.Data,
+                })
         }
-        v, err := getInterfaceIpprefixList(info)
-        if err != nil {
-            return nil, status.Error(codes.Internal, err.Error())
-        }
-        si.Interface.InterfaceIpprefixList = append(si.Interface.InterfaceIpprefixList, &sonicpb.SonicInterface_Interface_InterfaceIpprefixListKey{
-            PortName: keys[1],
-            IpPrefix: keys[2],
-            InterfaceIpprefixList: v,
-        })
     }
 
     response, err := handler_utils.CreateGetResponse(ctx, r, si)
@@ -115,26 +107,4 @@ func InterfaceIPPrefixHandler(ctx context.Context, r *gnmi.GetRequest, db comman
         return nil, status.Errorf(codes.Internal, err.Error())
     }
     return response, nil
-}
-
-func getInterfaceIpprefixList(info map[string]string) (*sonicpb.SonicInterface_Interface_InterfaceIpprefixList, error) {
-    r := &sonicpb.SonicInterface_Interface_InterfaceIpprefixList{}
-
-    if v, ok := info[config_db.INTERFACE_IPPREFIX_SCOPE]; ok {
-        if strings.ToUpper(v) == config_db.SCOPE_GLOBAL {
-            r.Scope = sonicpb.SonicInterface_Interface_InterfaceIpprefixList_SCOPE_global
-        } else {
-            r.Scope = sonicpb.SonicInterface_Interface_InterfaceIpprefixList_SCOPE_local
-        }
-    }
-
-    if v, ok := info[config_db.INTERFACE_IPPREFIX_FAMILY]; ok {
-        if strings.ToUpper(v) == config_db.IP_FAMILY_IPV6 {
-            r.Family = sonicpb.SonicInterfaceIpFamily_SONICINTERFACEIPFAMILY_IPv6
-        } else {
-            r.Family = sonicpb.SonicInterfaceIpFamily_SONICINTERFACEIPFAMILY_IPv4
-        }
-    }
-
-    return r, nil
 }

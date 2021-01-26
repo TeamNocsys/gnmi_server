@@ -5,7 +5,6 @@ import (
     "gnmi_server/cmd/command"
     "gnmi_server/cmd/command/config/utils"
     "gnmi_server/internal/pkg/swsssdk"
-    "gnmi_server/internal/pkg/swsssdk/helper/config_db"
     "regexp"
 )
 
@@ -42,19 +41,19 @@ func runAdd(gnmiCli command.Client, opts *addOptions) error {
         if ok, err := regexp.MatchString(utils.PORT_PATTERN, opts.name); err != nil {
             return err
         } else if ok {
-            _, err := conn.SetEntry(config_db.PORT_TABLE, []string{opts.name, opts.addr}, map[string]interface{}{})
+            _, err := conn.SetEntry("PORT", []string{opts.name, opts.addr}, map[string]interface{}{})
             return err
         }
         if ok, err := regexp.MatchString(utils.PORT_CHANNEL_PATTERN, opts.name); err != nil {
             return err
         } else if ok {
-            _, err := conn.SetEntry(config_db.PORTCHANNEL_TABLE, []string{opts.name, opts.addr}, map[string]interface{}{})
+            _, err := conn.SetEntry("PORTCHANNEL", []string{opts.name, opts.addr}, map[string]interface{}{})
             return err
         }
         if ok, err := regexp.MatchString(utils.VLAN_PATTERN, opts.name); err != nil {
             return err
         } else if ok {
-            _, err := conn.SetEntry(config_db.VLAN_TABLE, []string{opts.name, opts.addr}, map[string]interface{}{})
+            _, err := conn.SetEntry("VLAN", []string{opts.name, opts.addr}, map[string]interface{}{})
             return err
         }
         return utils.ErrUnknowInterface

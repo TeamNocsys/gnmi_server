@@ -4,6 +4,7 @@ import (
     "context"
     "fmt"
     "github.com/go-redis/redis/v8"
+    "github.com/sirupsen/logrus"
     "time"
 )
 
@@ -102,6 +103,17 @@ func (mgr *manager) get_all(id int, key string) (map[string]string, error) {
 
 func (mgr *manager) hset(id int, key string, value interface{}) (int64, error) {
     if client, ok := mgr.clients[id]; ok {
+        if data, ok := value.(map[string]interface{}); ok {
+            msg := ""
+            for k, v := range data {
+                msg += fmt.Sprintf("|%s:%v", k, v)
+            }
+            logrus.Trace(key + "|SET" + msg)
+        } else if data, ok := value.(string); ok {
+            logrus.Trace(key + "|SET|" + data)
+        } else {
+            logrus.Trace(key + "|SET")
+        }
         return client.HSet(mgr.ctx, key, value).Result()
     }
     return 0, ErrConnNotExist
@@ -109,6 +121,7 @@ func (mgr *manager) hset(id int, key string, value interface{}) (int64, error) {
 
 func (mgr *manager) delete(id int, key string) (int64, error) {
     if client, ok := mgr.clients[id]; ok {
+        logrus.Trace(key + "|DEL")
         return client.Del(mgr.ctx, key).Result()
     }
     return 0, ErrConnNotExist
@@ -116,10 +129,12 @@ func (mgr *manager) delete(id int, key string) (int64, error) {
 
 func (mgr *manager) delete_all_by_pattern(id int, pattern string) (int64, error) {
     if client, ok := mgr.clients[id]; ok {
+        logrus.Trace(pattern + "|GET")
         if keys, err := client.Keys(mgr.ctx, pattern).Result(); err != nil {
             return 0, err
         } else {
             for _, key := range keys {
+                logrus.Trace(key + "|DEL")
                 if _, err := client.Del(mgr.ctx, key).Result(); err != nil {
                     return 0, err
                 }

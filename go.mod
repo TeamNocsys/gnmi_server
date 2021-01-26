@@ -5,7 +5,7 @@ go 1.14
 require (
 	github.com/Masterminds/semver v1.5.0 // indirect
 	github.com/Masterminds/vcs v1.13.1 // indirect
-	github.com/TeamNocsys/sonicpb v1.0.0
+	github.com/TeamNocsys/sonicpb v1.0.1-0.20210129074757-2cd66a9e27dd
 	github.com/armon/go-radix v1.0.0 // indirect
 	github.com/boltdb/bolt v1.3.1 // indirect
 	github.com/elgs/gojq v0.0.0-20160421194050-81fa9a608a13 // indirect
@@ -20,13 +20,12 @@ require (
 	github.com/lestrrat-go/strftime v1.0.3 // indirect
 	github.com/nightlyone/lockfile v1.0.0 // indirect
 	github.com/openconfig/gnmi v0.0.0-20200617225440-d2b4e6a45802
-	github.com/openconfig/goyang v0.0.0-20200623182805-6be32aef2bcd // indirect
-	github.com/openconfig/ygot v0.8.3
+	github.com/openconfig/ygot v0.9.0
 	github.com/pelletier/go-toml v1.8.0 // indirect
 	github.com/sdboyer/constext v0.0.0-20170321163424-836a14457353 // indirect
 	github.com/sirupsen/logrus v1.6.0
 	github.com/spf13/cobra v1.0.0
 	golang.org/x/sys v0.0.0-20200817085935-3ff754bf58a9 // indirect
 	google.golang.org/grpc v1.30.0
-	google.golang.org/protobuf v1.25.0
+	google.golang.org/protobuf v1.25.0 // indirect
 )

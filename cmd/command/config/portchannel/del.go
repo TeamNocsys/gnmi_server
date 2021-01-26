@@ -5,7 +5,6 @@ import (
     "gnmi_server/cmd/command"
     "gnmi_server/cmd/command/config/utils"
     "gnmi_server/internal/pkg/swsssdk"
-    "gnmi_server/internal/pkg/swsssdk/helper/config_db"
     "regexp"
 )
 
@@ -36,7 +35,7 @@ func runDel(gnmiCli command.Client, opts *delOptions) error {
         if ok, err := regexp.MatchString(utils.PORT_CHANNEL_PATTERN, opts.name); err != nil {
             return err
         } else if ok {
-            _, err := conn.SetEntry(config_db.PORTCHANNEL_TABLE, opts.name, nil)
+            _, err := conn.SetEntry("PORTCHANNEL", opts.name, nil)
             return err
         }
         return ErrInvaildPattern

@@ -20,11 +20,11 @@ func exec(gnmiCli *command.GnmiClient) error {
         SilenceUsage:     true,
         SilenceErrors:    true,
         TraverseChildren: true,
-        RunE: func(cmd *cobra.Command, args []string) error {
+        PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
             if cfg != "" {
-                return swsssdk.LoadConfig(cfg)
+                swsssdk.LoadConfig(cfg)
             }
-            return nil
+            return gnmiCli.Connect()
         },
     }
 
@@ -40,12 +40,7 @@ func exec(gnmiCli *command.GnmiClient) error {
 }
 
 func main() {
-
-    gnmiCli, err := command.NewGnmiClient()
-    if err != nil {
-        fmt.Fprintln(os.Stderr, err)
-        os.Exit(1)
-    }
+    gnmiCli:= command.NewGnmiClient()
     defer gnmiCli.Close()
 
     if err := exec(gnmiCli); err != nil {

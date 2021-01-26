@@ -6,7 +6,6 @@ import (
     "gnmi_server/cmd/command"
     "gnmi_server/internal/pkg/swsssdk"
     "gnmi_server/internal/pkg/swsssdk/helper"
-    "gnmi_server/internal/pkg/swsssdk/helper/config_db"
     "strconv"
 )
 
@@ -47,7 +46,7 @@ func runAdd(gnmiCli command.Client, opts *addOptions) error {
     if conn := gnmiCli.Config(); conn == nil {
         return swsssdk.ErrDatabaseNotExist
     } else {
-        info, err := conn.GetEntry(config_db.VLAN_TABLE, helper.VID(opts.vid))
+        info, err := conn.GetEntry("VLAN", helper.VID(opts.vid))
         if err != nil {
             return err
         }
@@ -67,14 +66,14 @@ func runAdd(gnmiCli command.Client, opts *addOptions) error {
             members = []string{opts.intf}
         }
         info["members"] = members
-        conn.SetEntry(config_db.VLAN_TABLE, helper.VID(opts.vid), info)
+        conn.SetEntry("VLAN", helper.VID(opts.vid), info)
         var mode string
         if opts.untagged {
             mode = "untagged"
         } else {
             mode = "tagged"
         }
-        conn.SetEntry(config_db.VLAN_MEMBER_TABLE, []string{helper.VID(opts.vid), opts.intf}, map[string]interface{}{
+        conn.SetEntry("VLAN_MEMBER", []string{helper.VID(opts.vid), opts.intf}, map[string]interface{}{
             "tagging_mode": mode,
         })
         return nil

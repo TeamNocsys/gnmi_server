@@ -2,7 +2,9 @@ package swsssdk
 
 import (
     "context"
+    "fmt"
     "github.com/go-redis/redis/v8"
+    "github.com/sirupsen/logrus"
     "strings"
 )
 
@@ -25,6 +27,11 @@ func (cc *ConfigDBConnector) Close() {
 
 func (cc *ConfigDBConnector) Connect() bool {
     if id := gscfg.GetDBId(CONFIG_DB); id > 0 {
+        logrus.Info(fmt.Sprintf("Connect|%s|id:%d|host:%s|port:%d",
+            CONFIG_DB,
+            id,
+            gscfg.GetDBHostname(CONFIG_DB),
+            gscfg.GetDBPort(CONFIG_DB)))
         return cc.mgmt.connect(id, gscfg.GetDBHostname(CONFIG_DB), gscfg.GetDBPort(CONFIG_DB))
     }
     return false
@@ -94,16 +101,28 @@ func (cc *ConfigDBConnector) GetEntry(table string, keys interface{}) (map[strin
         }
         return map[string]interface{}{}, ErrDatabaseNotExist
     }
-
 }
 
-func (cc *ConfigDBConnector) GetKeys(table string) ([]string, error) {
+func (cc *ConfigDBConnector) GetKeys(table string, keys interface{}) ([]string, error) {
     if id := gscfg.GetDBId(CONFIG_DB); id > 0 {
-        if pattern := cc.serialize_key(table, "*"); pattern != "" {
-            return cc.mgmt.keys(id, pattern)
+        if pattern := cc.serialize_key(table, keys); pattern != "" {
+            if ss, err := cc.mgmt.keys(id, pattern); err != nil {
+                return []string{}, err
+            } else {
+                var hkeys []string
+                for _, s := range ss {
+                    hkeys = append(hkeys, s)
+                }
+                return hkeys, nil
+            }
         }
     }
     return []string{}, ErrDatabaseNotExist
+}
+
+func (cc *ConfigDBConnector) SplitKeys(keys string) []string {
+    s := gscfg.GetDBSeparator(CONFIG_DB)
+    return strings.Split(keys, s)[1:]
 }
 
 func (cc *ConfigDBConnector) GetTable(table string) (map[string]map[string]interface{}, error) {
