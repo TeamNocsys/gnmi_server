@@ -17,7 +17,9 @@ gnmi  gnmi.go
 ### 发布用
 ```shell script
 $ cd cmd/gnmi
-$ go build -tags release
+$ GOOS=linux go build -tags release
+### 支持远程DEBUG
+$ GOOS=linux go build --gcflags "all=-N -l" -tags=release
 ```
 
 当前目录下生成可执行文件gnmi
@@ -35,7 +37,12 @@ $ scp gnmi admin@192.168.200.47:/home/admin
 
 2.运行
 ```shell script
+### 日志默认路径为/var/log/gnmi_server.log
 $ sudo ./gnmi run --address 0.0.0.0 --port 5002
+### 指定数据库配置文件
+$ sudo ./gnmi run --address 0.0.0.0 --port 5002 -v --config /var/run/redis/sonic-db/database_config.json
+### 远程DEBUG模式，注意ROOT用户运行
+# dlv --listen=:2345 --headless=true --api-version=2 --accept-multiclient exec ./gnmi -- run --address 0.0.0.0 --port 5002 --path .
 ```
 
 ## 测试
