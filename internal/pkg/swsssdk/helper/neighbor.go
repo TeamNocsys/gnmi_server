@@ -10,7 +10,7 @@ import (
 type Neighbor struct {
     Keys []string
     Client command.Client
-    Data *sonicpb.SonicNeighor_Neighor_NeighorList
+    Data *sonicpb.NocsysNeighor_Neighor_NeighorList
 }
 
 func (c *Neighbor) LoadFromDB() error {
@@ -20,7 +20,7 @@ func (c *Neighbor) LoadFromDB() error {
     }
 
     if c.Data == nil {
-        c.Data = &sonicpb.SonicNeighor_Neighor_NeighorList{}
+        c.Data = &sonicpb.NocsysNeighor_Neighor_NeighorList{}
     }
     if data, err := conn.GetAll(swsssdk.APPL_DB, append([]string{"NEIGH_TABLE"}, c.Keys...)); err != nil {
         return err

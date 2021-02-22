@@ -24,8 +24,8 @@ func VlanInterfaceHandler(ctx context.Context, r *gnmi.GetRequest, db command.Cl
         spec = v
     }
 
-    sv := &sonicpb.SonicVlan{
-        VlanInterface: &sonicpb.SonicVlan_VlanInterface{},
+    sv := &sonicpb.NocsysVlan{
+        VlanInterface: &sonicpb.NocsysVlan_VlanInterface{},
     }
     if hkeys, err := conn.GetKeys("VLAN_INTERFACE", spec); err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
@@ -44,7 +44,7 @@ func VlanInterfaceHandler(ctx context.Context, r *gnmi.GetRequest, db command.Cl
                 return nil, status.Errorf(codes.Internal, err.Error())
             }
             sv.VlanInterface.VlanInterfaceList = append(sv.VlanInterface.VlanInterfaceList,
-                &sonicpb.SonicVlan_VlanInterface_VlanInterfaceListKey{
+                &sonicpb.NocsysVlan_VlanInterface_VlanInterfaceListKey{
                     VlanName: keys[0],
                     VlanInterfaceList: c.Data,
                 })
@@ -77,8 +77,8 @@ func VlanInterfaceIPPrefixHandler(ctx context.Context, r *gnmi.GetRequest, db co
         spec = append(spec, "*")
     }
 
-    sv := &sonicpb.SonicVlan{
-        VlanInterface: &sonicpb.SonicVlan_VlanInterface{},
+    sv := &sonicpb.NocsysVlan{
+        VlanInterface: &sonicpb.NocsysVlan_VlanInterface{},
     }
     if hkeys, err := conn.GetKeys("VLAN_INTERFACE", spec); err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
@@ -94,7 +94,7 @@ func VlanInterfaceIPPrefixHandler(ctx context.Context, r *gnmi.GetRequest, db co
                 return nil, status.Errorf(codes.Internal, err.Error())
             }
             sv.VlanInterface.VlanInterfaceIpprefixList = append(sv.VlanInterface.VlanInterfaceIpprefixList,
-                &sonicpb.SonicVlan_VlanInterface_VlanInterfaceIpprefixListKey{
+                &sonicpb.NocsysVlan_VlanInterface_VlanInterfaceIpprefixListKey{
                     VlanName: keys[0],
                     IpPrefix: keys[1],
                     VlanInterfaceIpprefixList: c.Data,

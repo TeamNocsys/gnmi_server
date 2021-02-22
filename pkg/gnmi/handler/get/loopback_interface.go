@@ -24,8 +24,8 @@ func LoopbackInterfaceHandler(ctx context.Context, r *gnmi.GetRequest, db comman
         spec = v
     }
 
-    sli := &sonicpb.SonicLoopbackInterface{
-        LoopbackInterface: &sonicpb.SonicLoopbackInterface_LoopbackInterface{},
+    sli := &sonicpb.NocsysLoopbackInterface{
+        LoopbackInterface: &sonicpb.NocsysLoopbackInterface_LoopbackInterface{},
     }
     if hkeys, err := conn.GetKeys("LOOPBACK_INTERFACE", spec); err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
@@ -44,7 +44,7 @@ func LoopbackInterfaceHandler(ctx context.Context, r *gnmi.GetRequest, db comman
                 return nil, status.Errorf(codes.Internal, err.Error())
             }
             sli.LoopbackInterface.LoopbackInterfaceList = append(sli.LoopbackInterface.LoopbackInterfaceList,
-                &sonicpb.SonicLoopbackInterface_LoopbackInterface_LoopbackInterfaceListKey{
+                &sonicpb.NocsysLoopbackInterface_LoopbackInterface_LoopbackInterfaceListKey{
                     LoopbackInterfaceName: keys[0],
                     LoopbackInterfaceList: c.Data,
                 })
@@ -77,8 +77,8 @@ func LoopbackInterfaceIPPrefixHandler(ctx context.Context, r *gnmi.GetRequest, d
         spec = append(spec, "*")
     }
 
-    sli := &sonicpb.SonicLoopbackInterface{
-        LoopbackInterface: &sonicpb.SonicLoopbackInterface_LoopbackInterface{},
+    sli := &sonicpb.NocsysLoopbackInterface{
+        LoopbackInterface: &sonicpb.NocsysLoopbackInterface_LoopbackInterface{},
     }
     if hkeys, err := conn.GetKeys("LOOPBACK_INTERFACE", spec); err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
@@ -94,7 +94,7 @@ func LoopbackInterfaceIPPrefixHandler(ctx context.Context, r *gnmi.GetRequest, d
                 return nil, status.Errorf(codes.Internal, err.Error())
             }
             sli.LoopbackInterface.LoopbackInterfaceIpprefixList = append(sli.LoopbackInterface.LoopbackInterfaceIpprefixList,
-                &sonicpb.SonicLoopbackInterface_LoopbackInterface_LoopbackInterfaceIpprefixListKey{
+                &sonicpb.NocsysLoopbackInterface_LoopbackInterface_LoopbackInterfaceIpprefixListKey{
                     LoopbackInterfaceName: keys[0],
                     IpPrefix: keys[1],
                     LoopbackInterfaceIpprefixList: c.Data,

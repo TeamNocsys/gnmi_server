@@ -24,8 +24,8 @@ func VrfHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*gn
         spec = v
     }
 
-    sv := &sonicpb.SonicVrf{
-        Vrf: &sonicpb.SonicVrf_Vrf{},
+    sv := &sonicpb.NocsysVrf{
+        Vrf: &sonicpb.NocsysVrf_Vrf{},
     }
     if hkeys, err := conn.GetKeys("VRF", spec); err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
@@ -41,7 +41,7 @@ func VrfHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*gn
                 return nil, status.Errorf(codes.Internal, err.Error())
             }
             sv.Vrf.VrfList = append(sv.Vrf.VrfList,
-                &sonicpb.SonicVrf_Vrf_VrfListKey{
+                &sonicpb.NocsysVrf_Vrf_VrfListKey{
                     VrfName: keys[0],
                     VrfList: c.Data,
                 })

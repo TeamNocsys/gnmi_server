@@ -13,7 +13,7 @@ import (
 type VlanInterface struct {
     Key string
     Client command.Client
-    Data *sonicpb.SonicVlan_VlanInterface_VlanInterfaceList
+    Data *sonicpb.NocsysVlan_VlanInterface_VlanInterfaceList
 }
 
 func (c *VlanInterface) LoadFromDB() error {
@@ -24,7 +24,7 @@ func (c *VlanInterface) LoadFromDB() error {
 
     // 获取配置信息
     if c.Data == nil {
-        c.Data = &sonicpb.SonicVlan_VlanInterface_VlanInterfaceList{}
+        c.Data = &sonicpb.NocsysVlan_VlanInterface_VlanInterfaceList{}
     }
     if data, err := conn.GetAll(swsssdk.CONFIG_DB, []string{"VLAN_INTERFACE", c.Key}); err != nil {
         return err
@@ -91,10 +91,10 @@ func (c *VlanInterface) RemoveFromDB() error {
         }
     }
 
-    if _, err := conn.DeleteAllByPattern("VLAN_INTERFACE", []string{c.Key, "*"}); err != nil {
+    if _, err := conn.DeleteAllByPattern(swsssdk.CONFIG_DB, []string{"VLAN_INTERFACE", c.Key, "*"}); err != nil {
         return err
     }
-    if _, err := conn.Delete("VLAN_INTERFACE", c.Key); err != nil {
+    if _, err := conn.Delete(swsssdk.CONFIG_DB, []string{"VLAN_INTERFACE", c.Key}); err != nil {
         return err
     }
     return nil

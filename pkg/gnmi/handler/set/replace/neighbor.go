@@ -12,7 +12,7 @@ import (
 )
 
 func NeighborHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) error {
-    info := &sonicpb.SonicNeighor{}
+    info := &sonicpb.NocsysNeighor{}
     if bytes := value.GetBytesVal(); bytes == nil {
         return status.Error(codes.Internal, ErrProtobufType)
     } else if err := proto.Unmarshal(bytes, info); err != nil {

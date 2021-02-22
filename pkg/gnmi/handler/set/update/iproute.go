@@ -11,36 +11,8 @@ import (
     "google.golang.org/grpc/status"
 )
 
-func GlobalIpRouteHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) error {
-    info := &sonicpb.SonicRoute{}
-    if bytes := value.GetBytesVal(); bytes == nil {
-        return status.Error(codes.Internal, ErrProtobufType)
-    } else if err := proto.Unmarshal(bytes, info); err != nil {
-        return err
-    } else {
-        if info.Route != nil {
-            if info.Route.GlobalRouteList != nil {
-                for _, v := range info.Route.GlobalRouteList {
-                    if v.GlobalRouteList == nil {
-                        continue
-                    }
-                    c := helper.GlobalIpRoute{
-                        Key: v.IpPrefix,
-                        Client: db,
-                        Data: v.GlobalRouteList,
-                    }
-                    c.SaveToDB()
-                }
-            }
-        }
-    }
-
-    return nil
-}
-
-
 func IpRouteHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) error {
-    info := &sonicpb.SonicRoute{}
+    info := &sonicpb.NocsysRoute{}
     if bytes := value.GetBytesVal(); bytes == nil {
         return status.Error(codes.Internal, ErrProtobufType)
     } else if err := proto.Unmarshal(bytes, info); err != nil {

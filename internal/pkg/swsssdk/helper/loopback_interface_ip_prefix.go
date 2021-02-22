@@ -12,7 +12,7 @@ import (
 type LoopbackInterfaceIPPrefix struct {
     Keys []string
     Client command.Client
-    Data *sonicpb.SonicLoopbackInterface_LoopbackInterface_LoopbackInterfaceIpprefixList
+    Data *sonicpb.NocsysLoopbackInterface_LoopbackInterface_LoopbackInterfaceIpprefixList
 }
 
 func (c *LoopbackInterfaceIPPrefix) LoadFromDB() error {
@@ -23,7 +23,7 @@ func (c *LoopbackInterfaceIPPrefix) LoadFromDB() error {
 
     // 获取配置信息
     if c.Data == nil {
-        c.Data = &sonicpb.SonicLoopbackInterface_LoopbackInterface_LoopbackInterfaceIpprefixList{}
+        c.Data = &sonicpb.NocsysLoopbackInterface_LoopbackInterface_LoopbackInterfaceIpprefixList{}
     }
     if data, err := conn.GetAll(swsssdk.CONFIG_DB, append([]string{"LOOPBACK_INTERFACE"}, c.Keys...)); err != nil {
         return err
@@ -33,16 +33,16 @@ func (c *LoopbackInterfaceIPPrefix) LoadFromDB() error {
             case "scope":
                 switch v {
                 case "local":
-                    c.Data.Scope = sonicpb.SonicLoopbackInterface_LoopbackInterface_LoopbackInterfaceIpprefixList_SCOPE_local
+                    c.Data.Scope = sonicpb.NocsysLoopbackInterface_LoopbackInterface_LoopbackInterfaceIpprefixList_SCOPE_local
                 case "global":
-                    c.Data.Scope = sonicpb.SonicLoopbackInterface_LoopbackInterface_LoopbackInterfaceIpprefixList_SCOPE_global
+                    c.Data.Scope = sonicpb.NocsysLoopbackInterface_LoopbackInterface_LoopbackInterfaceIpprefixList_SCOPE_global
                 }
             case "family":
                 switch v {
                 case "IPv4":
-                    c.Data.Family = sonicpb.SonicTypesIpFamily_SONICTYPESIPFAMILY_IPv4
+                    c.Data.Family = sonicpb.NocsysTypesIpFamily_NOCSYSTYPESIPFAMILY_IPv4
                 case "IPv6":
-                    c.Data.Family = sonicpb.SonicTypesIpFamily_SONICTYPESIPFAMILY_IPv6
+                    c.Data.Family = sonicpb.NocsysTypesIpFamily_NOCSYSTYPESIPFAMILY_IPv6
                 }
             }
         }
@@ -52,15 +52,15 @@ func (c *LoopbackInterfaceIPPrefix) LoadFromDB() error {
 }
 
 func (c *LoopbackInterfaceIPPrefix) SaveToDB(replace bool) error {
-    if c.Data.Family != sonicpb.SonicTypesIpFamily_SONICTYPESIPFAMILY_UNSET {
+    if c.Data.Family != sonicpb.NocsysTypesIpFamily_NOCSYSTYPESIPFAMILY_UNSET {
         switch c.Data.Family {
-        case sonicpb.SonicTypesIpFamily_SONICTYPESIPFAMILY_IPv4:
+        case sonicpb.NocsysTypesIpFamily_NOCSYSTYPESIPFAMILY_IPv4:
             cmdstr := "config interface ip add " + c.Keys[0] + " " + c.Keys[1]
             logrus.Trace(cmdstr + "|EXEC")
             if err, r := utils.Utils_execute_cmd("bash", "-c", cmdstr); err != nil {
                 return errors.New(r)
             }
-        case sonicpb.SonicTypesIpFamily_SONICTYPESIPFAMILY_IPv6:
+        case sonicpb.NocsysTypesIpFamily_NOCSYSTYPESIPFAMILY_IPv6:
             cmdstr := "config interface ipv6 add " + c.Keys[0] + " " + c.Keys[1]
             logrus.Trace(cmdstr + "|EXEC")
             if err, r := utils.Utils_execute_cmd("bash", "-c", cmdstr); err != nil {

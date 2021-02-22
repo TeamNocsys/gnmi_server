@@ -14,7 +14,7 @@ import (
 type Vrf struct {
     Key string
     Client command.Client
-    Data *sonicpb.SonicVrf_Vrf_VrfList
+    Data *sonicpb.NocsysVrf_Vrf_VrfList
 }
 
 func (c *Vrf) LoadFromDB() error {
@@ -25,7 +25,7 @@ func (c *Vrf) LoadFromDB() error {
 
     // 获取配置信息
     if c.Data == nil {
-        c.Data = &sonicpb.SonicVrf_Vrf_VrfList{}
+        c.Data = &sonicpb.NocsysVrf_Vrf_VrfList{}
     }
     if data, err := conn.GetAll(swsssdk.CONFIG_DB, []string{"VRF", c.Key}); err != nil {
         return err

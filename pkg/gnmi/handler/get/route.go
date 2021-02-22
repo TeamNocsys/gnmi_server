@@ -12,30 +12,29 @@ func GetServeMux() *gnmi.GetServeMux {
 
 func route(mux *gnmi.GetServeMux) {
     mux.AddRouter("/test", Test).
-        AddRouter("/sonic-platform/platform", ComponentInfoHandler).
-        AddRouter("/sonic-platform/platform/component-list/fan", FanInfoHandler).
-        AddRouter("/sonic-platform/platform/component-list/power-supply", PowerSupplyInfoHandler).
-        AddRouter("/sonic-platform/platform/component-list/state/temperature", TemperatureInfoHandler).
-        AddRouter("/sonic-platform/platform/component-list/system", SystemInfoHandler).
-        AddRouter("/sonic-lldp/lldp/lldp-list", LLDPHandler).
-        AddRouter("/sonic-port/port/port-list", PortHandler).
-        AddRouter("/sonic-port/port/port-statistics-list", PortStatisticsHandler).
-        AddRouter("/sonic-portchannel/portchannel/portchannel-list", PortChannelHandler).
-        AddRouter("/sonic-portchannel/portchannel-member/portchannel-member-list", PortChannelMemberHandler).
-        AddRouter("/sonic-vlan/vlan/vlan-list", VlanHandler).
-        AddRouter("/sonic-vlan/vlan-member/vlan-member-list", VlanMemberHandler).
-        AddRouter("/sonic-vlan/vlan-interface/vlan-interface-list", VlanInterfaceHandler).
-        AddRouter("/sonic-vlan/vlan-interface/vlan-interface-ipprefix-list", VlanInterfaceIPPrefixHandler).
-        AddRouter("/sonic-interface/interface/interface-list", InterfaceHandler).
-        AddRouter("/sonic-interface/interface/interface-ipprefix-list", InterfaceIPPrefixHandler).
-        AddRouter("/sonic-loopback-interface/loopback-interface/loopback-interface-list", LoopbackInterfaceHandler).
-        AddRouter("/sonic-loopback-interface/loopback-interface/loopback-interface-ipprefix-list", LoopbackInterfaceIPPrefixHandler).
-        AddRouter("/sonic-acl/acl-rule/acl-rule-list", AclRuleHandler).
-        AddRouter("/sonic-acl/acl-table/acl-table-list", AclTableHandler).
-        AddRouter("/sonic-fdb/fdb/fdb-list", FdbHandler).
-        AddRouter("/sonic-route/route/global-route-list", GlobalIpRouteHandler).
-        AddRouter("/sonic-route/route/route-list", IpRouteHandler).
-        AddRouter("/sonic-vrf/vrf/vrf-list", VrfHandler).
-        AddRouter("/sonic-ntp/ntp/ntp-list", NtpHandler).
-        AddRouter("/sonic-neighor/neighor/neighor-list", NeighborHandler)
+        AddRouter("/nocsys-platform/platform", ComponentInfoHandler).
+        AddRouter("/nocsys-platform/platform/component-list/fan", FanInfoHandler).
+        AddRouter("/nocsys-platform/platform/component-list/power-supply", PowerSupplyInfoHandler).
+        AddRouter("/nocsys-platform/platform/component-list/state/temperature", TemperatureInfoHandler).
+        AddRouter("/nocsys-platform/platform/component-list/system", SystemInfoHandler).
+        AddRouter("/nocsys-lldp/lldp/lldp-list", LLDPHandler).
+        AddRouter("/nocsys-port/port/port-list", PortHandler).
+        AddRouter("/nocsys-port/port/port-statistics-list", PortStatisticsHandler).
+        AddRouter("/nocsys-portchannel/portchannel/portchannel-list", PortChannelHandler).
+        AddRouter("/nocsys-portchannel/portchannel-member/portchannel-member-list", PortChannelMemberHandler).
+        AddRouter("/nocsys-vlan/vlan/vlan-list", VlanHandler).
+        AddRouter("/nocsys-vlan/vlan-member/vlan-member-list", VlanMemberHandler).
+        AddRouter("/nocsys-vlan/vlan-interface/vlan-interface-list", VlanInterfaceHandler).
+        AddRouter("/nocsys-vlan/vlan-interface/vlan-interface-ipprefix-list", VlanInterfaceIPPrefixHandler).
+        AddRouter("/nocsys-interface/interface/interface-list", InterfaceHandler).
+        AddRouter("/nocsys-interface/interface/interface-ipprefix-list", InterfaceIPPrefixHandler).
+        AddRouter("/nocsys-loopback-interface/loopback-interface/loopback-interface-list", LoopbackInterfaceHandler).
+        AddRouter("/nocsys-loopback-interface/loopback-interface/loopback-interface-ipprefix-list", LoopbackInterfaceIPPrefixHandler).
+        AddRouter("/nocsys-acl/acl-rule/acl-rule-list", AclRuleHandler).
+        AddRouter("/nocsys-acl/acl-table/acl-table-list", AclTableHandler).
+        AddRouter("/nocsys-fdb/fdb/fdb-list", FdbHandler).
+        AddRouter("/nocsys-route/route/route-list", IpRouteHandler).
+        AddRouter("/nocsys-vrf/vrf/vrf-list", VrfHandler).
+        AddRouter("/nocsys-ntp/ntp/ntp-list", NtpHandler).
+        AddRouter("/nocsys-neighor/neighor/neighor-list", NeighborHandler)
 }

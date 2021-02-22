@@ -23,8 +23,8 @@ func NtpHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*gn
         spec = v
     }
 
-    sn := &sonicpb.SonicNtp{
-        Ntp: &sonicpb.SonicNtp_Ntp{},
+    sn := &sonicpb.NocsysNtp{
+        Ntp: &sonicpb.NocsysNtp_Ntp{},
     }
     if hkeys, err := conn.GetKeys("NTP_SERVER", spec); err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
@@ -40,7 +40,7 @@ func NtpHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*gn
                 return nil, status.Errorf(codes.Internal, err.Error())
             }
             sn.Ntp.NtpList = append(sn.Ntp.NtpList,
-                &sonicpb.SonicNtp_Ntp_NtpListKey{
+                &sonicpb.NocsysNtp_Ntp_NtpListKey{
                     Ip: keys[0],
                     NtpList: c.Data,
                 })

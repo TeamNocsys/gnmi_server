@@ -13,7 +13,7 @@ import (
 type IpRoute struct {
     Keys []string
     Client command.Client
-    Data *sonicpb.SonicRoute_Route_RouteList
+    Data *sonicpb.NocsysRoute_Route_RouteList
 }
 
 func (c *IpRoute) LoadFromDB() error {
@@ -24,7 +24,7 @@ func (c *IpRoute) LoadFromDB() error {
 
     // 获取配置信息
     if c.Data == nil {
-        c.Data = &sonicpb.SonicRoute_Route_RouteList{}
+        c.Data = &sonicpb.NocsysRoute_Route_RouteList{}
     }
     if data, err := conn.GetAll(swsssdk.APPL_DB, append([]string{"ROUTE_TABLE"}, c.Keys...)); err != nil {
         return err

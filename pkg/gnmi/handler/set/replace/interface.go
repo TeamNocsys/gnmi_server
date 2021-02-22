@@ -12,7 +12,7 @@ import (
 )
 
 func InterfaceHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) error {
-    info := &sonicpb.SonicInterface{}
+    info := &sonicpb.NocsysInterface{}
     if bytes := value.GetBytesVal(); bytes == nil {
         return status.Error(codes.Internal, ErrProtobufType)
     } else if err := proto.Unmarshal(bytes, info); err != nil {
@@ -39,7 +39,7 @@ func InterfaceHandler(ctx context.Context, value *gpb.TypedValue, db command.Cli
 }
 
 func InterfaceIPPrefixHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) error {
-    info := &sonicpb.SonicInterface{}
+    info := &sonicpb.NocsysInterface{}
     if bytes := value.GetBytesVal(); bytes == nil {
         return status.Error(codes.Internal, ErrProtobufType)
     } else if err := proto.Unmarshal(bytes, info); err != nil {
@@ -67,7 +67,7 @@ func InterfaceIPPrefixHandler(ctx context.Context, value *gpb.TypedValue, db com
 
 
 func LoopbackInterfaceHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) error {
-    info := &sonicpb.SonicLoopbackInterface{}
+    info := &sonicpb.NocsysLoopbackInterface{}
     if bytes := value.GetBytesVal(); bytes == nil {
         return status.Error(codes.Internal, ErrProtobufType)
     } else if err := proto.Unmarshal(bytes, info); err != nil {
@@ -94,7 +94,7 @@ func LoopbackInterfaceHandler(ctx context.Context, value *gpb.TypedValue, db com
 }
 
 func LoopbackInterfaceIPPrefixHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) error {
-    info := &sonicpb.SonicLoopbackInterface{}
+    info := &sonicpb.NocsysLoopbackInterface{}
     if bytes := value.GetBytesVal(); bytes == nil {
         return status.Error(codes.Internal, ErrProtobufType)
     } else if err := proto.Unmarshal(bytes, info); err != nil {
@@ -121,7 +121,7 @@ func LoopbackInterfaceIPPrefixHandler(ctx context.Context, value *gpb.TypedValue
 }
 
 func VlanInterfaceHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) error {
-    info := &sonicpb.SonicVlan{}
+    info := &sonicpb.NocsysVlan{}
     if bytes := value.GetBytesVal(); bytes == nil {
         return status.Error(codes.Internal, ErrProtobufType)
     } else if err := proto.Unmarshal(bytes, info); err != nil {
@@ -148,7 +148,7 @@ func VlanInterfaceHandler(ctx context.Context, value *gpb.TypedValue, db command
 }
 
 func VlanInterfaceIPPrefixHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) error {
-    info := &sonicpb.SonicVlan{}
+    info := &sonicpb.NocsysVlan{}
     if bytes := value.GetBytesVal(); bytes == nil {
         return status.Error(codes.Internal, ErrProtobufType)
     } else if err := proto.Unmarshal(bytes, info); err != nil {

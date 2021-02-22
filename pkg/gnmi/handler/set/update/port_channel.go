@@ -12,7 +12,7 @@ import (
 )
 
 func PortChannelHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) error {
-    info := &sonicpb.SonicPortchannel{}
+    info := &sonicpb.NocsysPortchannel{}
     if bytes := value.GetBytesVal(); bytes == nil {
         return status.Error(codes.Internal, ErrProtobufType)
     } else if err := proto.Unmarshal(bytes, info); err != nil {
@@ -38,9 +38,8 @@ func PortChannelHandler(ctx context.Context, value *gpb.TypedValue, db command.C
     return nil
 }
 
-
 func PortChannelMemberHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) error {
-    info := &sonicpb.SonicPortchannel{}
+    info := &sonicpb.NocsysPortchannel{}
     if bytes := value.GetBytesVal(); bytes == nil {
         return status.Error(codes.Internal, ErrProtobufType)
     } else if err := proto.Unmarshal(bytes, info); err != nil {

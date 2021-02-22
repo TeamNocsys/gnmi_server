@@ -24,8 +24,8 @@ func InterfaceHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client
         spec = v
     }
 
-    si := &sonicpb.SonicInterface{
-        Interface: &sonicpb.SonicInterface_Interface{},
+    si := &sonicpb.NocsysInterface{
+        Interface: &sonicpb.NocsysInterface_Interface{},
     }
     if hkeys, err := conn.GetKeys("INTERFACE", spec); err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
@@ -44,7 +44,7 @@ func InterfaceHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client
                 return nil, status.Errorf(codes.Internal, err.Error())
             }
             si.Interface.InterfaceList = append(si.Interface.InterfaceList,
-                &sonicpb.SonicInterface_Interface_InterfaceListKey{
+                &sonicpb.NocsysInterface_Interface_InterfaceListKey{
                     PortName: keys[0],
                     InterfaceList: c.Data,
                 })
@@ -77,8 +77,8 @@ func InterfaceIPPrefixHandler(ctx context.Context, r *gnmi.GetRequest, db comman
         spec = append(spec, "*")
     }
 
-    si := &sonicpb.SonicInterface{
-        Interface: &sonicpb.SonicInterface_Interface{},
+    si := &sonicpb.NocsysInterface{
+        Interface: &sonicpb.NocsysInterface_Interface{},
     }
     if hkeys, err := conn.GetKeys("INTERFACE", spec); err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
@@ -94,7 +94,7 @@ func InterfaceIPPrefixHandler(ctx context.Context, r *gnmi.GetRequest, db comman
                 return nil, status.Errorf(codes.Internal, err.Error())
             }
             si.Interface.InterfaceIpprefixList = append(si.Interface.InterfaceIpprefixList,
-                &sonicpb.SonicInterface_Interface_InterfaceIpprefixListKey{
+                &sonicpb.NocsysInterface_Interface_InterfaceIpprefixListKey{
                     PortName: keys[0],
                     IpPrefix: keys[1],
                     InterfaceIpprefixList: c.Data,

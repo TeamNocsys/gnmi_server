@@ -32,8 +32,8 @@ func AclRuleHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) 
         spec = append(spec, "*")
     }
 
-    sa := &sonicpb.SonicAcl{
-        AclRule: &sonicpb.SonicAcl_AclRule{},
+    sa := &sonicpb.NocsysAcl{
+        AclRule: &sonicpb.NocsysAcl_AclRule{},
     }
     if hkeys, err := conn.GetKeys(swsssdk.APPL_DB, append([]string{"ACL_RULE"}, spec...)); err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
@@ -49,7 +49,7 @@ func AclRuleHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) 
                 return nil, status.Errorf(codes.Internal, err.Error())
             }
             sa.AclRule.AclRuleList = append(sa.AclRule.AclRuleList,
-                &sonicpb.SonicAcl_AclRule_AclRuleListKey{
+                &sonicpb.NocsysAcl_AclRule_AclRuleListKey{
                     TableName: keys[0],
                     RuleName: keys[1],
                     AclRuleList: c.Data,
@@ -76,8 +76,8 @@ func AclTableHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client)
         spec = v
     }
 
-    sa := &sonicpb.SonicAcl{
-        AclTable: &sonicpb.SonicAcl_AclTable{},
+    sa := &sonicpb.NocsysAcl{
+        AclTable: &sonicpb.NocsysAcl_AclTable{},
     }
     if hkeys, err := conn.GetKeys(swsssdk.APPL_DB, []string{"ACL_TABLE", spec}); err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
@@ -93,7 +93,7 @@ func AclTableHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client)
                 return nil, status.Errorf(codes.Internal, err.Error())
             }
             sa.AclTable.AclTableList = append(sa.AclTable.AclTableList,
-                &sonicpb.SonicAcl_AclTable_AclTableListKey{
+                &sonicpb.NocsysAcl_AclTable_AclTableListKey{
                     TableName: keys[0],
                     AclTableList: c.Data,
                 })

@@ -11,7 +11,7 @@ import (
 type Fdb struct {
     Key string
     Client command.Client
-    Data *sonicpb.SonicFdb_Fdb_FdbList
+    Data *sonicpb.NocsysFdb_Fdb_FdbList
 }
 
 func (c *Fdb) LoadFromDB() error {
@@ -22,7 +22,7 @@ func (c *Fdb) LoadFromDB() error {
 
     // 获取配置信息
     if c.Data == nil {
-        c.Data = &sonicpb.SonicFdb_Fdb_FdbList{}
+        c.Data = &sonicpb.NocsysFdb_Fdb_FdbList{}
     }
     if data, err := conn.GetAll(swsssdk.STATE_DB, []string{"FDB_TABLE", c.Key}); err != nil {
         return err
@@ -32,9 +32,9 @@ func (c *Fdb) LoadFromDB() error {
             case "type":
                 switch strings.ToUpper(v) {
                 case "STATIC":
-                    c.Data.Type = sonicpb.SonicFdb_Fdb_FdbList_TYPE_STATIC
+                    c.Data.Type = sonicpb.NocsysFdb_Fdb_FdbList_TYPE_STATIC
                 case "DYNAMIC":
-                    c.Data.Type = sonicpb.SonicFdb_Fdb_FdbList_TYPE_DYNAMIC
+                    c.Data.Type = sonicpb.NocsysFdb_Fdb_FdbList_TYPE_DYNAMIC
                 }
 
             case "port":
@@ -48,11 +48,11 @@ func (c *Fdb) LoadFromDB() error {
 
 func (c *Fdb) SaveToDB(replace bool) error {
     e := make(map[string]interface{})
-    if c.Data.Type != sonicpb.SonicFdb_Fdb_FdbList_TYPE_UNSET {
+    if c.Data.Type != sonicpb.NocsysFdb_Fdb_FdbList_TYPE_UNSET {
         switch c.Data.Type {
-        case sonicpb.SonicFdb_Fdb_FdbList_TYPE_STATIC:
+        case sonicpb.NocsysFdb_Fdb_FdbList_TYPE_STATIC:
             e["type"] = "static"
-        case sonicpb.SonicFdb_Fdb_FdbList_TYPE_DYNAMIC:
+        case sonicpb.NocsysFdb_Fdb_FdbList_TYPE_DYNAMIC:
             e["type"] = "dynamic"
         }
     }

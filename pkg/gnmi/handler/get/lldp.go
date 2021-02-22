@@ -25,8 +25,8 @@ func LLDPHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*g
         spec = v
     }
 
-    sl := &sonicpb.SonicLldp{
-        Lldp: &sonicpb.SonicLldp_Lldp{},
+    sl := &sonicpb.NocsysLldp{
+        Lldp: &sonicpb.NocsysLldp_Lldp{},
     }
     if hkeys, err := conn.GetKeys(swsssdk.APPL_DB, []string{"LLDP_ENTRY_TABLE", spec}); err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
@@ -42,7 +42,7 @@ func LLDPHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*g
                 return nil, status.Errorf(codes.Internal, err.Error())
             }
             sl.Lldp.LldpList = append(sl.Lldp.LldpList,
-                &sonicpb.SonicLldp_Lldp_LldpListKey{
+                &sonicpb.NocsysLldp_Lldp_LldpListKey{
                     PortName: keys[0],
                     LldpList: c.Data,
                 })

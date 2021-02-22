@@ -25,8 +25,8 @@ func PortHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*g
         spec = v
     }
 
-    sp := &sonicpb.SonicPort{
-        Port: &sonicpb.SonicPort_Port{},
+    sp := &sonicpb.NocsysPort{
+        Port: &sonicpb.NocsysPort_Port{},
     }
     if hkeys, err := conn.GetKeys("PORT", spec); err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
@@ -42,7 +42,7 @@ func PortHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*g
                 return nil, status.Errorf(codes.Internal, err.Error())
             }
             sp.Port.PortList = append(sp.Port.PortList,
-                &sonicpb.SonicPort_Port_PortListKey{
+                &sonicpb.NocsysPort_Port_PortListKey{
                     PortName: keys[0],
                     PortList: c.Data,
                 })
@@ -74,8 +74,8 @@ func PortStatisticsHandler(ctx context.Context, r *gnmi.GetRequest, db command.C
             statNames = map[string]string{}
         }
     }
-    sp := &sonicpb.SonicPort{
-        Port: &sonicpb.SonicPort_Port{},
+    sp := &sonicpb.NocsysPort{
+        Port: &sonicpb.NocsysPort_Port{},
     }
     for name, objId := range statNames {
         c := helper.PortStatistics{
@@ -87,7 +87,7 @@ func PortStatisticsHandler(ctx context.Context, r *gnmi.GetRequest, db command.C
             return nil, status.Errorf(codes.Internal, err.Error())
         }
         sp.Port.PortStatisticsList = append(sp.Port.PortStatisticsList,
-            &sonicpb.SonicPort_Port_PortStatisticsListKey{
+            &sonicpb.NocsysPort_Port_PortStatisticsListKey{
                 PortName:           name,
                 PortStatisticsList: c.Data,
             })

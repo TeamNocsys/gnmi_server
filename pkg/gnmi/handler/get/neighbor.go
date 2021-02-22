@@ -31,8 +31,8 @@ func NeighborHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client)
         spec = append(spec, "*")
     }
 
-    si := &sonicpb.SonicNeighor{
-        Neighor: &sonicpb.SonicNeighor_Neighor{},
+    si := &sonicpb.NocsysNeighor{
+        Neighor: &sonicpb.NocsysNeighor_Neighor{},
     }
     if hkeys, err := conn.GetKeys(swsssdk.APPL_DB, append([]string{"NEIGH_TABLE"}, spec...)); err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
@@ -48,7 +48,7 @@ func NeighborHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client)
                 return nil, status.Errorf(codes.Internal, err.Error())
             }
             si.Neighor.NeighorList = append(si.Neighor.NeighorList,
-                &sonicpb.SonicNeighor_Neighor_NeighorListKey{
+                &sonicpb.NocsysNeighor_Neighor_NeighorListKey{
                     Name: keys[0],
                     IpPrefix: keys[1],
                     NeighorList: c.Data,

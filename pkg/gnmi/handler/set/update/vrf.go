@@ -12,7 +12,7 @@ import (
 )
 
 func VrfHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) error {
-    info := &sonicpb.SonicVrf{}
+    info := &sonicpb.NocsysVrf{}
     if bytes := value.GetBytesVal(); bytes == nil {
         return status.Error(codes.Internal, ErrProtobufType)
     } else if err := proto.Unmarshal(bytes, info); err != nil {
