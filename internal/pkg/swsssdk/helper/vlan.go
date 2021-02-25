@@ -7,6 +7,7 @@ import (
     "gnmi_server/internal/pkg/swsssdk"
     "gnmi_server/internal/pkg/utils"
     "strconv"
+    "strings"
 )
 
 type Vlan struct {
@@ -57,6 +58,12 @@ func (c *Vlan) LoadFromDB() error {
 
 func (c *Vlan) SaveToDB(replace bool) error {
     e := make(map[string]interface{})
+    vid := strings.TrimPrefix(c.Key, "Vlan")
+    if i, err := strconv.ParseUint(vid, 10, 64); err != nil {
+        return err
+    } else {
+        e["vlanid"] = i
+    }
     if c.Data.Description != nil {
         e["description"] = c.Data.Description.Value
     }
