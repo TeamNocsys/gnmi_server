@@ -5,7 +5,7 @@ import (
     sonicpb "github.com/TeamNocsys/sonicpb/api/protobuf/sonic"
     "github.com/openconfig/gnmi/proto/gnmi"
     "gnmi_server/cmd/command"
-    "gnmi_server/internal/pkg/swsssdk/helper"
+    "gnmi_server/pkg/gnmi/cmd"
     "gnmi_server/pkg/gnmi/handler"
     handler_utils "gnmi_server/pkg/gnmi/handler/utils"
     "google.golang.org/grpc/codes"
@@ -31,19 +31,16 @@ func NtpHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*gn
     } else {
         for _, hkey := range hkeys {
             keys := conn.SplitKeys(hkey)
-            c := helper.Ntp{
-                Key: keys[0],
-                Client: db,
-                Data: nil,
+            c := cmd.NewNtpAdapter(keys[0], db)
+            if data, err := c.Show(r.Type); err != nil {
+                return nil, err
+            } else {
+                sn.Ntp.NtpList = append(sn.Ntp.NtpList,
+                    &sonicpb.NocsysNtp_Ntp_NtpListKey{
+                        Ip: keys[0],
+                        NtpList: data,
+                    })
             }
-            if err := c.LoadFromDB(); err != nil {
-                return nil, status.Errorf(codes.Internal, err.Error())
-            }
-            sn.Ntp.NtpList = append(sn.Ntp.NtpList,
-                &sonicpb.NocsysNtp_Ntp_NtpListKey{
-                    Ip: keys[0],
-                    NtpList: c.Data,
-                })
         }
     }
 

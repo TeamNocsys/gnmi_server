@@ -6,7 +6,7 @@ import (
     "github.com/golang/protobuf/proto"
     gpb "github.com/openconfig/gnmi/proto/gnmi"
     "gnmi_server/cmd/command"
-    "gnmi_server/internal/pkg/swsssdk/helper"
+    "gnmi_server/pkg/gnmi/cmd"
     "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
 )
@@ -24,12 +24,10 @@ func IpRouteHandler(ctx context.Context, value *gpb.TypedValue, db command.Clien
                     if v.RouteList == nil {
                         continue
                     }
-                    c := helper.IpRoute{
-                        Keys: []string{v.VrfName, v.IpPrefix},
-                        Client: db,
-                        Data: v.RouteList,
+                    c := cmd.NewVrfRouteAdapter(v.VrfName, v.IpPrefix, db)
+                    if err := c.Config(v.RouteList, cmd.ADD); err != nil {
+                        return err
                     }
-                    c.SaveToDB()
                 }
             }
         }

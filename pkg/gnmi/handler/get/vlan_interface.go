@@ -5,7 +5,7 @@ import (
     sonicpb "github.com/TeamNocsys/sonicpb/api/protobuf/sonic"
     "github.com/openconfig/gnmi/proto/gnmi"
     "gnmi_server/cmd/command"
-    "gnmi_server/internal/pkg/swsssdk/helper"
+    "gnmi_server/pkg/gnmi/cmd"
     "gnmi_server/pkg/gnmi/handler"
     handler_utils "gnmi_server/pkg/gnmi/handler/utils"
     "google.golang.org/grpc/codes"
@@ -35,19 +35,16 @@ func VlanInterfaceHandler(ctx context.Context, r *gnmi.GetRequest, db command.Cl
             if len(keys) != 1 {
                 continue
             }
-            c := helper.VlanInterface{
-                Key: keys[0],
-                Client: db,
-                Data: nil,
+            c := cmd.NewIfAdapter(cmd.VLAN_INTERFACE, keys[0], db)
+            if data, err := c.Show(r.Type); err != nil {
+                return nil, err
+            } else {
+                sv.VlanInterface.VlanInterfaceList = append(sv.VlanInterface.VlanInterfaceList,
+                    &sonicpb.NocsysVlan_VlanInterface_VlanInterfaceListKey{
+                        VlanName: keys[0],
+                        VlanInterfaceList: data.(*sonicpb.NocsysVlan_VlanInterface_VlanInterfaceList),
+                    })
             }
-            if err := c.LoadFromDB(); err != nil {
-                return nil, status.Errorf(codes.Internal, err.Error())
-            }
-            sv.VlanInterface.VlanInterfaceList = append(sv.VlanInterface.VlanInterfaceList,
-                &sonicpb.NocsysVlan_VlanInterface_VlanInterfaceListKey{
-                    VlanName: keys[0],
-                    VlanInterfaceList: c.Data,
-                })
         }
     }
 
@@ -85,20 +82,17 @@ func VlanInterfaceIPPrefixHandler(ctx context.Context, r *gnmi.GetRequest, db co
     } else {
         for _, hkey := range hkeys {
             keys := conn.SplitKeys(hkey)
-            c := helper.VlanInterfaceIPPrefix{
-                Keys: keys,
-                Client: db,
-                Data: nil,
+            c := cmd.NewIfAddrAdapter(cmd.VLAN_INTERFACE, keys[0], keys[1], db)
+            if data, err := c.Show(r.Type); err != nil {
+                return nil, err
+            } else {
+                sv.VlanInterface.VlanInterfaceIpprefixList = append(sv.VlanInterface.VlanInterfaceIpprefixList,
+                    &sonicpb.NocsysVlan_VlanInterface_VlanInterfaceIpprefixListKey{
+                        VlanName: keys[0],
+                        IpPrefix: keys[1],
+                        VlanInterfaceIpprefixList: data.(*sonicpb.NocsysVlan_VlanInterface_VlanInterfaceIpprefixList),
+                    })
             }
-            if err := c.LoadFromDB(); err != nil {
-                return nil, status.Errorf(codes.Internal, err.Error())
-            }
-            sv.VlanInterface.VlanInterfaceIpprefixList = append(sv.VlanInterface.VlanInterfaceIpprefixList,
-                &sonicpb.NocsysVlan_VlanInterface_VlanInterfaceIpprefixListKey{
-                    VlanName: keys[0],
-                    IpPrefix: keys[1],
-                    VlanInterfaceIpprefixList: c.Data,
-                })
         }
     }
 

@@ -3,7 +3,7 @@ package delete
 import (
     "context"
     "gnmi_server/cmd/command"
-    "gnmi_server/internal/pkg/swsssdk/helper"
+    "gnmi_server/pkg/gnmi/cmd"
     "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
 )
@@ -12,83 +12,40 @@ func InterfaceHandler(ctx context.Context, kvs map[string]string, db command.Cli
     if v, ok := kvs["port-name"]; !ok {
         return status.Error(codes.Internal, ErrNoKey)
     } else {
-        c := &helper.Interface{
-            Key:    v,
-            Client: db,
-            Data:   nil,
-        }
-        if err := c.RemoveFromDB(); err != nil {
-            return err
-        }
+        return ifAddrAutoRemove(cmd.INTERFACE, v, "*", db)
     }
-
-    return nil
 }
 
 func InterfaceIPPrefixHandler(ctx context.Context, kvs map[string]string, db command.Client) error {
-    spec := []string{}
+    ifname := "*"
+    ipaddr := "*"
     if v, ok := kvs["port-name"]; ok {
-        spec = append(spec, v)
-    } else {
-        spec = append(spec, "*")
+        ifname = v
     }
     if v, ok := kvs["ip-prefix"]; ok {
-        spec = append(spec, v)
-    } else {
-        spec = append(spec, "*")
+        ipaddr = v
     }
-    c := &helper.InterfaceIPPrefix{
-        Keys:   spec,
-        Client: db,
-        Data:   nil,
-    }
-
-    if err := c.RemoveFromDB(); err != nil {
-        return err
-    }
-    return nil
+    return ifAddrAutoRemove(cmd.INTERFACE, ifname, ipaddr, db)
 }
-
 
 func LoopbackInterfaceHandler(ctx context.Context, kvs map[string]string, db command.Client) error {
     if v, ok := kvs["loopback-interface-name"]; !ok {
         return status.Error(codes.Internal, ErrNoKey)
     } else {
-        c := &helper.LoopbackInterface{
-            Key:    v,
-            Client: db,
-            Data:   nil,
-        }
-        if err := c.RemoveFromDB(); err != nil {
-            return err
-        }
+        return ifAddrAutoRemove(cmd.LOOPBACK_INTERFACE, v, "*", db)
     }
-
-    return nil
 }
 
 func LoopbackInterfaceIPPrefixHandler(ctx context.Context, kvs map[string]string, db command.Client) error {
-    spec := []string{}
+    ifname := "*"
+    ipaddr := "*"
     if v, ok := kvs["loopback-interface-name"]; ok {
-        spec = append(spec, v)
-    } else {
-        spec = append(spec, "*")
+        ifname = v
     }
     if v, ok := kvs["ip-prefix"]; ok {
-        spec = append(spec, v)
-    } else {
-        spec = append(spec, "*")
+        ipaddr = v
     }
-    c := &helper.LoopbackInterfaceIPPrefix{
-        Keys:   spec,
-        Client: db,
-        Data:   nil,
-    }
-
-    if err := c.RemoveFromDB(); err != nil {
-        return err
-    }
-    return nil
+    return ifAddrAutoRemove(cmd.LOOPBACK_INTERFACE, ifname, ipaddr, db)
 }
 
 
@@ -96,39 +53,38 @@ func VlanInterfaceHandler(ctx context.Context, kvs map[string]string, db command
     if v, ok := kvs["vlan-name"]; !ok {
         return status.Error(codes.Internal, ErrNoKey)
     } else {
-        c := &helper.VlanInterface{
-            Key:    v,
-            Client: db,
-            Data:   nil,
-        }
-        if err := c.RemoveFromDB(); err != nil {
-            return err
-        }
+        return ifAddrAutoRemove(cmd.VLAN_INTERFACE, v, "*", db)
     }
-
-    return nil
 }
 
 func VlanInterfaceIPPrefixHandler(ctx context.Context, kvs map[string]string, db command.Client) error {
-    spec := []string{}
+    ifname := "*"
+    ipaddr := "*"
     if v, ok := kvs["vlan-name"]; ok {
-        spec = append(spec, v)
-    } else {
-        spec = append(spec, "*")
+        ifname = v
     }
     if v, ok := kvs["ip-prefix"]; ok {
-        spec = append(spec, v)
-    } else {
-        spec = append(spec, "*")
+        ipaddr = v
     }
-    c := &helper.VlanInterfaceIPPrefix{
-        Keys:   spec,
-        Client: db,
-        Data:   nil,
+    return ifAddrAutoRemove(cmd.VLAN_INTERFACE, ifname, ipaddr, db)
+}
+
+func ifAddrAutoRemove(ifType cmd.IfType, ifname string, ipaddr string, db command.Client) error {
+    conn := db.Config()
+    if conn == nil {
+        return status.Error(codes.Internal, "")
     }
 
-    if err := c.RemoveFromDB(); err != nil {
+    if hkeys, err := conn.GetKeys(cmd.IfType_table[int32(ifType)], []string{ifname, ipaddr}); err != nil {
         return err
+    } else {
+        for _, hkey := range hkeys {
+            keys := conn.SplitKeys(hkey)
+            c := cmd.NewIfAddrAdapter(ifType, keys[0], keys[1], db)
+            if err := c.Config(nil, cmd.DEL); err != nil {
+                return err
+            }
+        }
+        return nil
     }
-    return nil
 }

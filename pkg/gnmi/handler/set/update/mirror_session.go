@@ -6,7 +6,7 @@ import (
     "github.com/golang/protobuf/proto"
     gpb "github.com/openconfig/gnmi/proto/gnmi"
     "gnmi_server/cmd/command"
-    "gnmi_server/internal/pkg/swsssdk/helper"
+    "gnmi_server/pkg/gnmi/cmd"
     "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
 )
@@ -24,12 +24,8 @@ func MirrorSessionHandler(ctx context.Context, value *gpb.TypedValue, db command
                     if v.MirrorSessionList == nil {
                         continue
                     }
-                    c := helper.MirrorSession{
-                        Key: v.Name,
-                        Client: db,
-                        Data: v.MirrorSessionList,
-                    }
-                    c.SaveToDB()
+                    c := cmd.NewMirrorAdapter(v.Name, db)
+                    return c.Config(v.MirrorSessionList, cmd.UPDATE)
                 }
             }
         }

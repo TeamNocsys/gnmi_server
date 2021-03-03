@@ -6,7 +6,7 @@ import (
     "github.com/golang/protobuf/proto"
     gpb "github.com/openconfig/gnmi/proto/gnmi"
     "gnmi_server/cmd/command"
-    "gnmi_server/internal/pkg/swsssdk/helper"
+    "gnmi_server/pkg/gnmi/cmd"
     "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
 )
@@ -24,12 +24,10 @@ func VlanHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) 
                     if v.VlanList == nil {
                         continue
                     }
-                    c := helper.Vlan{
-                        Key: v.VlanName,
-                        Client: db,
-                        Data: v.VlanList,
+                    c := cmd.NewVlanAdapter(v.VlanName, db)
+                    if err:= c.Config(v.VlanList, cmd.ADD); err != nil {
+                        return err
                     }
-                    c.SaveToDB(false)
                 }
             }
         }
@@ -51,12 +49,10 @@ func VlanMemberHandler(ctx context.Context, value *gpb.TypedValue, db command.Cl
                     if v.VlanMemberList == nil {
                         continue
                     }
-                    c := helper.VlanMember{
-                        Keys: []string{v.VlanName, v.Port},
-                        Client: db,
-                        Data: v.VlanMemberList,
+                    c := cmd.NewVlanMemberAdapter(v.VlanName, v.Port, db)
+                    if err := c.Config(v.VlanMemberList, cmd.ADD); err != nil {
+                        return err
                     }
-                    c.SaveToDB(true)
                 }
             }
         }

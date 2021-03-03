@@ -5,7 +5,7 @@ import (
     sonicpb "github.com/TeamNocsys/sonicpb/api/protobuf/sonic"
     "github.com/openconfig/gnmi/proto/gnmi"
     "gnmi_server/cmd/command"
-    "gnmi_server/internal/pkg/swsssdk/helper"
+    "gnmi_server/pkg/gnmi/cmd"
     "gnmi_server/pkg/gnmi/handler"
     handler_utils "gnmi_server/pkg/gnmi/handler/utils"
     "google.golang.org/grpc/codes"
@@ -32,19 +32,16 @@ func VlanHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*g
     } else {
         for _, hkey := range hkeys {
             keys := conn.SplitKeys(hkey)
-            c := helper.Vlan{
-                Key: keys[0],
-                Client: db,
-                Data: nil,
+            c := cmd.NewVlanAdapter(keys[0], db)
+            if data, err := c.Show(r.Type); err != nil {
+                return nil, err
+            } else {
+                sv.Vlan.VlanList = append(sv.Vlan.VlanList,
+                    &sonicpb.NocsysVlan_Vlan_VlanListKey{
+                        VlanName: keys[0],
+                        VlanList: data,
+                    })
             }
-            if err := c.LoadFromDB(); err != nil {
-                return nil, status.Errorf(codes.Internal, err.Error())
-            }
-            sv.Vlan.VlanList = append(sv.Vlan.VlanList,
-                &sonicpb.NocsysVlan_Vlan_VlanListKey{
-                    VlanName: keys[0],
-                    VlanList: c.Data,
-                })
         }
     }
 
@@ -79,24 +76,21 @@ func VlanMemberHandler(ctx context.Context, r *gnmi.GetRequest, db command.Clien
         VlanMember: &sonicpb.NocsysVlan_VlanMember{},
     }
     if hkeys, err := conn.GetKeys("VLAN_MEMBER", spec); err != nil {
-        return nil, status.Errorf(codes.Internal, err.Error())
+        return nil, err
     } else {
         for _, hkey := range hkeys {
             keys := conn.SplitKeys(hkey)
-            c := helper.VlanMember{
-                Keys: keys,
-                Client: db,
-                Data: nil,
+            c := cmd.NewVlanMemberAdapter(keys[0], keys[1], db)
+            if data, err := c.Show(r.Type); err != nil {
+                return nil, err
+            } else {
+                sv.VlanMember.VlanMemberList = append(sv.VlanMember.VlanMemberList,
+                    &sonicpb.NocsysVlan_VlanMember_VlanMemberListKey{
+                        VlanName: keys[0],
+                        Port: keys[1],
+                        VlanMemberList: data,
+                    })
             }
-            if err := c.LoadFromDB(); err != nil {
-                return nil, status.Errorf(codes.Internal, err.Error())
-            }
-            sv.VlanMember.VlanMemberList = append(sv.VlanMember.VlanMemberList,
-                &sonicpb.NocsysVlan_VlanMember_VlanMemberListKey{
-                    VlanName: keys[0],
-                    Port: keys[1],
-                    VlanMemberList: c.Data,
-                })
         }
     }
 

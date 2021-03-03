@@ -6,7 +6,7 @@ import (
     "github.com/openconfig/gnmi/proto/gnmi"
     "gnmi_server/cmd/command"
     "gnmi_server/internal/pkg/swsssdk"
-    "gnmi_server/internal/pkg/swsssdk/helper"
+    "gnmi_server/pkg/gnmi/cmd"
     "gnmi_server/pkg/gnmi/handler"
     handler_utils "gnmi_server/pkg/gnmi/handler/utils"
     "google.golang.org/grpc/codes"
@@ -39,20 +39,17 @@ func NeighborHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client)
     } else {
         for _, hkey := range hkeys {
             keys := conn.SplitKeys(swsssdk.APPL_DB, hkey)
-            c := helper.Neighbor{
-                Keys: keys,
-                Client: db,
-                Data: nil,
+            c := cmd.NewNeighborAdapter(keys[0], keys[1], db)
+            if data, err := c.Show(r.Type); err != nil {
+                return nil, err
+            } else {
+                si.Neighor.NeighorList = append(si.Neighor.NeighorList,
+                    &sonicpb.NocsysNeighor_Neighor_NeighorListKey{
+                        Name: keys[0],
+                        IpPrefix: keys[1],
+                        NeighorList: data,
+                    })
             }
-            if err := c.LoadFromDB(); err != nil {
-                return nil, status.Errorf(codes.Internal, err.Error())
-            }
-            si.Neighor.NeighorList = append(si.Neighor.NeighorList,
-                &sonicpb.NocsysNeighor_Neighor_NeighorListKey{
-                    Name: keys[0],
-                    IpPrefix: keys[1],
-                    NeighorList: c.Data,
-                })
         }
     }
 

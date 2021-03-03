@@ -6,7 +6,7 @@ import (
     "github.com/golang/protobuf/proto"
     gpb "github.com/openconfig/gnmi/proto/gnmi"
     "gnmi_server/cmd/command"
-    "gnmi_server/internal/pkg/swsssdk/helper"
+    "gnmi_server/pkg/gnmi/cmd"
     "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
 )
@@ -21,12 +21,10 @@ func NtpHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) e
         if info.Ntp != nil {
             if info.Ntp.NtpList != nil {
                 for _, v := range info.Ntp.NtpList {
-                    c := helper.Ntp{
-                        Key: v.Ip,
-                        Client: db,
-                        Data: nil,
+                    c := cmd.NewNtpAdapter(v.Ip, db)
+                    if err := c.Config(v.NtpList, cmd.UPDATE); err != nil {
+                        return err
                     }
-                    c.SaveToDB(false)
                 }
             }
         }

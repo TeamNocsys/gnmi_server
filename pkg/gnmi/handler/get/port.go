@@ -6,7 +6,7 @@ import (
     "github.com/openconfig/gnmi/proto/gnmi"
     "gnmi_server/cmd/command"
     "gnmi_server/internal/pkg/swsssdk"
-    "gnmi_server/internal/pkg/swsssdk/helper"
+    "gnmi_server/pkg/gnmi/cmd"
     "gnmi_server/pkg/gnmi/handler"
     handler_utils "gnmi_server/pkg/gnmi/handler/utils"
     "google.golang.org/grpc/codes"
@@ -33,19 +33,16 @@ func PortHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*g
     } else {
         for _, hkey := range hkeys {
             keys := conn.SplitKeys(hkey)
-            c := helper.Port{
-                Key: keys[0],
-                Client: db,
-                Data: nil,
+            c := cmd.NewPortAdapter(keys[0], db)
+            if data, err := c.Show(gnmi.GetRequest_ALL); err != nil {
+                return nil, err
+            } else {
+                sp.Port.PortList = append(sp.Port.PortList,
+                    &sonicpb.NocsysPort_Port_PortListKey{
+                        PortName: keys[0],
+                        PortList: data,
+                    })
             }
-            if err := c.LoadFromDB(helper.DATA_TYPE_ALL); err != nil {
-                return nil, status.Errorf(codes.Internal, err.Error())
-            }
-            sp.Port.PortList = append(sp.Port.PortList,
-                &sonicpb.NocsysPort_Port_PortListKey{
-                    PortName: keys[0],
-                    PortList: c.Data,
-                })
         }
     }
 
@@ -78,19 +75,16 @@ func PortStatisticsHandler(ctx context.Context, r *gnmi.GetRequest, db command.C
         Port: &sonicpb.NocsysPort_Port{},
     }
     for name, objId := range statNames {
-        c := helper.PortStatistics{
-            Key:    objId,
-            Client: db,
-            Data:   nil,
+        c := cmd.NewPortStatisticsAdapter(objId, db)
+        if data, err := c.Show(r.Type); err != nil {
+            return nil, err
+        } else {
+            sp.Port.PortStatisticsList = append(sp.Port.PortStatisticsList,
+                &sonicpb.NocsysPort_Port_PortStatisticsListKey{
+                    PortName:           name,
+                    PortStatisticsList: data,
+                })
         }
-        if err := c.LoadFromDB(); err != nil {
-            return nil, status.Errorf(codes.Internal, err.Error())
-        }
-        sp.Port.PortStatisticsList = append(sp.Port.PortStatisticsList,
-            &sonicpb.NocsysPort_Port_PortStatisticsListKey{
-                PortName:           name,
-                PortStatisticsList: c.Data,
-            })
     }
 
     response, err := handler_utils.CreateGetResponse(ctx, r, sp)

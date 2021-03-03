@@ -6,7 +6,7 @@ import (
     "github.com/golang/protobuf/proto"
     gpb "github.com/openconfig/gnmi/proto/gnmi"
     "gnmi_server/cmd/command"
-    "gnmi_server/internal/pkg/swsssdk/helper"
+    "gnmi_server/pkg/gnmi/cmd"
     "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
 )
@@ -24,12 +24,10 @@ func InterfaceHandler(ctx context.Context, value *gpb.TypedValue, db command.Cli
                     if v.InterfaceList == nil {
                         continue
                     }
-                    c := helper.Interface{
-                        Key: v.PortName,
-                        Client: db,
-                        Data: v.InterfaceList,
+                    c := cmd.NewIfAdapter(cmd.INTERFACE, v.PortName, db)
+                    if err := c.Config(v.InterfaceList, cmd.ADD); err != nil {
+                        return err
                     }
-                    c.SaveToDB(true)
                 }
             }
         }
@@ -51,12 +49,10 @@ func InterfaceIPPrefixHandler(ctx context.Context, value *gpb.TypedValue, db com
                     if v.InterfaceIpprefixList == nil {
                         continue
                     }
-                    c := helper.InterfaceIPPrefix{
-                        Keys:   []string{v.PortName, v.IpPrefix},
-                        Client: db,
-                        Data:   v.InterfaceIpprefixList,
+                    c := cmd.NewIfAddrAdapter(cmd.INTERFACE, v.PortName, v.IpPrefix, db)
+                    if err := c.Config(v.InterfaceIpprefixList, cmd.ADD); err != nil {
+                        return err
                     }
-                    c.SaveToDB(true)
                 }
             }
         }
@@ -79,12 +75,10 @@ func LoopbackInterfaceHandler(ctx context.Context, value *gpb.TypedValue, db com
                     if v.LoopbackInterfaceList == nil {
                         continue
                     }
-                    c := helper.LoopbackInterface{
-                        Key: v.LoopbackInterfaceName,
-                        Client: db,
-                        Data: v.LoopbackInterfaceList,
+                    c := cmd.NewIfAdapter(cmd.LOOPBACK_INTERFACE, v.LoopbackInterfaceName, db)
+                    if err := c.Config(v.LoopbackInterfaceList, cmd.ADD); err != nil {
+                        return err
                     }
-                    c.SaveToDB(true)
                 }
             }
         }
@@ -106,12 +100,10 @@ func LoopbackInterfaceIPPrefixHandler(ctx context.Context, value *gpb.TypedValue
                     if v.LoopbackInterfaceIpprefixList == nil {
                         continue
                     }
-                    c := helper.LoopbackInterfaceIPPrefix{
-                        Keys: []string{v.LoopbackInterfaceName, v.IpPrefix},
-                        Client: db,
-                        Data: v.LoopbackInterfaceIpprefixList,
+                    c := cmd.NewIfAddrAdapter(cmd.LOOPBACK_INTERFACE, v.LoopbackInterfaceName, v.IpPrefix, db)
+                    if err := c.Config(v.LoopbackInterfaceIpprefixList, cmd.ADD); err != nil {
+                        return err
                     }
-                    c.SaveToDB(true)
                 }
             }
         }
@@ -133,12 +125,10 @@ func VlanInterfaceHandler(ctx context.Context, value *gpb.TypedValue, db command
                     if v.VlanInterfaceList == nil {
                         continue
                     }
-                    c := helper.VlanInterface{
-                        Key: v.VlanName,
-                        Client: db,
-                        Data: v.VlanInterfaceList,
+                    c := cmd.NewIfAdapter(cmd.VLAN_INTERFACE, v.VlanName, db)
+                    if err := c.Config(v.VlanInterfaceList, cmd.ADD); err != nil {
+                        return err
                     }
-                    c.SaveToDB(true)
                 }
             }
         }
@@ -160,12 +150,10 @@ func VlanInterfaceIPPrefixHandler(ctx context.Context, value *gpb.TypedValue, db
                     if v.VlanInterfaceIpprefixList == nil {
                         continue
                     }
-                    c := helper.VlanInterfaceIPPrefix{
-                        Keys:   []string{v.VlanName, v.IpPrefix},
-                        Client: db,
-                        Data:   v.VlanInterfaceIpprefixList,
+                    c := cmd.NewIfAddrAdapter(cmd.VLAN_INTERFACE, v.VlanName, v.IpPrefix, db)
+                    if err := c.Config(v.VlanInterfaceIpprefixList, cmd.ADD); err != nil {
+                        return err
                     }
-                    c.SaveToDB()
                 }
             }
         }

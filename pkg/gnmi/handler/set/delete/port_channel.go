@@ -3,7 +3,7 @@ package delete
 import (
     "context"
     "gnmi_server/cmd/command"
-    "gnmi_server/internal/pkg/swsssdk/helper"
+    "gnmi_server/pkg/gnmi/cmd"
     "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
 )
@@ -12,40 +12,36 @@ func PortChannelHandler(ctx context.Context, kvs map[string]string, db command.C
     if v, ok := kvs["portchannel-name"]; !ok {
         return status.Error(codes.Internal, ErrNoKey)
     } else {
-        c := &helper.PortChannel{
-            Key:    v,
-            Client: db,
-            Data:   nil,
-        }
-        if err := c.RemoveFromDB(); err != nil {
-            return err
-        }
+        c := cmd.NewLagAdapter(v, db)
+        return c.Config(nil, cmd.DEL)
     }
-
-    return nil
 }
 
 func PortChannelMemberHandler(ctx context.Context, kvs map[string]string, db command.Client) error {
-    spec := []string{}
+    name := "*"
+    ifname := "*"
     if v, ok := kvs["portchannel-name"]; ok {
-        spec = append(spec, v)
-    } else {
-        spec = append(spec, "*")
+        name = v
     }
     if v, ok := kvs["port-name"]; ok {
-        spec = append(spec, v)
-    } else {
-        spec = append(spec, "*")
+        ifname = v
     }
 
-    c := &helper.PortChannelMember{
-        Keys:   spec,
-        Client: db,
-        Data:   nil,
+    conn := db.Config()
+    if conn == nil {
+        return status.Error(codes.Internal, "")
     }
 
-    if err := c.RemoveFromDB(); err != nil {
+    if hkeys, err := conn.GetKeys("PORTCHANNEL_MEMBER", []string{name, ifname}); err != nil {
         return err
+    } else {
+        for _, hkey := range hkeys {
+            keys := conn.SplitKeys(hkey)
+            c := cmd.NewLagMemberAdapter(keys[0], keys[1], db)
+            if err := c.Config(nil, cmd.DEL); err != nil {
+                return err
+            }
+        }
+        return nil
     }
-    return nil
 }

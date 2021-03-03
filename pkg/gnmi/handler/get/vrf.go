@@ -5,7 +5,7 @@ import (
     sonicpb "github.com/TeamNocsys/sonicpb/api/protobuf/sonic"
     "github.com/openconfig/gnmi/proto/gnmi"
     "gnmi_server/cmd/command"
-    "gnmi_server/internal/pkg/swsssdk/helper"
+    "gnmi_server/pkg/gnmi/cmd"
     "gnmi_server/pkg/gnmi/handler"
     handler_utils "gnmi_server/pkg/gnmi/handler/utils"
     "google.golang.org/grpc/codes"
@@ -28,23 +28,20 @@ func VrfHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*gn
         Vrf: &sonicpb.NocsysVrf_Vrf{},
     }
     if hkeys, err := conn.GetKeys("VRF", spec); err != nil {
-        return nil, status.Errorf(codes.Internal, err.Error())
+        return nil, err
     } else {
         for _, hkey := range hkeys {
             keys := conn.SplitKeys(hkey)
-            c := helper.Vrf{
-                Key: keys[0],
-                Client: db,
-                Data: nil,
+            c := cmd.NewVrfAdapter(keys[0], db)
+            if data, err := c.Show(r.Type); err != nil {
+                return nil, err
+            } else {
+                sv.Vrf.VrfList = append(sv.Vrf.VrfList,
+                    &sonicpb.NocsysVrf_Vrf_VrfListKey{
+                        VrfName: keys[0],
+                        VrfList: data,
+                    })
             }
-            if err := c.LoadFromDB(); err != nil {
-                return nil, status.Errorf(codes.Internal, err.Error())
-            }
-            sv.Vrf.VrfList = append(sv.Vrf.VrfList,
-                &sonicpb.NocsysVrf_Vrf_VrfListKey{
-                    VrfName: keys[0],
-                    VrfList: c.Data,
-                })
         }
     }
 

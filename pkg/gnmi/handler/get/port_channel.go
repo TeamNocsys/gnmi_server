@@ -5,7 +5,7 @@ import (
     sonicpb "github.com/TeamNocsys/sonicpb/api/protobuf/sonic"
     "github.com/openconfig/gnmi/proto/gnmi"
     "gnmi_server/cmd/command"
-    "gnmi_server/internal/pkg/swsssdk/helper"
+    "gnmi_server/pkg/gnmi/cmd"
     "gnmi_server/pkg/gnmi/handler"
     handler_utils "gnmi_server/pkg/gnmi/handler/utils"
     "google.golang.org/grpc/codes"
@@ -30,19 +30,16 @@ func PortChannelHandler(ctx context.Context, r *gnmi.GetRequest, db command.Clie
     if hkeys, err := conn.GetKeys("PORTCHANNEL", spec); err != nil {
         for _, hkey := range hkeys {
             keys := conn.SplitKeys(hkey)
-            c := helper.PortChannel{
-                Key: keys[0],
-                Client: db,
-                Data: nil,
+            c := cmd.NewLagAdapter(keys[0], db)
+            if data, err := c.Show(r.Type); err != nil {
+                return nil, err
+            } else {
+                spc.Portchannel.PortchannelList = append(spc.Portchannel.PortchannelList,
+                    &sonicpb.NocsysPortchannel_Portchannel_PortchannelListKey{
+                        PortchannelName: keys[0],
+                        PortchannelList: data,
+                    })
             }
-            if err := c.LoadFromDB(); err != nil {
-                return nil, status.Errorf(codes.Internal, err.Error())
-            }
-            spc.Portchannel.PortchannelList = append(spc.Portchannel.PortchannelList,
-                &sonicpb.NocsysPortchannel_Portchannel_PortchannelListKey{
-                    PortchannelName: keys[0],
-                    PortchannelList: c.Data,
-                })
         }
     }
 
@@ -81,20 +78,17 @@ func PortChannelMemberHandler(ctx context.Context, r *gnmi.GetRequest, db comman
     } else {
         for _, hkey := range hkeys {
             keys := conn.SplitKeys(hkey)
-            c := helper.PortChannelMember{
-                Keys: keys,
-                Client: db,
-                Data: nil,
+            c := cmd.NewLagMemberAdapter(keys[0], keys[1], db)
+            if data, err := c.Show(r.Type); err != nil {
+                return nil, err
+            } else {
+                spc.PortchannelMember.PortchannelMemberList = append(spc.PortchannelMember.PortchannelMemberList,
+                    &sonicpb.NocsysPortchannel_PortchannelMember_PortchannelMemberListKey{
+                        PortchannelName: keys[0],
+                        Port: keys[1],
+                        PortchannelMemberList: data,
+                    })
             }
-            if err := c.LoadFromDB(); err != nil {
-                return nil, status.Errorf(codes.Internal, err.Error())
-            }
-            spc.PortchannelMember.PortchannelMemberList = append(spc.PortchannelMember.PortchannelMemberList,
-                &sonicpb.NocsysPortchannel_PortchannelMember_PortchannelMemberListKey{
-                    PortchannelName: keys[0],
-                    Port: keys[1],
-                    PortchannelMemberList: c.Data,
-                })
         }
     }
 

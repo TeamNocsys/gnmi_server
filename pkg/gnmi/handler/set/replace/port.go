@@ -6,7 +6,7 @@ import (
     "github.com/golang/protobuf/proto"
     gpb "github.com/openconfig/gnmi/proto/gnmi"
     "gnmi_server/cmd/command"
-    "gnmi_server/internal/pkg/swsssdk/helper"
+    "gnmi_server/pkg/gnmi/cmd"
     "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
 )
@@ -24,12 +24,10 @@ func PortHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) 
                     if v.PortList == nil {
                         continue
                     }
-                    c := helper.Port{
-                        Key: v.PortName,
-                        Client: db,
-                        Data: v.PortList,
+                    c := cmd.NewPortAdapter(v.PortName, db)
+                    if err := c.Config(v.PortList, cmd.ADD); err != nil {
+                        return err
                     }
-                    c.SaveToDB(true)
                 }
             }
         }

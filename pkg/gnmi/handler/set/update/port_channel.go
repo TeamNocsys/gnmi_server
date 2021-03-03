@@ -6,7 +6,7 @@ import (
     "github.com/golang/protobuf/proto"
     gpb "github.com/openconfig/gnmi/proto/gnmi"
     "gnmi_server/cmd/command"
-    "gnmi_server/internal/pkg/swsssdk/helper"
+    "gnmi_server/pkg/gnmi/cmd"
     "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
 )
@@ -24,12 +24,10 @@ func PortChannelHandler(ctx context.Context, value *gpb.TypedValue, db command.C
                     if v.PortchannelList == nil {
                         continue
                     }
-                    c := helper.PortChannel{
-                        Key: v.PortchannelName,
-                        Client: db,
-                        Data: v.PortchannelList,
+                    c := cmd.NewLagAdapter(v.PortchannelName, db)
+                    if err := c.Config(v.PortchannelList, cmd.UPDATE); err != nil {
+                        return err
                     }
-                    c.SaveToDB(false)
                 }
             }
         }
@@ -51,12 +49,10 @@ func PortChannelMemberHandler(ctx context.Context, value *gpb.TypedValue, db com
                     if v.PortchannelMemberList == nil {
                         continue
                     }
-                    c := helper.PortChannelMember{
-                        Keys: []string{v.PortchannelName, v.Port},
-                        Client: db,
-                        Data: v.PortchannelMemberList,
+                    c := cmd.NewLagMemberAdapter(v.PortchannelName, v.Port, db)
+                    if err := c.Config(v.PortchannelMemberList, cmd.UPDATE); err != nil {
+                        return err
                     }
-                    c.SaveToDB(false)
                 }
             }
         }

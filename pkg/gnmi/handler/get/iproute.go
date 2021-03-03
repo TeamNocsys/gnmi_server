@@ -6,7 +6,7 @@ import (
     "github.com/openconfig/gnmi/proto/gnmi"
     "gnmi_server/cmd/command"
     "gnmi_server/internal/pkg/swsssdk"
-    "gnmi_server/internal/pkg/swsssdk/helper"
+    "gnmi_server/pkg/gnmi/cmd"
     "gnmi_server/pkg/gnmi/handler"
     handler_utils "gnmi_server/pkg/gnmi/handler/utils"
     "google.golang.org/grpc/codes"
@@ -42,20 +42,17 @@ func IpRouteHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) 
             if len(keys) != 2 {
                 continue
             }
-            c := helper.IpRoute{
-                Keys: keys,
-                Client: db,
-                Data: nil,
+            c := cmd.NewVrfRouteAdapter(keys[0], keys[1], db)
+            if data, err := c.Show(r.Type); err != nil {
+                return nil, err
+            } else {
+                sr.Route.RouteList = append(sr.Route.RouteList,
+                    &sonicpb.NocsysRoute_Route_RouteListKey{
+                        VrfName: keys[0],
+                        IpPrefix: keys[1],
+                        RouteList: data,
+                    })
             }
-            if err := c.LoadFromDB(); err != nil {
-                return nil, status.Errorf(codes.Internal, err.Error())
-            }
-            sr.Route.RouteList = append(sr.Route.RouteList,
-                &sonicpb.NocsysRoute_Route_RouteListKey{
-                    VrfName: keys[0],
-                    IpPrefix: keys[1],
-                    RouteList: c.Data,
-                })
         }
     }
 

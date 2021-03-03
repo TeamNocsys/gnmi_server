@@ -6,7 +6,7 @@ import (
     "github.com/golang/protobuf/proto"
     gpb "github.com/openconfig/gnmi/proto/gnmi"
     "gnmi_server/cmd/command"
-    "gnmi_server/internal/pkg/swsssdk/helper"
+    "gnmi_server/pkg/gnmi/cmd"
     "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
 )
@@ -24,12 +24,10 @@ func VrfHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) e
                     if v.VrfList == nil {
                         continue
                     }
-                    c := helper.Vrf{
-                        Key: v.VrfName,
-                        Client: db,
-                        Data: v.VrfList,
+                    c := cmd.NewVrfAdapter(v.VrfName, db)
+                    if err := c.Config(v.VrfList, cmd.UPDATE); err != nil {
+                        return err
                     }
-                    c.SaveToDB()
                 }
             }
         }

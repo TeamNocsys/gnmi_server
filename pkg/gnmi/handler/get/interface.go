@@ -5,7 +5,7 @@ import (
     sonicpb "github.com/TeamNocsys/sonicpb/api/protobuf/sonic"
     "github.com/openconfig/gnmi/proto/gnmi"
     "gnmi_server/cmd/command"
-    "gnmi_server/internal/pkg/swsssdk/helper"
+    "gnmi_server/pkg/gnmi/cmd"
     "gnmi_server/pkg/gnmi/handler"
     handler_utils "gnmi_server/pkg/gnmi/handler/utils"
     "google.golang.org/grpc/codes"
@@ -35,19 +35,16 @@ func InterfaceHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client
             if len(keys) != 1 {
                 continue
             }
-            c := helper.Interface{
-                Key: keys[0],
-                Client: db,
-                Data: nil,
+            c := cmd.NewIfAdapter(cmd.INTERFACE, keys[0], db)
+            if data, err := c.Show(r.Type); err != nil {
+                return nil, err
+            } else {
+                si.Interface.InterfaceList = append(si.Interface.InterfaceList,
+                    &sonicpb.NocsysInterface_Interface_InterfaceListKey{
+                        PortName: keys[0],
+                        InterfaceList: data.(*sonicpb.NocsysInterface_Interface_InterfaceList),
+                    })
             }
-            if err := c.LoadFromDB(); err != nil {
-                return nil, status.Errorf(codes.Internal, err.Error())
-            }
-            si.Interface.InterfaceList = append(si.Interface.InterfaceList,
-                &sonicpb.NocsysInterface_Interface_InterfaceListKey{
-                    PortName: keys[0],
-                    InterfaceList: c.Data,
-                })
         }
     }
 
@@ -85,20 +82,17 @@ func InterfaceIPPrefixHandler(ctx context.Context, r *gnmi.GetRequest, db comman
     } else {
         for _, hkey := range hkeys {
             keys := conn.SplitKeys(hkey)
-            c := helper.InterfaceIPPrefix{
-                Keys: keys,
-                Client: db,
-                Data: nil,
+            c := cmd.NewIfAddrAdapter(cmd.INTERFACE, keys[0], keys[1], db)
+            if data, err := c.Show(r.Type); err != nil {
+                return nil, err
+            } else {
+                si.Interface.InterfaceIpprefixList = append(si.Interface.InterfaceIpprefixList,
+                    &sonicpb.NocsysInterface_Interface_InterfaceIpprefixListKey{
+                        PortName: keys[0],
+                        IpPrefix: keys[1],
+                        InterfaceIpprefixList: data.(*sonicpb.NocsysInterface_Interface_InterfaceIpprefixList),
+                    })
             }
-            if err := c.LoadFromDB(); err != nil {
-                return nil, status.Errorf(codes.Internal, err.Error())
-            }
-            si.Interface.InterfaceIpprefixList = append(si.Interface.InterfaceIpprefixList,
-                &sonicpb.NocsysInterface_Interface_InterfaceIpprefixListKey{
-                    PortName: keys[0],
-                    IpPrefix: keys[1],
-                    InterfaceIpprefixList: c.Data,
-                })
         }
     }
 

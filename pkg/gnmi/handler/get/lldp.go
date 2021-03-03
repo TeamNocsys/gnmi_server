@@ -6,7 +6,7 @@ import (
     "github.com/openconfig/gnmi/proto/gnmi"
     "gnmi_server/cmd/command"
     "gnmi_server/internal/pkg/swsssdk"
-    "gnmi_server/internal/pkg/swsssdk/helper"
+    "gnmi_server/pkg/gnmi/cmd"
     "gnmi_server/pkg/gnmi/handler"
     handler_utils "gnmi_server/pkg/gnmi/handler/utils"
     "google.golang.org/grpc/codes"
@@ -33,19 +33,16 @@ func LLDPHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*g
     } else {
         for _, hkey := range hkeys {
             keys := conn.SplitKeys(swsssdk.APPL_DB, hkey)
-            c := helper.Lldp{
-                Key: keys[0],
-                Client: db,
-                Data: nil,
+            c := cmd.NewLldpAdapter(keys[0], db)
+            if data, err := c.Show(r.Type); err != nil {
+                return nil, err
+            } else {
+                sl.Lldp.LldpList = append(sl.Lldp.LldpList,
+                    &sonicpb.NocsysLldp_Lldp_LldpListKey{
+                        PortName: keys[0],
+                        LldpList: data,
+                    })
             }
-            if err := c.LoadFromDB(helper.DATA_TYPE_ALL); err != nil {
-                return nil, status.Errorf(codes.Internal, err.Error())
-            }
-            sl.Lldp.LldpList = append(sl.Lldp.LldpList,
-                &sonicpb.NocsysLldp_Lldp_LldpListKey{
-                    PortName: keys[0],
-                    LldpList: c.Data,
-                })
         }
     }
 
