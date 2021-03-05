@@ -101,6 +101,16 @@ func (adpt *MirrorAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Noc
 func (adpt *MirrorAdapter) Config(data *sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList, oper OperType) error {
     var cmdstr string
     if oper == ADD {
+        conn := adpt.client.Config()
+        if conn == nil {
+            return swsssdk.ErrConnNotExist
+        }
+        if ok, err := conn.HasEntry("MIRROR_SESSION_TABLE", adpt.name); err != nil {
+            return err
+        } else if ok {
+            return nil
+        }
+
         cmdstr = "config mirror_session add"
 
         if data.Type == sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_TYPE_SPAN {
@@ -121,6 +131,16 @@ func (adpt *MirrorAdapter) Config(data *sonicpb.NocsysMirrorSession_MirrorSessio
             cmdstr += " both"
         }
     } else if oper == DEL {
+        conn := adpt.client.Config()
+        if conn == nil {
+            return swsssdk.ErrConnNotExist
+        }
+        if ok, err := conn.HasEntry("MIRROR_SESSION_TABLE", adpt.name); err != nil {
+            return err
+        } else if !ok {
+            return nil
+        }
+
         cmdstr = "config mirror_session remove " + adpt.name
     }
 

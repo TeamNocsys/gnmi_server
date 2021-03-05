@@ -62,11 +62,31 @@ func (adpt *LagAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Nocsys
 
 func (adpt *LagAdapter) Config(data *sonicpb.NocsysPortchannel_Portchannel_PortchannelList, oper OperType) error {
     if oper == ADD {
+        conn := adpt.client.Config()
+        if conn == nil {
+            return swsssdk.ErrConnNotExist
+        }
+        if ok, err := conn.HasEntry("PORTCHANNEL", adpt.name); err != nil {
+            return err
+        } else if ok {
+            return nil
+        }
+
         cmdstr := "config portchannel add " + adpt.name
         if err := adpt.exec(cmdstr); err != nil {
             return err
         }
     } else if oper == DEL {
+        conn := adpt.client.Config()
+        if conn == nil {
+            return swsssdk.ErrConnNotExist
+        }
+        if ok, err := conn.HasEntry("PORTCHANNEL", adpt.name); err != nil {
+            return err
+        } else if !ok {
+            return nil
+        }
+
         cmdstr := "config portchannel del " + adpt.name
         if err := adpt.exec(cmdstr); err != nil {
             return err

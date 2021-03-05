@@ -39,12 +39,32 @@ func (adpt *LagMemberAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.
 func (adpt *LagMemberAdapter) Config(data *sonicpb.NocsysPortchannel_PortchannelMember_PortchannelMemberList, oper OperType) error {
     cmdstr := "config portchannel member"
     if oper == ADD || oper == UPDATE {
+        conn := adpt.client.Config()
+        if conn == nil {
+            return swsssdk.ErrConnNotExist
+        }
+        if ok, err := conn.HasEntry("PORTCHANNEL_MEMBER", []string{adpt.name, adpt.ifname}); err != nil {
+            return err
+        } else if ok {
+            return nil
+        }
+
         cmdstr = " add "
     } else if oper == DEL {
         cmdstr = " del "
     } else {
         return ErrInvalidOperType
     }
+    conn := adpt.client.Config()
+    if conn == nil {
+        return swsssdk.ErrConnNotExist
+    }
+    if ok, err := conn.HasEntry("PORTCHANNEL_MEMBER", []string{adpt.name, adpt.ifname}); err != nil {
+        return err
+    } else if !ok {
+        return nil
+    }
+
     cmdstr += " " + adpt.name + " " + adpt.ifname
     return adpt.exec(cmdstr)
 }

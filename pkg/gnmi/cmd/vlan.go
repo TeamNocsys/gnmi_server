@@ -62,14 +62,20 @@ func (adpt *VlanAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Nocsy
 }
 
 func (adpt *VlanAdapter) Config(data *sonicpb.NocsysVlan_Vlan_VlanList, oper OperType) error {
-    if oper == ADD {
-        cmdstr := "config vlan add " + strings.TrimLeft(adpt.name, "Vlan")
-        if err := adpt.exec(cmdstr); err != nil {
-            return err
-        }
-    }
-
     if oper == ADD || oper == UPDATE {
+        conn := adpt.client.Config()
+        if conn == nil {
+            return swsssdk.ErrConnNotExist
+        }
+        if ok, err := conn.HasEntry("VLAN", adpt.name); err != nil {
+            return err
+        } else if !ok {
+            cmdstr := "config vlan add " + strings.TrimLeft(adpt.name, "Vlan")
+            if err := adpt.exec(cmdstr); err != nil {
+                return err
+            }
+        }
+
         if data.Description != nil {
             cmdstr := "config interface description " + adpt.name + " " +  data.Description.Value
             if err := adpt.exec(cmdstr); err != nil {

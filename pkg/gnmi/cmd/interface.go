@@ -109,6 +109,21 @@ func (adpt *IfAdapter) Config(data interface{}, oper OperType) error {
 
     var cmdstr string
     if oper == ADD {
+        conn := adpt.client.Config()
+        if conn == nil {
+            return swsssdk.ErrConnNotExist
+        }
+        if data, err := conn.GetAll(swsssdk.CONFIG_DB, []string{IfType_table[int32(adpt.ifType)], adpt.ifname}); err != nil {
+            return err
+        } else {
+            if v, ok := data["vrf_name"]; ok {
+                cmdstr = "config interface vrf unbind " + adpt.ifname + " " + v
+                if err := adpt.exec(cmdstr); err != nil {
+                    return nil
+                }
+            }
+        }
+
         cmdstr = "config interface vrf bind " + adpt.ifname + " " + vrf
     } else if oper == DEL {
         cmdstr = "config interface vrf unbind " + adpt.ifname + " " + vrf
