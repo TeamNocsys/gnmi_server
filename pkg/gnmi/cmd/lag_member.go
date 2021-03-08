@@ -49,22 +49,22 @@ func (adpt *LagMemberAdapter) Config(data *sonicpb.NocsysPortchannel_Portchannel
             return nil
         }
 
-        cmdstr = " add "
+        cmdstr += " add " + adpt.name + " " + adpt.ifname
     } else if oper == DEL {
-        cmdstr = " del "
+        conn := adpt.client.Config()
+        if conn == nil {
+            return swsssdk.ErrConnNotExist
+        }
+        if ok, err := conn.HasEntry("PORTCHANNEL_MEMBER", []string{adpt.name, adpt.ifname}); err != nil {
+            return err
+        } else if !ok {
+            return nil
+        }
+
+        cmdstr += " del " + adpt.name + " " + adpt.ifname
     } else {
         return ErrInvalidOperType
     }
-    conn := adpt.client.Config()
-    if conn == nil {
-        return swsssdk.ErrConnNotExist
-    }
-    if ok, err := conn.HasEntry("PORTCHANNEL_MEMBER", []string{adpt.name, adpt.ifname}); err != nil {
-        return err
-    } else if !ok {
-        return nil
-    }
 
-    cmdstr += " " + adpt.name + " " + adpt.ifname
     return adpt.exec(cmdstr)
 }

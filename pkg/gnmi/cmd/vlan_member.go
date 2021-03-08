@@ -50,6 +50,7 @@ func (adpt *VlanMemberAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb
 }
 
 func (adpt *VlanMemberAdapter) Config(data *sonicpb.NocsysVlan_VlanMember_VlanMemberList, oper OperType) error {
+    cmdstr := "config vlan member"
     if oper == ADD || oper == UPDATE {
         conn := adpt.client.Config()
         if conn == nil {
@@ -61,11 +62,10 @@ func (adpt *VlanMemberAdapter) Config(data *sonicpb.NocsysVlan_VlanMember_VlanMe
             return nil
         }
 
-        cmdstr := "config vlan member add " + strings.TrimLeft(adpt.name, "Vlan") + " " +  adpt.ifname
+        cmdstr += " add " + strings.TrimLeft(adpt.name, "Vlan") + " " +  adpt.ifname
         if data.TaggingMode == sonicpb.NocsysVlan_VlanMember_VlanMemberList_TAGGINGMODE_untagged {
             cmdstr += " -u"
         }
-        return adpt.exec(cmdstr)
     } else if oper == DEL {
         conn := adpt.client.Config()
         if conn == nil {
@@ -77,8 +77,10 @@ func (adpt *VlanMemberAdapter) Config(data *sonicpb.NocsysVlan_VlanMember_VlanMe
             return nil
         }
 
-        cmdstr := "config vlan member del " + strings.TrimLeft(adpt.name, "Vlan") + " " +  adpt.ifname
-        return adpt.exec(cmdstr)
+        cmdstr += " del " + strings.TrimLeft(adpt.name, "Vlan") + " " +  adpt.ifname
+    } else {
+        return ErrInvalidOperType
     }
-    return ErrInvalidOperType
+
+    return adpt.exec(cmdstr)
 }

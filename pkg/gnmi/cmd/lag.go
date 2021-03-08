@@ -61,6 +61,7 @@ func (adpt *LagAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Nocsys
 }
 
 func (adpt *LagAdapter) Config(data *sonicpb.NocsysPortchannel_Portchannel_PortchannelList, oper OperType) error {
+    cmdstr := "config portchannel"
     if oper == ADD {
         conn := adpt.client.Config()
         if conn == nil {
@@ -72,10 +73,7 @@ func (adpt *LagAdapter) Config(data *sonicpb.NocsysPortchannel_Portchannel_Portc
             return nil
         }
 
-        cmdstr := "config portchannel add " + adpt.name
-        if err := adpt.exec(cmdstr); err != nil {
-            return err
-        }
+        cmdstr += " add " + adpt.name
     } else if oper == DEL {
         conn := adpt.client.Config()
         if conn == nil {
@@ -87,11 +85,10 @@ func (adpt *LagAdapter) Config(data *sonicpb.NocsysPortchannel_Portchannel_Portc
             return nil
         }
 
-        cmdstr := "config portchannel del " + adpt.name
-        if err := adpt.exec(cmdstr); err != nil {
-            return err
-        }
+        cmdstr += " del " + adpt.name
+    } else {
+        return ErrInvalidOperType
     }
 
-    return ErrInvalidOperType
+    return adpt.exec(cmdstr)
 }
