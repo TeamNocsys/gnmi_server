@@ -105,7 +105,7 @@ func (adpt *MirrorAdapter) Config(data *sonicpb.NocsysMirrorSession_MirrorSessio
         if conn == nil {
             return swsssdk.ErrConnNotExist
         }
-        if ok, err := conn.HasEntry("MIRROR_SESSION_TABLE", adpt.name); err != nil {
+        if ok, err := conn.HasEntry("MIRROR_SESSION", adpt.name); err != nil {
             return err
         } else if ok {
             return nil
@@ -135,7 +135,7 @@ func (adpt *MirrorAdapter) Config(data *sonicpb.NocsysMirrorSession_MirrorSessio
         if conn == nil {
             return swsssdk.ErrConnNotExist
         }
-        if ok, err := conn.HasEntry("MIRROR_SESSION_TABLE", adpt.name); err != nil {
+        if ok, err := conn.HasEntry("MIRROR_SESSION", adpt.name); err != nil {
             return err
         } else if !ok {
             return nil

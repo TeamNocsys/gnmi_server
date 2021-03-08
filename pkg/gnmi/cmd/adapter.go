@@ -5,6 +5,7 @@ import (
     "github.com/sirupsen/logrus"
     "gnmi_server/cmd/command"
     "gnmi_server/internal/pkg/utils"
+    "strings"
 )
 
 type OperType int32
@@ -21,7 +22,10 @@ type Adapter struct {
 
 func (adpt *Adapter) exec(cmdstr string) error {
     logrus.Trace(cmdstr + "|EXEC")
-    if err, r := utils.Utils_execute_cmd("bash", "-c", cmdstr); err != nil {
+    params := strings.Split(cmdstr, " ")
+    cmd := params[0]
+    args := params[1:]
+    if err, r := utils.Utils_execute_cmd(cmd, args...); err != nil {
         return errors.New(r)
     }
     return nil

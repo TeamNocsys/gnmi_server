@@ -192,6 +192,16 @@ func (conn *Connector) GetEntry(db_name string, keys interface{}) (map[string]in
 
 }
 
+func (conn *Connector) HasEntry(db_name string, keys interface{}) (bool, error) {
+    if id := gscfg.GetDBId(db_name); id > 0 {
+        if pattern := conn.serialize_key(db_name, keys); pattern != "" {
+            num, err := conn.mgmt.exists(id, pattern)
+            return num > 0, err
+        }
+    }
+    return false, ErrDatabaseNotExist
+}
+
 func (conn *Connector) GetKeys(db_name string, keys interface{}) ([]string, error) {
     if id := gscfg.GetDBId(db_name); id >= 0 {
         if pattern := conn.serialize_key(db_name, keys); pattern != "" {
