@@ -13,8 +13,10 @@ import (
     "google.golang.org/grpc"
     "net"
     "os"
+    "os/signal"
     "path"
     "strings"
+    "syscall"
     "time"
 )
 
@@ -102,6 +104,12 @@ func NewRunCommand(gnmiCli command.Client) *cobra.Command {
             grpcServer := grpc.NewServer(grpc.RPCDecompressor(grpc.NewGZIPDecompressor()))
             server := gnmi.DefaultServer(gnmiCli, get.GetServeMux(), set.SetServeMux())
             gpb.RegisterGNMIServer(grpcServer, &server)
+            c := make(chan os.Signal, 1)
+            signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
+            go func() {
+                <-c
+                grpcServer.Stop()
+            }()
             logrus.Info("Server start")
             err = grpcServer.Serve(listener)
             logrus.Info("Server stop")
