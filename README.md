@@ -21,7 +21,7 @@ $ GOOS=linux go build -tags release
 ### 支持远程DEBUG
 $ GOOS=linux go build --gcflags "all=-N -l" -tags=release
 
-### 制作deb包
+### 制作deb包，交换机需要安装daemonize才能正常运行
 ### 在Debian主机上执行
 ### 其中GO指令可以在任意平台执行，然后将gnmi拷贝到build/deb/usr/local/bin，即可注释掉脚本的GO指令
 $ sudo apt install -y dh-make dpkg-dev devscripts
