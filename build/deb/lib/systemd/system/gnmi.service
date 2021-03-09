@@ -1,0 +1,11 @@
+[Unit]
+Description=The gNMI Server
+After=docker.service
+
+[Service]
+Type=forking
+ExecStart=/usr/sbin/daemonize -p /run/gnmi.pid /usr/local/bin/gnmi run --address 0.0.0.0 --port 5002 -v --config /var/run/redis/sonic-db/database_config.json
+PIDFile=/run/gnmi.pid
+
+[Install]
+WantedBy=multi-user.target
