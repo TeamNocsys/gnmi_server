@@ -47,15 +47,15 @@ $ scp gnmi.deb admin@192.168.200.47:/home/admin
 
 2.运行
 ```shell script
-### 2.1 普通二进制安装(用于调试)
+### 2.1 普通二进制安装(用于调试，根据实际SSH认证信息修改用户名密码)
 ### 日志默认路径为/var/log/gnmi_server.log
-$ sudo ./gnmi run --address 0.0.0.0 --port 5002
+$ sudo ./gnmi run --address 0.0.0.0 --port 5002 --username admin --password YourPaSsWoRd
 ### 指定数据库配置文件
-$ sudo ./gnmi run --address 0.0.0.0 --port 5002 -v --config /var/run/redis/sonic-db/database_config.json
+$ sudo ./gnmi run --address 0.0.0.0 --port 5002 -v --config /var/run/redis/sonic-db/database_config.json --username admin --password YourPaSsWoRd
 ### 远程DEBUG模式，注意ROOT用户运行
-# dlv --listen=:2345 --headless=true --api-version=2 --accept-multiclient exec ./gnmi -- run --address 0.0.0.0 --port 5002 --path .
+# dlv --listen=:2345 --headless=true --api-version=2 --accept-multiclient exec ./gnmi -- run --address 0.0.0.0 --port 5002 --path . --username admin --password YourPaSsWoRd
 
-### 2.2 deb包安装
+### 2.2 deb包安装(根据实际SSH认证信息修改gnmi.service)
 $ sudo dpkg -i gnmi.deb
 $ sudo systemctl start gnmi
 ```

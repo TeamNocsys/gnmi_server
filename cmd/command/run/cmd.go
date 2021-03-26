@@ -61,6 +61,8 @@ func (gf *GsFormatter) Format(e *logrus.Entry) ([]byte, error) {
 }
 
 type runOptions struct {
+    username string
+    password string
     address string
     port    int
     quiet   bool
@@ -102,7 +104,7 @@ func NewRunCommand(gnmiCli command.Client) *cobra.Command {
                 return err
             }
             grpcServer := grpc.NewServer(grpc.RPCDecompressor(grpc.NewGZIPDecompressor()))
-            server := gnmi.DefaultServer(gnmiCli, get.GetServeMux(), set.SetServeMux())
+            server := gnmi.DefaultServer(opts.username, opts.password, gnmiCli, get.GetServeMux(), set.SetServeMux())
             gpb.RegisterGNMIServer(grpcServer, &server)
             c := make(chan os.Signal, 1)
             signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
@@ -118,6 +120,8 @@ func NewRunCommand(gnmiCli command.Client) *cobra.Command {
     }
 
     flags := cmd.Flags()
+    flags.StringVar(&opts.username, "username", "admin", "the username for ssh connect")
+    flags.StringVar(&opts.password, "password", "admin", "the password for ssh connect")
     flags.StringVar(&opts.address, "address", "0.0.0.0", "the ip address for gnmi serve on")
     flags.IntVar(&opts.port, "port", 5002, "the port for gnmi serve on")
     flags.BoolVarP(&opts.quiet, "quiet", "q", false, "whether to print the log below info level to the screen")
