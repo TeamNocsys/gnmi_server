@@ -5,7 +5,9 @@
 ### 测试用
 ```shell script
 $ cd cmd/gnmi
-$ go build -tags debug
+### 根据SONIC版本选择不同编译参数，目前仅支持broadcom和edgecore
+$ go build -tags "debug broadcom"
+$ go build -tags "debug ec"
 ```
 
 当前目录下生成可执行文件gnmi
@@ -16,14 +18,17 @@ gnmi  gnmi.go
 
 ### 发布用
 ```shell script
+### 根据SONIC版本选择不同编译参数，目前仅支持broadcom和edgecore
 $ cd cmd/gnmi
-$ GOOS=linux go build -tags release
+$ GOOS=linux go build -tags "release broadcom"
+$ GOOS=linux go build -tags "release ec"
 ### 支持远程DEBUG
-$ GOOS=linux go build --gcflags "all=-N -l" -tags=release
+$ GOOS=linux go build --gcflags "all=-N -l" -tags "release broadcom"
+$ GOOS=linux go build --gcflags "all=-N -l" -tags "release ec"
 
 ### 制作deb包，交换机需要安装daemonize才能正常运行
 ### 在Debian主机上执行
-### 其中GO指令可以在任意平台执行，然后将gnmi拷贝到build/deb/usr/local/bin，即可注释掉脚本的GO指令
+### 其中GO指令可以在任意平台执行，然后将gnmi拷贝到build/deb/usr/local/bin，即可注释掉脚本的GO指令，默认编译broadcom版本
 $ sudo apt install -y dh-make dpkg-dev devscripts
 $ ./build_deb.sh
 ```

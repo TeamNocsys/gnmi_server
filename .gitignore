@@ -6,3 +6,4 @@ internal/pkg/openconfig/**/*.go
 main
 cmd/gnmi/gnmi
 cmd/cmd
+build/deb/usr/local/bin/gnmi

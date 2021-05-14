@@ -50,13 +50,3 @@ func (adpt *NtpAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Nocsys
         return retval, nil
     }
 }
-
-func (adpt *NtpAdapter) Config(data *sonicpb.NocsysNtp_Ntp_NtpList, oper OperType) error {
-    var cmdstr string
-    if oper == ADD || oper == UPDATE {
-        cmdstr = "config ntp add " + adpt.ipaddr
-    } else if oper == DEL {
-        cmdstr = "config ntp del " + adpt.ipaddr
-    }
-    return adpt.exec(cmdstr)
-}
