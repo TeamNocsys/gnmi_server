@@ -34,7 +34,7 @@ func IpRouteHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) 
     sr := &sonicpb.NocsysRoute{
         Route: &sonicpb.NocsysRoute_Route{},
     }
-    if hkeys, err := conn.GetKeys("ROUTE_TABLE", spec); err != nil {
+    if hkeys, err := conn.GetKeys(swsssdk.APPL_DB, append([]string{"ROUTE_TABLE"}, spec...)); err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
     } else {
         for _, hkey := range hkeys {
