@@ -25,19 +25,38 @@ func IpRouteHandler(ctx context.Context, kvs map[string]string, db command.Clien
     if conn == nil {
         return status.Error(codes.Internal, "")
     }
-    if v, err := conn.GetAll(swsssdk.APPL_DB, append([]string{"ROUTE_TABLE"}, vrf, dest)); err != nil {
-        return err
-    } else {
-        data := &sonicpb.NocsysRoute_Route_RouteList{}
-        for k, v := range v {
-            switch k {
-            case "nexthop":
-                data.Nexthop = &ywrapper.StringValue{Value: v}
-            case "ifname":
-                data.Ifname = &ywrapper.StringValue{Value: v}
+
+    if vrf == "default" {
+        if v, err := conn.GetAll(swsssdk.APPL_DB, append([]string{"ROUTE_TABLE"}, dest)); err != nil {
+            return err
+        } else {
+            data := &sonicpb.NocsysRoute_Route_RouteList{}
+            for k, v := range v {
+                switch k {
+                case "nexthop":
+                    data.Nexthop = &ywrapper.StringValue{Value: v}
+                case "ifname":
+                    data.Ifname = &ywrapper.StringValue{Value: v}
+                }
             }
+            c := cmd.NewVrfRouteAdapter(vrf, dest, db)
+            return c.Config(data, cmd.DEL)
         }
-        c := cmd.NewVrfRouteAdapter(vrf, dest, db)
-        return c.Config(data, cmd.DEL)
+    } else {
+        if v, err := conn.GetAll(swsssdk.APPL_DB, append([]string{"ROUTE_TABLE"}, vrf, dest)); err != nil {
+            return err
+        } else {
+            data := &sonicpb.NocsysRoute_Route_RouteList{}
+            for k, v := range v {
+                switch k {
+                case "nexthop":
+                    data.Nexthop = &ywrapper.StringValue{Value: v}
+                case "ifname":
+                    data.Ifname = &ywrapper.StringValue{Value: v}
+                }
+            }
+            c := cmd.NewVrfRouteAdapter(vrf, dest, db)
+            return c.Config(data, cmd.DEL)
+        }
     }
 }
