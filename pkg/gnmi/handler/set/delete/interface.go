@@ -75,7 +75,7 @@ func ifAddrAutoRemove(ifType cmd.IfType, ifname string, ipaddr string, db comman
         return status.Error(codes.Internal, "")
     }
 
-    if hkeys, err := conn.GetKeys(cmd.IfType_table[int32(ifType)], []string{ifname, ipaddr}); err != nil {
+    if hkeys, err := conn.GetKeysWithTrace(cmd.IfType_table[int32(ifType)], []string{ifname, ipaddr}); err != nil {
         return err
     } else {
         for _, hkey := range hkeys {

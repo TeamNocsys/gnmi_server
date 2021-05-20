@@ -32,7 +32,7 @@ func PortChannelMemberHandler(ctx context.Context, kvs map[string]string, db com
         return status.Error(codes.Internal, "")
     }
 
-    if hkeys, err := conn.GetKeys("PORTCHANNEL_MEMBER", []string{name, ifname}); err != nil {
+    if hkeys, err := conn.GetKeysWithTrace("PORTCHANNEL_MEMBER", []string{name, ifname}); err != nil {
         return err
     } else {
         for _, hkey := range hkeys {

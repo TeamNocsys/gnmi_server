@@ -2,6 +2,7 @@ package swsssdk
 
 import (
     "context"
+    "encoding/json"
     "fmt"
     "github.com/go-redis/redis/v8"
     "github.com/sirupsen/logrus"
@@ -71,6 +72,22 @@ func (conn *Connector) GetAll(db_name string, keys interface{}) (map[string]stri
     if id := gscfg.GetDBId(db_name); id >= 0 {
         if key := conn.serialize_key(db_name, keys); key != "" {
             return conn.mgmt.get_all(id, key)
+        } else {
+            return map[string]string{}, ErrInvalidParameters
+        }
+    } else {
+        return map[string]string{}, ErrDatabaseNotExist
+    }
+}
+
+func (conn *Connector) GetAllWithTrace(db_name string, keys interface{}) (map[string]string, error) {
+    if id := gscfg.GetDBId(db_name); id >= 0 {
+        if key := conn.serialize_key(db_name, keys); key != "" {
+            logrus.Tracef("KEY|%s", key)
+            v, err := conn.mgmt.get_all(id, key)
+            s, _ := json.Marshal(v)
+            logrus.Tracef("KEY|VALUE|%s", s)
+            return v, err
         } else {
             return map[string]string{}, ErrInvalidParameters
         }

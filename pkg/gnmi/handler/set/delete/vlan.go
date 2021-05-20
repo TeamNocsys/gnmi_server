@@ -32,7 +32,7 @@ func VlanHandler(ctx context.Context, kvs map[string]string, db command.Client) 
                 }
             } else {
                 // 删除IP
-                if hkeys, err := conn.GetKeys(cmd.IfType_table[int32(cmd.VLAN_INTERFACE)], []string{v, "*"}); err != nil {
+                if hkeys, err := conn.GetKeysWithTrace(cmd.IfType_table[int32(cmd.VLAN_INTERFACE)], []string{v, "*"}); err != nil {
                     return err
                 } else {
                     for _, hkey := range hkeys {
@@ -47,7 +47,7 @@ func VlanHandler(ctx context.Context, kvs map[string]string, db command.Client) 
         }
 
         // 删除成员
-        if hkeys, err := conn.GetKeys("VLAN_MEMBER", []string{v, "*"}); err != nil {
+        if hkeys, err := conn.GetKeysWithTrace("VLAN_MEMBER", []string{v, "*"}); err != nil {
             return err
         } else {
             for _, hkey := range hkeys {
@@ -80,7 +80,7 @@ func VlanMemberHandler(ctx context.Context, kvs map[string]string, db command.Cl
         return status.Error(codes.Internal, "")
     }
 
-    if hkeys, err := conn.GetKeys("VLAN_MEMBER", []string{name, ifname}); err != nil {
+    if hkeys, err := conn.GetKeysWithTrace("VLAN_MEMBER", []string{name, ifname}); err != nil {
         return err
     } else {
         for _, hkey := range hkeys {

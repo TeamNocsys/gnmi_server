@@ -120,6 +120,25 @@ func (cc *ConfigDBConnector) GetKeys(table string, keys interface{}) ([]string, 
     return []string{}, ErrDatabaseNotExist
 }
 
+func (cc *ConfigDBConnector) GetKeysWithTrace(table string, keys interface{}) ([]string, error) {
+    if id := gscfg.GetDBId(CONFIG_DB); id > 0 {
+        if pattern := cc.serialize_key(table, keys); pattern != "" {
+            logrus.Tracef("KEY|%s", pattern)
+            if ss, err := cc.mgmt.keys(id, pattern); err != nil {
+                return []string{}, err
+            } else {
+                var hkeys []string
+                for _, s := range ss {
+                    hkeys = append(hkeys, s)
+                }
+                logrus.Tracef("KEY|VALUE|%s", strings.Join(hkeys, " "))
+                return hkeys, nil
+            }
+        }
+    }
+    return []string{}, ErrDatabaseNotExist
+}
+
 func (cc *ConfigDBConnector) SplitKeys(keys string) []string {
     s := gscfg.GetDBSeparator(CONFIG_DB)
     return strings.Split(keys, s)[1:]

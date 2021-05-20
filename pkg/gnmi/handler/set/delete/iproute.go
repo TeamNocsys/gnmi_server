@@ -27,11 +27,11 @@ func IpRouteHandler(ctx context.Context, kvs map[string]string, db command.Clien
     }
 
     if vrf == "default" {
-        if v, err := conn.GetAll(swsssdk.APPL_DB, append([]string{"ROUTE_TABLE"}, dest)); err != nil {
+        if r, err := conn.GetAllWithTrace(swsssdk.APPL_DB, append([]string{"ROUTE_TABLE"}, dest)); err != nil {
             return err
         } else {
             data := &sonicpb.NocsysRoute_Route_RouteList{}
-            for k, v := range v {
+            for k, v := range r {
                 switch k {
                 case "nexthop":
                     data.Nexthop = &ywrapper.StringValue{Value: v}
@@ -43,11 +43,11 @@ func IpRouteHandler(ctx context.Context, kvs map[string]string, db command.Clien
             return c.Config(data, cmd.DEL)
         }
     } else {
-        if v, err := conn.GetAll(swsssdk.APPL_DB, append([]string{"ROUTE_TABLE"}, vrf, dest)); err != nil {
+        if r, err := conn.GetAllWithTrace(swsssdk.APPL_DB, append([]string{"ROUTE_TABLE"}, vrf, dest)); err != nil {
             return err
         } else {
             data := &sonicpb.NocsysRoute_Route_RouteList{}
-            for k, v := range v {
+            for k, v := range r {
                 switch k {
                 case "nexthop":
                     data.Nexthop = &ywrapper.StringValue{Value: v}

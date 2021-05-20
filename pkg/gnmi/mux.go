@@ -93,7 +93,7 @@ func (entry *setMuxEntry) handle(ctx context.Context, r interface{}, db command.
         logrus.Debugf("%s|DEL", entry.pattern)
         oper = "DEL"
         s, _ := json.Marshal(r.(map[string]string))
-        logrus.Tracef("%s[DEL|%s", entry.pattern, s)
+        logrus.Tracef("%s|DEL|%s", entry.pattern, s)
         return entry.dh(ctx, r.(map[string]string), db)
     case *gpb.TypedValue:
         logrus.Debugf("%s|SET", entry.pattern)
