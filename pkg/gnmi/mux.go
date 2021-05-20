@@ -2,13 +2,12 @@ package gnmi
 
 import (
     "context"
+    "encoding/json"
     "gnmi_server/cmd/command"
     "sync"
     "time"
-    "encoding/json"
 
     gpb "github.com/openconfig/gnmi/proto/gnmi"
-    "github.com/golang/protobuf/jsonpb"
     "github.com/sirupsen/logrus"
     "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
@@ -99,9 +98,6 @@ func (entry *setMuxEntry) handle(ctx context.Context, r interface{}, db command.
     case *gpb.TypedValue:
         logrus.Debugf("%s|SET", entry.pattern)
         oper = "SET"
-        m := jsonpb.Marshaler{}
-        s, _ := m.MarshalToString(r.(*gpb.TypedValue))
-        logrus.Tracef("%s[SET|%s", entry.pattern, s)
         return entry.uh(ctx, r.(*gpb.TypedValue), db)
     default:
         return status.Errorf(codes.InvalidArgument, "Unknown request parameter type")

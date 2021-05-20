@@ -3,8 +3,10 @@ package update
 import (
     "context"
     sonicpb "github.com/TeamNocsys/sonicpb/api/protobuf/sonic"
+    "github.com/golang/protobuf/jsonpb"
     "github.com/golang/protobuf/proto"
     gpb "github.com/openconfig/gnmi/proto/gnmi"
+    "github.com/sirupsen/logrus"
     "gnmi_server/cmd/command"
     "gnmi_server/pkg/gnmi/cmd"
     "google.golang.org/grpc/codes"
@@ -18,6 +20,9 @@ func PortChannelHandler(ctx context.Context, value *gpb.TypedValue, db command.C
     } else if err := proto.Unmarshal(bytes, info); err != nil {
         return err
     } else {
+        m := jsonpb.Marshaler{}
+        s, _ := m.MarshalToString(info)
+        logrus.Tracef("SET|%s", s)
         if info.Portchannel != nil {
             if info.Portchannel.PortchannelList != nil {
                 for _, v := range info.Portchannel.PortchannelList {
@@ -43,6 +48,9 @@ func PortChannelMemberHandler(ctx context.Context, value *gpb.TypedValue, db com
     } else if err := proto.Unmarshal(bytes, info); err != nil {
         return err
     } else {
+        m := jsonpb.Marshaler{}
+        s, _ := m.MarshalToString(info)
+        logrus.Tracef("UPDATE|%s", s)
         if info.PortchannelMember != nil {
             if info.PortchannelMember.PortchannelMemberList != nil {
                 for _, v := range info.PortchannelMember.PortchannelMemberList {

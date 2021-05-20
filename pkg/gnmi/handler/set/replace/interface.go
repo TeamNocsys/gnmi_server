@@ -3,8 +3,10 @@ package replace
 import (
     "context"
     sonicpb "github.com/TeamNocsys/sonicpb/api/protobuf/sonic"
+    "github.com/golang/protobuf/jsonpb"
     "github.com/golang/protobuf/proto"
     gpb "github.com/openconfig/gnmi/proto/gnmi"
+    "github.com/sirupsen/logrus"
     "gnmi_server/cmd/command"
     "gnmi_server/pkg/gnmi/cmd"
     "google.golang.org/grpc/codes"
@@ -18,6 +20,9 @@ func InterfaceHandler(ctx context.Context, value *gpb.TypedValue, db command.Cli
     } else if err := proto.Unmarshal(bytes, info); err != nil {
         return err
     } else {
+        m := jsonpb.Marshaler{}
+        s, _ := m.MarshalToString(info)
+        logrus.Tracef("REPLACE|%s", s)
         if info.Interface != nil {
             if info.Interface.InterfaceList != nil {
                 for _, v := range info.Interface.InterfaceList {
@@ -43,6 +48,9 @@ func InterfaceIPPrefixHandler(ctx context.Context, value *gpb.TypedValue, db com
     } else if err := proto.Unmarshal(bytes, info); err != nil {
         return err
     } else {
+        m := jsonpb.Marshaler{}
+        s, _ := m.MarshalToString(info)
+        logrus.Tracef("REPLACE|%s", s)
         if info.Interface != nil {
             if info.Interface.InterfaceIpprefixList != nil {
                 for _, v := range info.Interface.InterfaceIpprefixList {
@@ -69,6 +77,9 @@ func LoopbackInterfaceHandler(ctx context.Context, value *gpb.TypedValue, db com
     } else if err := proto.Unmarshal(bytes, info); err != nil {
         return err
     } else {
+        m := jsonpb.Marshaler{}
+        s, _ := m.MarshalToString(info)
+        logrus.Tracef("REPLACE|%s", s)
         if info.LoopbackInterface != nil {
             if info.LoopbackInterface.LoopbackInterfaceList != nil {
                 for _, v := range info.LoopbackInterface.LoopbackInterfaceList {
@@ -94,6 +105,9 @@ func LoopbackInterfaceIPPrefixHandler(ctx context.Context, value *gpb.TypedValue
     } else if err := proto.Unmarshal(bytes, info); err != nil {
         return err
     } else {
+        m := jsonpb.Marshaler{}
+        s, _ := m.MarshalToString(info)
+        logrus.Tracef("REPLACE|%s", s)
         if info.LoopbackInterface != nil {
             if info.LoopbackInterface.LoopbackInterfaceIpprefixList != nil {
                 for _, v := range info.LoopbackInterface.LoopbackInterfaceIpprefixList {
@@ -119,6 +133,9 @@ func VlanInterfaceHandler(ctx context.Context, value *gpb.TypedValue, db command
     } else if err := proto.Unmarshal(bytes, info); err != nil {
         return err
     } else {
+        m := jsonpb.Marshaler{}
+        s, _ := m.MarshalToString(info)
+        logrus.Tracef("REPLACE|%s", s)
         if info.VlanInterface != nil {
             if info.VlanInterface.VlanInterfaceList != nil {
                 for _, v := range info.VlanInterface.VlanInterfaceList {
@@ -144,6 +161,9 @@ func VlanInterfaceIPPrefixHandler(ctx context.Context, value *gpb.TypedValue, db
     } else if err := proto.Unmarshal(bytes, info); err != nil {
         return err
     } else {
+        m := jsonpb.Marshaler{}
+        s, _ := m.MarshalToString(info)
+        logrus.Tracef("REPLACE|%s", s)
         if info.VlanInterface != nil {
             if info.VlanInterface.VlanInterfaceIpprefixList != nil {
                 for _, v := range info.VlanInterface.VlanInterfaceIpprefixList {

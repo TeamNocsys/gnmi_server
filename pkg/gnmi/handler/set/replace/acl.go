@@ -3,8 +3,10 @@ package replace
 import (
     "context"
     sonicpb "github.com/TeamNocsys/sonicpb/api/protobuf/sonic"
+    "github.com/golang/protobuf/jsonpb"
     "github.com/golang/protobuf/proto"
     gpb "github.com/openconfig/gnmi/proto/gnmi"
+    "github.com/sirupsen/logrus"
     "gnmi_server/cmd/command"
     "gnmi_server/internal/pkg/swsssdk/helper"
     "google.golang.org/grpc/codes"
@@ -18,6 +20,9 @@ func AclTableHandler(ctx context.Context, value *gpb.TypedValue, db command.Clie
     } else if err := proto.Unmarshal(bytes, info); err != nil {
         return err
     } else {
+        m := jsonpb.Marshaler{}
+        s, _ := m.MarshalToString(info)
+        logrus.Tracef("REPLACE|%s", s)
         if info.AclTable != nil {
             if info.AclTable.AclTableList != nil {
                 for _, v := range info.AclTable.AclTableList {
@@ -45,6 +50,9 @@ func AclRuleHandler(ctx context.Context, value *gpb.TypedValue, db command.Clien
     } else if err := proto.Unmarshal(bytes, info); err != nil {
         return err
     } else {
+        m := jsonpb.Marshaler{}
+        s, _ := m.MarshalToString(info)
+        logrus.Tracef("REPLACE|%s", s)
         if info.AclRule != nil {
             if info.AclRule.AclRuleList != nil {
                 for _, v := range info.AclRule.AclRuleList {
