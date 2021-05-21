@@ -39,6 +39,9 @@ func IpRouteHandler(ctx context.Context, kvs map[string]string, db command.Clien
                     data.Ifname = &ywrapper.StringValue{Value: v}
                 }
             }
+            if data.Nexthop == nil || data.Ifname == nil {
+                return nil
+            }
             c := cmd.NewVrfRouteAdapter(vrf, dest, db)
             return c.Config(data, cmd.DEL)
         }
@@ -54,6 +57,9 @@ func IpRouteHandler(ctx context.Context, kvs map[string]string, db command.Clien
                 case "ifname":
                     data.Ifname = &ywrapper.StringValue{Value: v}
                 }
+            }
+            if data.Nexthop == nil || data.Ifname == nil {
+                return nil
             }
             c := cmd.NewVrfRouteAdapter(vrf, dest, db)
             return c.Config(data, cmd.DEL)
