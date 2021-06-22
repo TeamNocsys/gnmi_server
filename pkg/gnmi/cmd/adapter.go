@@ -1,6 +1,7 @@
 package cmd
 
 import (
+    "context"
     "errors"
     "github.com/sirupsen/logrus"
     "gnmi_server/cmd/command"
@@ -26,6 +27,9 @@ func (adpt *Adapter) exec(cmdstr string) error {
     cmd := params[0]
     args := params[1:]
     if err, r := utils.Utils_execute_cmd(cmd, args...); err != nil {
+        if err == context.DeadlineExceeded {
+            return err
+        }
         return errors.New(r)
     }
     return nil
