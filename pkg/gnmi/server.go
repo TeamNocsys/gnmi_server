@@ -3,6 +3,7 @@ package gnmi
 import (
     "context"
     "crypto/tls"
+    "errors"
     gpb "github.com/openconfig/gnmi/proto/gnmi"
     "github.com/sirupsen/logrus"
     "gnmi_server/cmd/command"
@@ -88,6 +89,10 @@ func (s *Server) Subscribe(stream gpb.GNMI_SubscribeServer) (err error) {
             logrus.Debugf("SUBSCRIBE|%s", time.Now().Sub(begin))
         }
     }()
+    if s.username == "" || s.password == "" {
+        return errors.New("invalid user name and password")
+    }
+
     conn, err := grpc.DialContext(stream.Context(), "127.0.0.1:8080",
         grpc.WithDefaultCallOptions(grpc.MaxCallRecvMsgSize(math.MaxInt32)),
         grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})),

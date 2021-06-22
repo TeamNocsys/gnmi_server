@@ -120,8 +120,8 @@ func NewRunCommand(gnmiCli command.Client) *cobra.Command {
     }
 
     flags := cmd.Flags()
-    flags.StringVar(&opts.username, "username", "admin", "the username for ssh connect")
-    flags.StringVar(&opts.password, "password", "admin", "the password for ssh connect")
+    flags.StringVar(&opts.username, "username", "", "the username for ssh connect")
+    flags.StringVar(&opts.password, "password", "", "the password for ssh connect")
     flags.StringVar(&opts.address, "address", "0.0.0.0", "the ip address for gnmi serve on")
     flags.IntVar(&opts.port, "port", 5002, "the port for gnmi serve on")
     flags.BoolVarP(&opts.quiet, "quiet", "q", false, "whether to print the log below info level to the screen")
