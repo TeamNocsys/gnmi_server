@@ -1,5 +1,5 @@
 Package: gnmi
 Version: 1.0
 Architecture: amd64
-Description: The gNMI Server (GO)
+Description: The gNMI Server (GO/#GIT_COMMIT)
 Maintainer: kyle <fwdssg@gmail.com>

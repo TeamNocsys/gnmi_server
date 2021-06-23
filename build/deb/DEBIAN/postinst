@@ -1,0 +1,6 @@
+#!/bin/bash
+
+systemctl enable gnmi.service
+
+systemctl start gnmi.service
+
