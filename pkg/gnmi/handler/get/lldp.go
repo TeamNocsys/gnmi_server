@@ -35,7 +35,8 @@ func LLDPHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*g
             keys := conn.SplitKeys(swsssdk.APPL_DB, hkey)
             c := cmd.NewLldpAdapter(keys[0], db)
             if data, err := c.Show(r.Type); err != nil {
-                return nil, err
+                // skip the error entry
+                continue
             } else {
                 sl.Lldp.LldpList = append(sl.Lldp.LldpList,
                     &sonicpb.NocsysLldp_Lldp_LldpListKey{
