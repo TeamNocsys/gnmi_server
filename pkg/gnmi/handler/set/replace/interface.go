@@ -11,6 +11,8 @@ import (
     "gnmi_server/pkg/gnmi/cmd"
     "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
+
+     handler_utils "gnmi_server/pkg/gnmi/handler/utils"
 )
 
 func InterfaceHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) error {
@@ -128,10 +130,9 @@ func LoopbackInterfaceIPPrefixHandler(ctx context.Context, value *gpb.TypedValue
 
 func VlanInterfaceHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) error {
     info := &sonicpb.NocsysVlan{}
-    if bytes := value.GetBytesVal(); bytes == nil {
-        return status.Error(codes.Internal, ErrProtobufType)
-    } else if err := proto.Unmarshal(bytes, info); err != nil {
-        return err
+
+    if err := handler_utils.UnmarshalGpbValue(value, info); err != nil {
+       return err
     } else {
         m := jsonpb.Marshaler{}
         s, _ := m.MarshalToString(info)

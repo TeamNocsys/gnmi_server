@@ -6,6 +6,8 @@ import (
     "github.com/openconfig/ygot/proto/ywrapper"
     "gnmi_server/cmd/command"
     "gnmi_server/internal/pkg/swsssdk"
+
+    "github.com/sirupsen/logrus"
 )
 
 type IfType int32
@@ -124,9 +126,15 @@ func (adpt *IfAdapter) Config(data interface{}, oper OperType) error {
         } else {
             if v, ok := data["vrf_name"]; ok {
                 if vrf != v {
-                    cmdstr := "config interface vrf unbind " + adpt.ifname + " " + v
+                    // new version don't need vrf parameter
+                    // try to use old one if new version failed
+                    cmdstr := "config interface vrf unbind " + adpt.ifname
                     if err := adpt.exec(cmdstr); err != nil {
-                        return nil
+                        logrus.Tracef("FAILEXEC|cmd-%s", cmdstr)
+                        if err := adpt.exec(cmdstr + " " + v); err != nil {
+                            logrus.Tracef("FAILEXEC|cmd-%s", cmdstr + " " + v)
+                            return nil
+                        }
                     }
                 }
             }
