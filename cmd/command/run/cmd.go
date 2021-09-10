@@ -18,6 +18,9 @@ import (
     "strings"
     "syscall"
     "time"
+
+    "gnmi_server/pkg/mdns"
+    "context"
 )
 
 type ConsoleHook struct {
@@ -103,6 +106,15 @@ func NewRunCommand(gnmiCli command.Client) *cobra.Command {
             if err != nil {
                 return err
             }
+
+            ctx, cancel := context.WithCancel(context.Background())
+            mdns.MdnsResolver, err = mdns.NewResolver(nil)
+            if err != nil {
+                logrus.Info("Failed to initialize resolver:", err.Error())
+            } else {
+                mdns.MdnsResolver.Browse(ctx)
+            }
+
             grpcServer := grpc.NewServer(grpc.RPCDecompressor(grpc.NewGZIPDecompressor()))
             server := gnmi.DefaultServer(opts.username, opts.password, gnmiCli, get.GetServeMux(), set.SetServeMux())
             gpb.RegisterGNMIServer(grpcServer, &server)
@@ -111,10 +123,15 @@ func NewRunCommand(gnmiCli command.Client) *cobra.Command {
             go func() {
                 <-c
                 grpcServer.Stop()
+                cancel()
             }()
+
             logrus.Info("Server start")
             err = grpcServer.Serve(listener)
             logrus.Info("Server stop")
+
+            mdns.MdnsResolver.Stop()
+
             return err
         },
     }

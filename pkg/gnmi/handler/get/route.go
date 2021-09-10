@@ -12,6 +12,7 @@ func GetServeMux() *gnmi.GetServeMux {
 
 func route(mux *gnmi.GetServeMux) {
     mux.AddRouter("/test", Test).
+        AddRouter("/nocsys-mdns", MdnsInfoHandler).
         AddRouter("/nocsys-system-top", SysTopInfoHandler).
         AddRouter("/nocsys-system-top/cpus", SysTopInfoCpuHandler).
         AddRouter("/nocsys-system-top/memory", SysTopInfoMemHandler).
