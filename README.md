@@ -1,5 +1,8 @@
 # gnmi server
 
+NOTE: please update the sonipb in go.mod <br>
+Exmpmle: manual extract the code in cmd/gnmi "go get github.com/TeamNocsys/sonicpb@c83e46726b203e2ae2"
+<br>
 ## 编译二进制文件
 
 ### 测试用
