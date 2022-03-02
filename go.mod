@@ -5,7 +5,7 @@ go 1.14
 require (
 	github.com/Masterminds/semver v1.5.0 // indirect
 	github.com/Masterminds/vcs v1.13.1 // indirect
-	github.com/TeamNocsys/sonicpb v1.0.1-0.20210222060608-be67f560205e
+	github.com/TeamNocsys/sonicpb v1.0.1-0.20210914092846-c83e46726b20
 	github.com/armon/go-radix v1.0.0 // indirect
 	github.com/boltdb/bolt v1.3.1 // indirect
 	github.com/elgs/gojq v0.0.0-20160421194050-81fa9a608a13 // indirect
