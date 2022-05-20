@@ -8,7 +8,7 @@ git checkout -- $CPATH
 GIT_COMMIT=$(git describe --dirty --always)
 sed -i 's/GIT_COMMIT/'$GIT_COMMIT'/g' $CPATH
 
-GOOS=linux go build -gcflags "all=-N -l" -tags release -o build/deb/usr/local/bin cmd/gnmi/gnmi.go
+GOOS=linux go build -gcflags "all=-N -l" -tags release -o build/deb/usr/local/bin/gnmi cmd/gnmi/gnmi.go
 
 chmod +x build/deb/usr/local/bin/gnmi
 dpkg -b build/deb gnmi.deb
