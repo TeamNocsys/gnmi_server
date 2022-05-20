@@ -105,7 +105,7 @@ func (c *MirrorSession) SaveToDB() error {
             c.Data.Direction == sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_UNSET {
             return nil
         }
-        cmdstr := "config mirror_session add span " + c.Key + " " + c.Data.DstPort.Value + " " + c.Data.SrcPort.Value
+        cmdstr := "config mirror_session span add " + c.Key + " " + c.Data.DstPort.Value + " " + c.Data.SrcPort.Value
         switch c.Data.Direction {
         case sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_RX:
             cmdstr += " rx"
@@ -119,7 +119,7 @@ func (c *MirrorSession) SaveToDB() error {
             return errors.New(r)
         }
     case sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_TYPE_ERSPAN:
-        logrus.Trace("config mirror_session add erspan |EXEC")
+        logrus.Trace("config mirror_session erspan add |EXEC")
     }
     return nil
 }

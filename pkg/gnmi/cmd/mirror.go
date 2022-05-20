@@ -111,10 +111,10 @@ func (adpt *MirrorAdapter) Config(data *sonicpb.NocsysMirrorSession_MirrorSessio
             return nil
         }
 
-        cmdstr = "config mirror_session add"
+        cmdstr = "config mirror_session span add"
 
         if data.Type == sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_TYPE_SPAN {
-            cmdstr += " span " + adpt.name
+            cmdstr += " " + adpt.name
         } else {
             return ErrUnknown
         }
