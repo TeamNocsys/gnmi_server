@@ -23,7 +23,7 @@ func NeighborHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client)
     if v, ok := kvs["name"]; ok {
         spec = append(spec, v)
     } else {
-        spec = append(spec, "Vlan*")
+        spec = append(spec, "*")
     }
     if v, ok := kvs["ip-prefix"]; ok {
         spec = append(spec, v)
