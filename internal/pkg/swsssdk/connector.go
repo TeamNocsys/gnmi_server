@@ -241,6 +241,11 @@ func (conn *Connector) SplitKeys(db_name string, keys string) []string {
     return strings.Split(keys, s)[1:]
 }
 
+func (conn *Connector) SplitKeysN(db_name string, keys string, m int) []string {
+    s := gscfg.GetDBSeparator(db_name)
+    return strings.SplitN(keys, s, m)[1:]
+}
+
 func (conn *Connector) serialize_key(db_name string, keys interface{}) string {
     key := ""
     switch keys.(type) {

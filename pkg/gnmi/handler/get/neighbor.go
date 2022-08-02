@@ -38,7 +38,8 @@ func NeighborHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client)
         return nil, status.Errorf(codes.Internal, err.Error())
     } else {
         for _, hkey := range hkeys {
-            keys := conn.SplitKeys(swsssdk.APPL_DB, hkey)
+            // bcz ':' exists in ipv6 address, need to use SplitN
+            keys := conn.SplitKeysN(swsssdk.APPL_DB, hkey, 3)
             c := cmd.NewNeighborAdapter(keys[0], keys[1], db)
             if data, err := c.Show(r.Type); err != nil {
                 return nil, err
