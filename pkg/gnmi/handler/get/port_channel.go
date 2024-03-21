@@ -24,8 +24,8 @@ func PortChannelHandler(ctx context.Context, r *gnmi.GetRequest, db command.Clie
         spec = v
     }
 
-    spc := &sonicpb.NocsysPortchannel{
-        Portchannel: &sonicpb.NocsysPortchannel_Portchannel{},
+    spc := &sonicpb.AcctonPortchannel{
+        Portchannel: &sonicpb.AcctonPortchannel_Portchannel{},
     }
     if hkeys, err := conn.GetKeys("PORTCHANNEL", spec); err != nil {
         for _, hkey := range hkeys {
@@ -35,7 +35,7 @@ func PortChannelHandler(ctx context.Context, r *gnmi.GetRequest, db command.Clie
                 return nil, err
             } else {
                 spc.Portchannel.PortchannelList = append(spc.Portchannel.PortchannelList,
-                    &sonicpb.NocsysPortchannel_Portchannel_PortchannelListKey{
+                    &sonicpb.AcctonPortchannel_Portchannel_PortchannelListKey{
                         PortchannelName: keys[0],
                         PortchannelList: data,
                     })
@@ -70,8 +70,8 @@ func PortChannelMemberHandler(ctx context.Context, r *gnmi.GetRequest, db comman
     }
 
     // 获取成员信息
-    spc := &sonicpb.NocsysPortchannel{
-        PortchannelMember: &sonicpb.NocsysPortchannel_PortchannelMember{},
+    spc := &sonicpb.AcctonPortchannel{
+        PortchannelMember: &sonicpb.AcctonPortchannel_PortchannelMember{},
     }
     if hkeys, err := conn.GetKeys("PORTCHANNEL_MEMBER", spec); err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
@@ -83,7 +83,7 @@ func PortChannelMemberHandler(ctx context.Context, r *gnmi.GetRequest, db comman
                 return nil, err
             } else {
                 spc.PortchannelMember.PortchannelMemberList = append(spc.PortchannelMember.PortchannelMemberList,
-                    &sonicpb.NocsysPortchannel_PortchannelMember_PortchannelMemberListKey{
+                    &sonicpb.AcctonPortchannel_PortchannelMember_PortchannelMemberListKey{
                         PortchannelName: keys[0],
                         Port: keys[1],
                         PortchannelMemberList: data,

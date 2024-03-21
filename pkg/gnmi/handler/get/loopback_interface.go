@@ -24,8 +24,8 @@ func LoopbackInterfaceHandler(ctx context.Context, r *gnmi.GetRequest, db comman
         spec = v
     }
 
-    sli := &sonicpb.NocsysLoopbackInterface{
-        LoopbackInterface: &sonicpb.NocsysLoopbackInterface_LoopbackInterface{},
+    sli := &sonicpb.AcctonLoopbackInterface{
+        LoopbackInterface: &sonicpb.AcctonLoopbackInterface_LoopbackInterface{},
     }
     if hkeys, err := conn.GetKeys("LOOPBACK_INTERFACE", spec); err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
@@ -40,9 +40,9 @@ func LoopbackInterfaceHandler(ctx context.Context, r *gnmi.GetRequest, db comman
                 return nil, err
             } else {
                 sli.LoopbackInterface.LoopbackInterfaceList = append(sli.LoopbackInterface.LoopbackInterfaceList,
-                    &sonicpb.NocsysLoopbackInterface_LoopbackInterface_LoopbackInterfaceListKey{
+                    &sonicpb.AcctonLoopbackInterface_LoopbackInterface_LoopbackInterfaceListKey{
                         LoopbackInterfaceName: keys[0],
-                        LoopbackInterfaceList: data.(*sonicpb.NocsysLoopbackInterface_LoopbackInterface_LoopbackInterfaceList),
+                        LoopbackInterfaceList: data.(*sonicpb.AcctonLoopbackInterface_LoopbackInterface_LoopbackInterfaceList),
                     })
             }
         }
@@ -74,8 +74,8 @@ func LoopbackInterfaceIPPrefixHandler(ctx context.Context, r *gnmi.GetRequest, d
         spec = append(spec, "*")
     }
 
-    sli := &sonicpb.NocsysLoopbackInterface{
-        LoopbackInterface: &sonicpb.NocsysLoopbackInterface_LoopbackInterface{},
+    sli := &sonicpb.AcctonLoopbackInterface{
+        LoopbackInterface: &sonicpb.AcctonLoopbackInterface_LoopbackInterface{},
     }
     if hkeys, err := conn.GetKeys("LOOPBACK_INTERFACE", spec); err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
@@ -87,10 +87,10 @@ func LoopbackInterfaceIPPrefixHandler(ctx context.Context, r *gnmi.GetRequest, d
                 return nil, err
             } else {
                 sli.LoopbackInterface.LoopbackInterfaceIpprefixList = append(sli.LoopbackInterface.LoopbackInterfaceIpprefixList,
-                    &sonicpb.NocsysLoopbackInterface_LoopbackInterface_LoopbackInterfaceIpprefixListKey{
+                    &sonicpb.AcctonLoopbackInterface_LoopbackInterface_LoopbackInterfaceIpprefixListKey{
                         LoopbackInterfaceName: keys[0],
                         IpPrefix: keys[1],
-                        LoopbackInterfaceIpprefixList: data.(*sonicpb.NocsysLoopbackInterface_LoopbackInterface_LoopbackInterfaceIpprefixList),
+                        LoopbackInterfaceIpprefixList: data.(*sonicpb.AcctonLoopbackInterface_LoopbackInterface_LoopbackInterfaceIpprefixList),
                     })
             }
         }

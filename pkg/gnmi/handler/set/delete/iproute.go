@@ -30,7 +30,7 @@ func IpRouteHandler(ctx context.Context, kvs map[string]string, db command.Clien
         if r, err := conn.GetAllWithTrace(swsssdk.APPL_DB, append([]string{"ROUTE_TABLE"}, dest)); err != nil {
             return err
         } else {
-            data := &sonicpb.NocsysRoute_Route_RouteList{}
+            data := &sonicpb.AcctonRoute_Route_RouteList{}
             for k, v := range r {
                 switch k {
                 case "nexthop":
@@ -49,7 +49,7 @@ func IpRouteHandler(ctx context.Context, kvs map[string]string, db command.Clien
         if r, err := conn.GetAllWithTrace(swsssdk.APPL_DB, append([]string{"ROUTE_TABLE"}, vrf, dest)); err != nil {
             return err
         } else {
-            data := &sonicpb.NocsysRoute_Route_RouteList{}
+            data := &sonicpb.AcctonRoute_Route_RouteList{}
             for k, v := range r {
                 switch k {
                 case "nexthop":

@@ -34,8 +34,8 @@ const req_LLDP_REM_BITS = (req_LLDP_REM_PORT_ID |
                            req_LLDP_REM_CHAS_ID |
                            req_LLDP_REM_CHAS_ID_SUBT)
 
-func (adpt *LldpAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.NocsysLldp_Lldp_LldpList, error) {
-    retval := &sonicpb.NocsysLldp_Lldp_LldpList{}
+func (adpt *LldpAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.AcctonLldp_Lldp_LldpList, error) {
+    retval := &sonicpb.AcctonLldp_Lldp_LldpList{}
     if dataType == gnmi.GetRequest_ALL || dataType == gnmi.GetRequest_STATE {
         conn := adpt.client.State()
         if conn == nil {
@@ -45,7 +45,7 @@ func (adpt *LldpAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Nocsy
         if data, err := conn.GetAll(swsssdk.APPL_DB, []string{"LLDP_ENTRY_TABLE", adpt.ifname}); err != nil {
             return nil, err
         } else {
-            retval.State = &sonicpb.NocsysLldp_Lldp_LldpList_State{}
+            retval.State = &sonicpb.AcctonLldp_Lldp_LldpList_State{}
             reqBits := 0
             for k, v := range data {
                 // skip empty string in db
@@ -65,7 +65,7 @@ func (adpt *LldpAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Nocsy
                         return nil, err
                     } else {
                         reqBits |= req_LLDP_REM_PORT_ID_SUBT
-                        retval.State.LldpRemPortIdSubtype = sonicpb.NocsysLldp_Lldp_LldpList_State_LldpRemPortIdSubtype(i)
+                        retval.State.LldpRemPortIdSubtype = sonicpb.AcctonLldp_Lldp_LldpList_State_LldpRemPortIdSubtype(i)
                     }
                 case "lldp_rem_man_addr":
                     retval.State.LldpRemManAddr = &ywrapper.StringValue{Value: v}
@@ -81,7 +81,7 @@ func (adpt *LldpAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Nocsy
                         return nil, err
                     } else {
                         reqBits |= req_LLDP_REM_CHAS_ID_SUBT
-                        retval.State.LldpRemChassisIdSubtype = sonicpb.NocsysLldp_Lldp_LldpList_State_LldpRemChassisIdSubtype(i)
+                        retval.State.LldpRemChassisIdSubtype = sonicpb.AcctonLldp_Lldp_LldpList_State_LldpRemChassisIdSubtype(i)
                     }
                 case "lldp_rem_sys_cap_enabled":
                     var i uint64

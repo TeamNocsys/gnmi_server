@@ -1,16 +1,17 @@
 # gnmi server
 
 NOTE: please update the sonipb in go.mod <br>
-Exmpmle: manual extract the code in cmd/gnmi "go get github.com/TeamNocsys/sonicpb@c83e46726b203e2ae2"
+Example: manual extract the code in cmd/gnmi "go get github.com/TeamNocsys/sonicpb@2dcb217"
 <br>
 
 
 ### Simple way to build .deb
 
-1. docker pull golang:1.15.13-stretch
+1. docker pull golang:1.19.10-bullseye
 2. git clone https://github.com/TeamNocsys/gnmi_server
 3. cd gnmi_server
-4. docker run -it -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang:1.15.13-stretch bash
+4. docker run -it -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang:1.19.10-bullseye
+5. go mod tidy
 5. ./build_deb.sh
 
 

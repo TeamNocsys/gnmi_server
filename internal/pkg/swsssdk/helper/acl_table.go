@@ -11,7 +11,7 @@ import (
 type AclTable struct {
     Key string
     Client command.Client
-    Data *sonicpb.NocsysAcl_AclTable_AclTableList
+    Data *sonicpb.AcctonAcl_AclTable_AclTableList
 }
 
 func (c *AclTable) LoadFromDB() error {
@@ -22,7 +22,7 @@ func (c *AclTable) LoadFromDB() error {
 
     // 获取配置信息
     if c.Data == nil {
-        c.Data = &sonicpb.NocsysAcl_AclTable_AclTableList{}
+        c.Data = &sonicpb.AcctonAcl_AclTable_AclTableList{}
     }
     if data, err := conn.GetAll(swsssdk.APPL_DB, []string{"ACL_TABLE_TABLE", c.Key}); err != nil {
         return err
@@ -34,24 +34,24 @@ func (c *AclTable) LoadFromDB() error {
             case "TYPE":
                 switch strings.ToUpper(v) {
                 case "L2":
-                    c.Data.Type = sonicpb.NocsysAcl_AclTable_AclTableList_TYPE_L2
+                    c.Data.Type = sonicpb.AcctonAcl_AclTable_AclTableList_TYPE_L2
                 case "L3":
-                    c.Data.Type = sonicpb.NocsysAcl_AclTable_AclTableList_TYPE_L3
+                    c.Data.Type = sonicpb.AcctonAcl_AclTable_AclTableList_TYPE_L3
                 case "L3V6":
-                    c.Data.Type = sonicpb.NocsysAcl_AclTable_AclTableList_TYPE_L3V6
+                    c.Data.Type = sonicpb.AcctonAcl_AclTable_AclTableList_TYPE_L3V6
                 case "MIRROR":
-                    c.Data.Type = sonicpb.NocsysAcl_AclTable_AclTableList_TYPE_MIRROR
+                    c.Data.Type = sonicpb.AcctonAcl_AclTable_AclTableList_TYPE_MIRROR
                 case "MIRRORV6":
-                    c.Data.Type = sonicpb.NocsysAcl_AclTable_AclTableList_TYPE_MIRRORV6
+                    c.Data.Type = sonicpb.AcctonAcl_AclTable_AclTableList_TYPE_MIRRORV6
                 case "MIRROR_DSCP":
-                    c.Data.Type = sonicpb.NocsysAcl_AclTable_AclTableList_TYPE_MIRROR_DSCP
+                    c.Data.Type = sonicpb.AcctonAcl_AclTable_AclTableList_TYPE_MIRROR_DSCP
                 }
             case "stage":
                 switch strings.ToUpper(v) {
                 case "INGRESS":
-                    c.Data.Stage = sonicpb.NocsysAcl_AclTable_AclTableList_STAGE_INGRESS
+                    c.Data.Stage = sonicpb.AcctonAcl_AclTable_AclTableList_STAGE_INGRESS
                 case "EGRESS":
-                    c.Data.Stage = sonicpb.NocsysAcl_AclTable_AclTableList_STAGE_EGRESS
+                    c.Data.Stage = sonicpb.AcctonAcl_AclTable_AclTableList_STAGE_EGRESS
                 }
             case "PORTS":
                 for _, servrer := range FieldToArray(v) {
@@ -69,27 +69,27 @@ func (c *AclTable) SaveToDB(replace bool) error {
     if c.Data.PolicyDesc != nil {
         e["policy_desc"] = c.Data.PolicyDesc.Value
     }
-    if c.Data.Type != sonicpb.NocsysAcl_AclTable_AclTableList_TYPE_UNSET {
+    if c.Data.Type != sonicpb.AcctonAcl_AclTable_AclTableList_TYPE_UNSET {
         switch c.Data.Type {
-        case sonicpb.NocsysAcl_AclTable_AclTableList_TYPE_L2:
+        case sonicpb.AcctonAcl_AclTable_AclTableList_TYPE_L2:
             e["type"] = "L2"
-        case sonicpb.NocsysAcl_AclTable_AclTableList_TYPE_L3:
+        case sonicpb.AcctonAcl_AclTable_AclTableList_TYPE_L3:
             e["type"] = "L3"
-        case sonicpb.NocsysAcl_AclTable_AclTableList_TYPE_L3V6:
+        case sonicpb.AcctonAcl_AclTable_AclTableList_TYPE_L3V6:
             e["type"] = "L3V6"
-        case sonicpb.NocsysAcl_AclTable_AclTableList_TYPE_MIRROR:
+        case sonicpb.AcctonAcl_AclTable_AclTableList_TYPE_MIRROR:
             e["type"] = "MIRROR"
-        case sonicpb.NocsysAcl_AclTable_AclTableList_TYPE_MIRRORV6:
+        case sonicpb.AcctonAcl_AclTable_AclTableList_TYPE_MIRRORV6:
             e["type"] = "MIRRORV6"
-        case sonicpb.NocsysAcl_AclTable_AclTableList_TYPE_MIRROR_DSCP:
+        case sonicpb.AcctonAcl_AclTable_AclTableList_TYPE_MIRROR_DSCP:
             e["type"] = "MIRROR_DSCP"
         }
     }
-    if c.Data.Stage != sonicpb.NocsysAcl_AclTable_AclTableList_STAGE_UNSET {
+    if c.Data.Stage != sonicpb.AcctonAcl_AclTable_AclTableList_STAGE_UNSET {
         switch c.Data.Stage {
-        case sonicpb.NocsysAcl_AclTable_AclTableList_STAGE_INGRESS:
+        case sonicpb.AcctonAcl_AclTable_AclTableList_STAGE_INGRESS:
             e["stage"] = "INGRESS"
-        case sonicpb.NocsysAcl_AclTable_AclTableList_STAGE_EGRESS:
+        case sonicpb.AcctonAcl_AclTable_AclTableList_STAGE_EGRESS:
             e["stage"] = "EGRESS"
         }
     }

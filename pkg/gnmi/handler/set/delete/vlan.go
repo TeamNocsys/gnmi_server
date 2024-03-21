@@ -25,7 +25,7 @@ func VlanHandler(ctx context.Context, kvs map[string]string, db command.Client) 
         } else {
             if vrf, ok := data["vrf_name"]; ok {
                 c := cmd.NewIfAdapter(cmd.VLAN_INTERFACE, v, db)
-                if err := c.Config(&sonicpb.NocsysVlan_VlanInterface_VlanInterfaceList{
+                if err := c.Config(&sonicpb.AcctonVlan_VlanInterface_VlanInterfaceList{
                     VrfName: &ywrapper.StringValue{Value: vrf.(string)},
                 }, cmd.DEL); err != nil {
                     return err

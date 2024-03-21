@@ -13,7 +13,7 @@ import (
 type Vlan struct {
     Key string
     Client command.Client
-    Data *sonicpb.NocsysVlan_Vlan_VlanList
+    Data *sonicpb.AcctonVlan_Vlan_VlanList
 }
 
 func (c *Vlan) LoadFromDB() error {
@@ -24,7 +24,7 @@ func (c *Vlan) LoadFromDB() error {
 
     // 获取配置信息
     if c.Data == nil {
-        c.Data = &sonicpb.NocsysVlan_Vlan_VlanList{}
+        c.Data = &sonicpb.AcctonVlan_Vlan_VlanList{}
     }
     if data, err := conn.GetEntry("VLAN", c.Key); err != nil {
         return err
@@ -46,9 +46,9 @@ func (c *Vlan) LoadFromDB() error {
             case "admin_status":
                 switch v {
                 case "up":
-                    c.Data.AdminStatus = sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_up
+                    c.Data.AdminStatus = sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_up
                 case "down":
-                    c.Data.AdminStatus = sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_down
+                    c.Data.AdminStatus = sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_down
                 }
             }
         }
@@ -77,10 +77,10 @@ func (c *Vlan) SaveToDB(replace bool) error {
     if c.Data.Mtu != nil {
         e["mtu"] = c.Data.Mtu.Value
     }
-    if c.Data.AdminStatus != sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_UNSET {
-        if c.Data.AdminStatus == sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_up {
+    if c.Data.AdminStatus != sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_UNSET {
+        if c.Data.AdminStatus == sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_up {
             e["admin_status"] = "up"
-        } else if c.Data.AdminStatus == sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_down {
+        } else if c.Data.AdminStatus == sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_down {
             e["admin_status"] = "down"
         }
     }

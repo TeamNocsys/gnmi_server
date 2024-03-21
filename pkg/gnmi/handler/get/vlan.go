@@ -24,8 +24,8 @@ func VlanHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*g
         spec = v
     }
 
-    sv := &sonicpb.NocsysVlan{
-        Vlan: &sonicpb.NocsysVlan_Vlan{},
+    sv := &sonicpb.AcctonVlan{
+        Vlan: &sonicpb.AcctonVlan_Vlan{},
     }
     if hkeys, err := conn.GetKeys("VLAN", spec); err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
@@ -37,7 +37,7 @@ func VlanHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*g
                 return nil, err
             } else {
                 sv.Vlan.VlanList = append(sv.Vlan.VlanList,
-                    &sonicpb.NocsysVlan_Vlan_VlanListKey{
+                    &sonicpb.AcctonVlan_Vlan_VlanListKey{
                         VlanName: keys[0],
                         VlanList: data,
                     })
@@ -72,8 +72,8 @@ func VlanMemberHandler(ctx context.Context, r *gnmi.GetRequest, db command.Clien
         spec = append(spec, "*")
     }
 
-    sv := &sonicpb.NocsysVlan{
-        VlanMember: &sonicpb.NocsysVlan_VlanMember{},
+    sv := &sonicpb.AcctonVlan{
+        VlanMember: &sonicpb.AcctonVlan_VlanMember{},
     }
     if hkeys, err := conn.GetKeys("VLAN_MEMBER", spec); err != nil {
         return nil, err
@@ -85,7 +85,7 @@ func VlanMemberHandler(ctx context.Context, r *gnmi.GetRequest, db command.Clien
                 return nil, err
             } else {
                 sv.VlanMember.VlanMemberList = append(sv.VlanMember.VlanMemberList,
-                    &sonicpb.NocsysVlan_VlanMember_VlanMemberListKey{
+                    &sonicpb.AcctonVlan_VlanMember_VlanMemberListKey{
                         VlanName: keys[0],
                         Port: keys[1],
                         VlanMemberList: data,

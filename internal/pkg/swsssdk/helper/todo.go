@@ -8,5 +8,5 @@ import (
 type Todo struct {
     Key string
     Client command.Client
-    Data *sonicpb.NocsysTodo_Todo_TodoList
+    Data *sonicpb.AcctonTodo_Todo_TodoList
 }

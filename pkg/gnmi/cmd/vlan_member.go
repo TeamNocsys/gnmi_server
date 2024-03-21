@@ -24,7 +24,7 @@ func NewVlanMemberAdapter(name, ifname string, cli command.Client) *VlanMemberAd
     }
 }
 
-func (adpt *VlanMemberAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.NocsysVlan_VlanMember_VlanMemberList, error) {
+func (adpt *VlanMemberAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.AcctonVlan_VlanMember_VlanMemberList, error) {
     conn := adpt.client.Config()
     if conn == nil {
         return nil, swsssdk.ErrConnNotExist
@@ -33,15 +33,15 @@ func (adpt *VlanMemberAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb
     if data, err := conn.GetAll(swsssdk.CONFIG_DB, []string{"VLAN_MEMBER", adpt.name, adpt.ifname}); err != nil {
         return nil, err
     } else {
-        retval := &sonicpb.NocsysVlan_VlanMember_VlanMemberList{}
+        retval := &sonicpb.AcctonVlan_VlanMember_VlanMemberList{}
         for k, v := range data {
             switch k {
             case "tagging_mode":
                 switch v {
                 case "tagged":
-                    retval.TaggingMode = sonicpb.NocsysVlan_VlanMember_VlanMemberList_TAGGINGMODE_tagged
+                    retval.TaggingMode = sonicpb.AcctonVlan_VlanMember_VlanMemberList_TAGGINGMODE_tagged
                 case "untagged":
-                    retval.TaggingMode = sonicpb.NocsysVlan_VlanMember_VlanMemberList_TAGGINGMODE_untagged
+                    retval.TaggingMode = sonicpb.AcctonVlan_VlanMember_VlanMemberList_TAGGINGMODE_untagged
                 }
             }
         }
@@ -49,7 +49,7 @@ func (adpt *VlanMemberAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb
     }
 }
 
-func (adpt *VlanMemberAdapter) Config(data *sonicpb.NocsysVlan_VlanMember_VlanMemberList, oper OperType) error {
+func (adpt *VlanMemberAdapter) Config(data *sonicpb.AcctonVlan_VlanMember_VlanMemberList, oper OperType) error {
     cmdstr := "config vlan member"
     if oper == ADD || oper == UPDATE {
         conn := adpt.client.Config()
@@ -63,7 +63,7 @@ func (adpt *VlanMemberAdapter) Config(data *sonicpb.NocsysVlan_VlanMember_VlanMe
         }
 
         cmdstr += " add " + strings.TrimLeft(adpt.name, "Vlan") + " " +  adpt.ifname
-        if data.TaggingMode == sonicpb.NocsysVlan_VlanMember_VlanMemberList_TAGGINGMODE_untagged {
+        if data.TaggingMode == sonicpb.AcctonVlan_VlanMember_VlanMemberList_TAGGINGMODE_untagged {
             cmdstr += " -u"
         }
     } else if oper == DEL {

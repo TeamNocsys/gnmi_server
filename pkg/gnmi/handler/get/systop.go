@@ -22,7 +22,7 @@ func SysTopInfoHandler(
     ctx context.Context, r *gnmi.GetRequest, db command.Client,
 ) (*gnmi.GetResponse, error) {
 
-    nocsysSysTop := &sonicpb.NocsysSystemTop{}
+    nocsysSysTop := &sonicpb.AcctonSystemTop{}
 
     err := getCpuInfo(ctx, nocsysSysTop)
     if err != nil {
@@ -51,7 +51,7 @@ func SysTopInfoCpuHandler(
     ctx context.Context, r *gnmi.GetRequest, db command.Client,
 ) (*gnmi.GetResponse, error) {
 
-    nocsysSysTop := &sonicpb.NocsysSystemTop{}
+    nocsysSysTop := &sonicpb.AcctonSystemTop{}
 
     err := getCpuInfo(ctx, nocsysSysTop)
     if err != nil {
@@ -70,7 +70,7 @@ func SysTopInfoMemHandler(
     ctx context.Context, r *gnmi.GetRequest, db command.Client,
 ) (*gnmi.GetResponse, error) {
 
-    nocsysSysTop := &sonicpb.NocsysSystemTop{}
+    nocsysSysTop := &sonicpb.AcctonSystemTop{}
 
     err := getMemInfo(ctx, nocsysSysTop)
     if err != nil {
@@ -89,7 +89,7 @@ func SysTopInfoDiskHandler(
     ctx context.Context, r *gnmi.GetRequest, db command.Client,
 ) (*gnmi.GetResponse, error) {
 
-    nocsysSysTop := &sonicpb.NocsysSystemTop{}
+    nocsysSysTop := &sonicpb.AcctonSystemTop{}
 
     err := getDiskInfo(ctx, nocsysSysTop)
     if err != nil {
@@ -105,7 +105,7 @@ func SysTopInfoDiskHandler(
 }
 
 func addOneCpuInfo(
-    systop *sonicpb.NocsysSystemTop, cpu_data []uint64,
+    systop *sonicpb.AcctonSystemTop, cpu_data []uint64,
 ) {
     cpu_pcnt := make([]uint64, len(cpu_data))
 
@@ -117,45 +117,45 @@ func addOneCpuInfo(
         cpu_pcnt[idx] = uint64(math.Round(float64(cpu_data[idx]) / float64(cpu_pcnt[0]) * 100))
     }
 
-    tmp_cpu := &sonicpb.NocsysSystemTop_Cpus_CpuKey{
-        Index : &sonicpb.NocsysSystemTop_Cpus_CpuKey_IndexUint64{
+    tmp_cpu := &sonicpb.AcctonSystemTop_Cpus_CpuKey{
+        Index : &sonicpb.AcctonSystemTop_Cpus_CpuKey_IndexUint64{
             IndexUint64 : cpu_data[0],
         },
-        Cpu : &sonicpb.NocsysSystemTop_Cpus_Cpu{
-            State : &sonicpb.NocsysSystemTop_Cpus_Cpu_State{
-                Index : &sonicpb.NocsysSystemTop_Cpus_Cpu_State_IndexUint64{
+        Cpu : &sonicpb.AcctonSystemTop_Cpus_Cpu{
+            State : &sonicpb.AcctonSystemTop_Cpus_Cpu_State{
+                Index : &sonicpb.AcctonSystemTop_Cpus_Cpu_State_IndexUint64{
                     IndexUint64 : cpu_data[0],
                 },
 
-                User : &sonicpb.NocsysSystemTop_Cpus_Cpu_State_User{
+                User : &sonicpb.AcctonSystemTop_Cpus_Cpu_State_User{
                     Instant : &ywrapper.UintValue{Value : cpu_pcnt[1]},
                 },
 
-                Nice : &sonicpb.NocsysSystemTop_Cpus_Cpu_State_Nice{
+                Nice : &sonicpb.AcctonSystemTop_Cpus_Cpu_State_Nice{
                     Instant : &ywrapper.UintValue{Value : cpu_pcnt[2]},
                 },
 
-                Kernel : &sonicpb.NocsysSystemTop_Cpus_Cpu_State_Kernel{
+                Kernel : &sonicpb.AcctonSystemTop_Cpus_Cpu_State_Kernel{
                     Instant : &ywrapper.UintValue{Value : cpu_pcnt[3]},
                 },
 
-                Idle : &sonicpb.NocsysSystemTop_Cpus_Cpu_State_Idle{
+                Idle : &sonicpb.AcctonSystemTop_Cpus_Cpu_State_Idle{
                     Instant : &ywrapper.UintValue{Value : cpu_pcnt[4]},
                 },
 
-                Wait : &sonicpb.NocsysSystemTop_Cpus_Cpu_State_Wait{
+                Wait : &sonicpb.AcctonSystemTop_Cpus_Cpu_State_Wait{
                     Instant : &ywrapper.UintValue{Value : cpu_pcnt[5]},
                 },
 
-                HardwareInterrupt : &sonicpb.NocsysSystemTop_Cpus_Cpu_State_HardwareInterrupt{
+                HardwareInterrupt : &sonicpb.AcctonSystemTop_Cpus_Cpu_State_HardwareInterrupt{
                     Instant : &ywrapper.UintValue{Value : cpu_pcnt[6]},
                 },
 
-                SoftwareInterrupt : &sonicpb.NocsysSystemTop_Cpus_Cpu_State_SoftwareInterrupt{
+                SoftwareInterrupt : &sonicpb.AcctonSystemTop_Cpus_Cpu_State_SoftwareInterrupt{
                     Instant : &ywrapper.UintValue{Value : cpu_pcnt[7]},
                 },
 
-                Total : &sonicpb.NocsysSystemTop_Cpus_Cpu_State_Total{
+                Total : &sonicpb.AcctonSystemTop_Cpus_Cpu_State_Total{
                     Instant : &ywrapper.UintValue{Value : 100},
                 },
             },
@@ -166,7 +166,7 @@ func addOneCpuInfo(
 }
 
 func getCpuInfo(
-    ctx context.Context, systop *sonicpb.NocsysSystemTop,
+    ctx context.Context, systop *sonicpb.AcctonSystemTop,
 ) error {
 
     /* yang        /proc/stat
@@ -188,7 +188,7 @@ func getCpuInfo(
         return err
     }
 
-    systop.Cpus = &sonicpb.NocsysSystemTop_Cpus{}
+    systop.Cpus = &sonicpb.AcctonSystemTop_Cpus{}
     lines := strings.Split(string(data), "\n")
     cinfo_cnt := 0
     for id, line := range lines {
@@ -219,7 +219,7 @@ func getCpuInfo(
 }
 
 func getMemInfo(
-    ctx context.Context, systop *sonicpb.NocsysSystemTop,
+    ctx context.Context, systop *sonicpb.AcctonSystemTop,
 ) error {
 
     /* yang          /proc/meminfo
@@ -269,7 +269,7 @@ func getMemInfo(
         return errors.New("Failed to get MemInfo")
     }
 
-    systop.Memory = &sonicpb.NocsysSystemTop_Memory{
+    systop.Memory = &sonicpb.AcctonSystemTop_Memory{
         Buffered   : &ywrapper.UintValue{Value : mem_data["Buffers"]},
         Cached     : &ywrapper.UintValue{Value : mem_data["Cached"]},
         Free       : &ywrapper.UintValue{Value : mem_data["MemFree"]},
@@ -281,7 +281,7 @@ func getMemInfo(
 }
 
 func getDiskInfo(
-    ctx context.Context, systop *sonicpb.NocsysSystemTop,
+    ctx context.Context, systop *sonicpb.AcctonSystemTop,
 ) error {
 
     fs := syscall.Statfs_t{}
@@ -295,7 +295,7 @@ func getDiskInfo(
      */
     dfree := fs.Bfree * uint64(fs.Bsize) / 1024
     dall  := fs.Blocks * uint64(fs.Bsize) / 1024
-    systop.Disk = &sonicpb.NocsysSystemTop_Disk{
+    systop.Disk = &sonicpb.AcctonSystemTop_Disk{
         Free : &ywrapper.UintValue{Value : dfree},
         Used : &ywrapper.UintValue{Value : dall - dfree},
     }

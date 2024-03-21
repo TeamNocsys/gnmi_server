@@ -58,15 +58,15 @@ func (adpt *IfAdapter) Show(dataType gnmi.GetRequest_DataType) (interface{}, err
         }
 
         if adpt.ifType == INTERFACE {
-            return &sonicpb.NocsysInterface_Interface_InterfaceList{
+            return &sonicpb.AcctonInterface_Interface_InterfaceList{
                 VrfName: &ywrapper.StringValue{Value: vrf},
             }, nil
         } else if adpt.ifType == VLAN_INTERFACE {
-            return &sonicpb.NocsysVlan_VlanInterface_VlanInterfaceList{
+            return &sonicpb.AcctonVlan_VlanInterface_VlanInterfaceList{
                 VrfName: &ywrapper.StringValue{Value: vrf},
             }, nil
         } else if adpt.ifType == LOOPBACK_INTERFACE {
-            return &sonicpb.NocsysLoopbackInterface_LoopbackInterface_LoopbackInterfaceList{
+            return &sonicpb.AcctonLoopbackInterface_LoopbackInterface_LoopbackInterfaceList{
                 VrfName: &ywrapper.StringValue{Value: vrf},
             }, nil
         }
@@ -78,7 +78,7 @@ func (adpt *IfAdapter) Show(dataType gnmi.GetRequest_DataType) (interface{}, err
 func (adpt *IfAdapter) Config(data interface{}, oper OperType) error {
     var vrf  string
     if adpt.ifType == INTERFACE {
-        if v, ok := data.(*sonicpb.NocsysInterface_Interface_InterfaceList); !ok {
+        if v, ok := data.(*sonicpb.AcctonInterface_Interface_InterfaceList); !ok {
             return ErrTypeConversion
         } else {
             if v.VrfName != nil {
@@ -86,7 +86,7 @@ func (adpt *IfAdapter) Config(data interface{}, oper OperType) error {
             }
         }
     } else if adpt.ifType == VLAN_INTERFACE {
-        if v, ok := data.(*sonicpb.NocsysVlan_VlanInterface_VlanInterfaceList); !ok {
+        if v, ok := data.(*sonicpb.AcctonVlan_VlanInterface_VlanInterfaceList); !ok {
             return ErrTypeConversion
         } else {
             if v.VrfName != nil {
@@ -94,7 +94,7 @@ func (adpt *IfAdapter) Config(data interface{}, oper OperType) error {
             }
         }
     } else if adpt.ifType == LOOPBACK_INTERFACE {
-        if v, ok := data.(*sonicpb.NocsysLoopbackInterface_LoopbackInterface_LoopbackInterfaceList); !ok {
+        if v, ok := data.(*sonicpb.AcctonLoopbackInterface_LoopbackInterface_LoopbackInterfaceList); !ok {
             return ErrTypeConversion
         } else {
             if v.VrfName != nil {

@@ -13,7 +13,7 @@ import (
 type LoopbackInterface struct {
     Key string
     Client command.Client
-    Data *sonicpb.NocsysLoopbackInterface_LoopbackInterface_LoopbackInterfaceList
+    Data *sonicpb.AcctonLoopbackInterface_LoopbackInterface_LoopbackInterfaceList
 }
 
 func (c *LoopbackInterface) LoadFromDB() error {
@@ -24,7 +24,7 @@ func (c *LoopbackInterface) LoadFromDB() error {
 
     // 获取配置信息
     if c.Data == nil {
-        c.Data = &sonicpb.NocsysLoopbackInterface_LoopbackInterface_LoopbackInterfaceList{}
+        c.Data = &sonicpb.AcctonLoopbackInterface_LoopbackInterface_LoopbackInterfaceList{}
     }
     if data, err := conn.GetAll(swsssdk.CONFIG_DB, []string{"LOOPBACK_INTERFACE", c.Key}); err != nil {
         return err

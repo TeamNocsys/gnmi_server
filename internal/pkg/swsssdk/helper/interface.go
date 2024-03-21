@@ -13,7 +13,7 @@ import (
 type Interface struct {
     Key string
     Client command.Client
-    Data *sonicpb.NocsysInterface_Interface_InterfaceList
+    Data *sonicpb.AcctonInterface_Interface_InterfaceList
 }
 
 func (c *Interface) LoadFromDB() error {
@@ -24,7 +24,7 @@ func (c *Interface) LoadFromDB() error {
 
     // 获取配置信息
     if c.Data == nil {
-        c.Data = &sonicpb.NocsysInterface_Interface_InterfaceList{}
+        c.Data = &sonicpb.AcctonInterface_Interface_InterfaceList{}
     }
     if data, err := conn.GetAll(swsssdk.CONFIG_DB, []string{"INTERFACE", c.Key}); err != nil {
         return err

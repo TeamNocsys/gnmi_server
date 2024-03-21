@@ -26,7 +26,7 @@ func NewVrfRouteAdapter(vrf, dest string, cli command.Client) *VrfRouteAdapter {
     }
 }
 
-func (adpt *VrfRouteAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.NocsysRoute_Route_RouteList, error) {
+func (adpt *VrfRouteAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.AcctonRoute_Route_RouteList, error) {
     conn := adpt.client.State()
     if conn == nil {
         return nil, swsssdk.ErrConnNotExist
@@ -35,7 +35,7 @@ func (adpt *VrfRouteAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.N
     if data, err := conn.GetAll(swsssdk.APPL_DB, append([]string{"ROUTE_TABLE"}, adpt.vrf, adpt.dest)); err != nil {
         return nil, err
     } else {
-        retval := &sonicpb.NocsysRoute_Route_RouteList{}
+        retval := &sonicpb.AcctonRoute_Route_RouteList{}
         for k, v := range data {
             switch k {
             case "nexthop":
@@ -48,7 +48,7 @@ func (adpt *VrfRouteAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.N
     }
 }
 
-func (adpt *VrfRouteAdapter) Config(data *sonicpb.NocsysRoute_Route_RouteList, oper OperType) error {
+func (adpt *VrfRouteAdapter) Config(data *sonicpb.AcctonRoute_Route_RouteList, oper OperType) error {
     cmdstr := "config route"
     if oper == ADD {
         cmdstr += " add"

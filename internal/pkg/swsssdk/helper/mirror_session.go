@@ -15,7 +15,7 @@ import (
 type MirrorSession struct {
     Key string
     Client command.Client
-    Data *sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList
+    Data *sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList
 }
 
 // 参考
@@ -28,7 +28,7 @@ func (c *MirrorSession) LoadFromDB() error {
 
     // 获取配置信息
     if c.Data == nil {
-        c.Data = &sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList{}
+        c.Data = &sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList{}
     }
     if data, err := conn.GetAll(swsssdk.APPL_DB, []string{"MIRROR_SESSION_TABLE", c.Key}); err != nil {
         return err
@@ -38,9 +38,9 @@ func (c *MirrorSession) LoadFromDB() error {
             case "status":
                 switch v {
                 case "active":
-                    c.Data.Status = sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_STATUS_active
+                    c.Data.Status = sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList_STATUS_active
                 case "inactive":
-                    c.Data.Status = sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_STATUS_inactive
+                    c.Data.Status = sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList_STATUS_inactive
                 }
             case "src_ip":
                 c.Data.SrcIp = &ywrapper.StringValue{Value: v}
@@ -78,18 +78,18 @@ func (c *MirrorSession) LoadFromDB() error {
             case "direction":
                 switch strings.ToUpper(v) {
                 case "RX":
-                    c.Data.Direction = sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_RX
+                    c.Data.Direction = sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_RX
                 case "TX":
-                    c.Data.Direction = sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_TX
+                    c.Data.Direction = sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_TX
                 case "BOTH":
-                    c.Data.Direction = sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_BOTH
+                    c.Data.Direction = sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_BOTH
                 }
             case "type":
                 switch strings.ToUpper(v) {
                 case "SPAN":
-                    c.Data.Type = sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_TYPE_SPAN
+                    c.Data.Type = sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList_TYPE_SPAN
                 case "ERSPAN":
-                    c.Data.Type = sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_TYPE_ERSPAN
+                    c.Data.Type = sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList_TYPE_ERSPAN
                 }
             }
         }
@@ -99,26 +99,26 @@ func (c *MirrorSession) LoadFromDB() error {
 
 func (c *MirrorSession) SaveToDB() error {
     switch c.Data.Type {
-    case sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_TYPE_SPAN:
+    case sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList_TYPE_SPAN:
         if c.Data.DstPort == nil ||
             c.Data.SrcPort == nil ||
-            c.Data.Direction == sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_UNSET {
+            c.Data.Direction == sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_UNSET {
             return nil
         }
         cmdstr := "config mirror_session add span " + c.Key + " " + c.Data.DstPort.Value + " " + c.Data.SrcPort.Value
         switch c.Data.Direction {
-        case sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_RX:
+        case sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_RX:
             cmdstr += " rx"
-        case sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_TX:
+        case sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_TX:
             cmdstr += " tx"
-        case sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_BOTH:
+        case sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_BOTH:
             cmdstr += " both"
         }
         logrus.Trace(cmdstr + "|EXEC")
         if err, r := utils.Utils_execute_cmd("bash", "-c", cmdstr); err != nil {
             return errors.New(r)
         }
-    case sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_TYPE_ERSPAN:
+    case sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList_TYPE_ERSPAN:
         logrus.Trace("config mirror_session add erspan |EXEC")
     }
     return nil

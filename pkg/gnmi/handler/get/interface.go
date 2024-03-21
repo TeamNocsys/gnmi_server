@@ -24,8 +24,8 @@ func InterfaceHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client
         spec = v
     }
 
-    si := &sonicpb.NocsysInterface{
-        Interface: &sonicpb.NocsysInterface_Interface{},
+    si := &sonicpb.AcctonInterface{
+        Interface: &sonicpb.AcctonInterface_Interface{},
     }
     if hkeys, err := conn.GetKeys("INTERFACE", spec); err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
@@ -40,9 +40,9 @@ func InterfaceHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client
                 return nil, err
             } else {
                 si.Interface.InterfaceList = append(si.Interface.InterfaceList,
-                    &sonicpb.NocsysInterface_Interface_InterfaceListKey{
+                    &sonicpb.AcctonInterface_Interface_InterfaceListKey{
                         PortName: keys[0],
-                        InterfaceList: data.(*sonicpb.NocsysInterface_Interface_InterfaceList),
+                        InterfaceList: data.(*sonicpb.AcctonInterface_Interface_InterfaceList),
                     })
             }
         }
@@ -74,8 +74,8 @@ func InterfaceIPPrefixHandler(ctx context.Context, r *gnmi.GetRequest, db comman
         spec = append(spec, "*")
     }
 
-    si := &sonicpb.NocsysInterface{
-        Interface: &sonicpb.NocsysInterface_Interface{},
+    si := &sonicpb.AcctonInterface{
+        Interface: &sonicpb.AcctonInterface_Interface{},
     }
     if hkeys, err := conn.GetKeys("INTERFACE", spec); err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
@@ -87,10 +87,10 @@ func InterfaceIPPrefixHandler(ctx context.Context, r *gnmi.GetRequest, db comman
                 return nil, err
             } else {
                 si.Interface.InterfaceIpprefixList = append(si.Interface.InterfaceIpprefixList,
-                    &sonicpb.NocsysInterface_Interface_InterfaceIpprefixListKey{
+                    &sonicpb.AcctonInterface_Interface_InterfaceIpprefixListKey{
                         PortName: keys[0],
                         IpPrefix: keys[1],
-                        InterfaceIpprefixList: data.(*sonicpb.NocsysInterface_Interface_InterfaceIpprefixList),
+                        InterfaceIpprefixList: data.(*sonicpb.AcctonInterface_Interface_InterfaceIpprefixList),
                     })
             }
         }

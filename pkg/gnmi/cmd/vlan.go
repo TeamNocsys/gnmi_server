@@ -24,7 +24,7 @@ func NewVlanAdapter(name string, cli command.Client) *VlanAdapter {
     }
 }
 
-func (adpt *VlanAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.NocsysVlan_Vlan_VlanList, error) {
+func (adpt *VlanAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.AcctonVlan_Vlan_VlanList, error) {
     conn := adpt.client.Config()
     if conn == nil {
         return nil, swsssdk.ErrConnNotExist
@@ -33,7 +33,7 @@ func (adpt *VlanAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Nocsy
     if data, err := conn.GetEntry("VLAN", adpt.name); err != nil {
         return nil, err
     } else {
-        retval := &sonicpb.NocsysVlan_Vlan_VlanList{}
+        retval := &sonicpb.AcctonVlan_Vlan_VlanList{}
         for k, v := range data {
             switch k {
             case "description":
@@ -51,9 +51,9 @@ func (adpt *VlanAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Nocsy
             case "admin_status":
                 switch v {
                 case "up":
-                    retval.AdminStatus = sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_up
+                    retval.AdminStatus = sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_up
                 case "down":
-                    retval.AdminStatus = sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_down
+                    retval.AdminStatus = sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_down
                 }
             }
         }
@@ -61,7 +61,7 @@ func (adpt *VlanAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Nocsy
     }
 }
 
-func (adpt *VlanAdapter) Config(data *sonicpb.NocsysVlan_Vlan_VlanList, oper OperType) error {
+func (adpt *VlanAdapter) Config(data *sonicpb.AcctonVlan_Vlan_VlanList, oper OperType) error {
     if oper == ADD || oper == UPDATE {
         conn := adpt.client.Config()
         if conn == nil {
@@ -90,11 +90,11 @@ func (adpt *VlanAdapter) Config(data *sonicpb.NocsysVlan_Vlan_VlanList, oper Ope
             }
         }
 
-        if data.AdminStatus != sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_UNSET {
+        if data.AdminStatus != sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_UNSET {
             var cmdstr string
-            if data.AdminStatus == sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_up {
+            if data.AdminStatus == sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_up {
                 cmdstr = "config interface startup " + adpt.name
-            } else if data.AdminStatus == sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_down {
+            } else if data.AdminStatus == sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_down {
                 cmdstr = "config interface shutdown " + adpt.name
             }
             if err := adpt.exec(cmdstr); err != nil {

@@ -14,7 +14,7 @@ import (
 type Ntp struct {
     Key string
     Client command.Client
-    Data *sonicpb.NocsysNtp_Ntp_NtpList
+    Data *sonicpb.AcctonNtp_Ntp_NtpList
 }
 
 func (c *Ntp) LoadFromDB() error {
@@ -26,8 +26,8 @@ func (c *Ntp) LoadFromDB() error {
             fields := strings.Split(infos[i], " ")
             if fields[0] == c.Key {
                 if c.Data == nil {
-                    c.Data = &sonicpb.NocsysNtp_Ntp_NtpList{
-                        State: &sonicpb.NocsysNtp_Ntp_NtpList_State{},
+                    c.Data = &sonicpb.AcctonNtp_Ntp_NtpList{
+                        State: &sonicpb.AcctonNtp_Ntp_NtpList_State{},
                     }
                 }
                 if i, err := strconv.ParseUint(fields[5], 10, 64); err != nil {

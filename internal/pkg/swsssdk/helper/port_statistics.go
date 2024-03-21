@@ -11,7 +11,7 @@ import (
 type PortStatistics struct {
     Key string
     Client command.Client
-    Data *sonicpb.NocsysPort_Port_PortStatisticsList
+    Data *sonicpb.AcctonPort_Port_PortStatisticsList
 }
 
 // 参考
@@ -23,7 +23,7 @@ func (c *PortStatistics) LoadFromDB() error {
     }
 
     if c.Data == nil {
-        c.Data = &sonicpb.NocsysPort_Port_PortStatisticsList{}
+        c.Data = &sonicpb.AcctonPort_Port_PortStatisticsList{}
     }
     if data, err := conn.GetAll(swsssdk.COUNTERS_DB, []string{"COUNTERS", c.Key}); err != nil {
         return err

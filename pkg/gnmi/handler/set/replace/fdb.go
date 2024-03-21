@@ -14,7 +14,7 @@ import (
 )
 
 func FdbHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) error {
-    info := &sonicpb.NocsysFdb{}
+    info := &sonicpb.AcctonFdb{}
     if bytes := value.GetBytesVal(); bytes == nil {
         return status.Error(codes.Internal, ErrProtobufType)
     } else if err := proto.Unmarshal(bytes, info); err != nil {

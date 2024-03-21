@@ -12,7 +12,7 @@ import (
 type Lldp struct {
     Key string
     Client command.Client
-    Data *sonicpb.NocsysLldp_Lldp_LldpList
+    Data *sonicpb.AcctonLldp_Lldp_LldpList
 }
 
 // 参考:
@@ -27,13 +27,13 @@ func (c *Lldp) LoadFromDB(flags uint) error {
 
     // 获取配置信息
     if c.Data == nil {
-        c.Data = &sonicpb.NocsysLldp_Lldp_LldpList{}
+        c.Data = &sonicpb.AcctonLldp_Lldp_LldpList{}
     }
     // 加载配置数据
     // 是否加载状态数据
     if (flags & DATA_TYPE_STATE) != 0 {
         if c.Data.State == nil {
-            c.Data.State = &sonicpb.NocsysLldp_Lldp_LldpList_State{}
+            c.Data.State = &sonicpb.AcctonLldp_Lldp_LldpList_State{}
         }
 
         if data, err := conn.GetAll(swsssdk.APPL_DB, []string{"LLDP_ENTRY_TABLE", c.Key}); err != nil {
@@ -49,7 +49,7 @@ func (c *Lldp) LoadFromDB(flags uint) error {
                     if i, err := strconv.ParseUint(v, 10, 64); err != nil {
                         return err
                     } else {
-                        c.Data.State.LldpRemPortIdSubtype = sonicpb.NocsysLldp_Lldp_LldpList_State_LldpRemPortIdSubtype(i)
+                        c.Data.State.LldpRemPortIdSubtype = sonicpb.AcctonLldp_Lldp_LldpList_State_LldpRemPortIdSubtype(i)
                     }
                 case "lldp_rem_man_addr":
                     c.Data.State.LldpRemManAddr = &ywrapper.StringValue{Value: v}
@@ -63,7 +63,7 @@ func (c *Lldp) LoadFromDB(flags uint) error {
                     if i, err := strconv.ParseUint(v, 10, 64); err != nil {
                         return err
                     } else {
-                        c.Data.State.LldpRemChassisIdSubtype = sonicpb.NocsysLldp_Lldp_LldpList_State_LldpRemChassisIdSubtype(i)
+                        c.Data.State.LldpRemChassisIdSubtype = sonicpb.AcctonLldp_Lldp_LldpList_State_LldpRemChassisIdSubtype(i)
                     }
                 case "lldp_rem_sys_cap_enabled":
                     var i uint64

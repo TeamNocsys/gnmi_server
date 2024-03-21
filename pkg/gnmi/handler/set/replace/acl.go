@@ -14,7 +14,7 @@ import (
 )
 
 func AclTableHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) error {
-    info := &sonicpb.NocsysAcl{}
+    info := &sonicpb.AcctonAcl{}
     if bytes := value.GetBytesVal(); bytes == nil {
         return status.Error(codes.Internal, ErrProtobufType)
     } else if err := proto.Unmarshal(bytes, info); err != nil {
@@ -44,7 +44,7 @@ func AclTableHandler(ctx context.Context, value *gpb.TypedValue, db command.Clie
 }
 
 func AclRuleHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) error {
-    info := &sonicpb.NocsysAcl{}
+    info := &sonicpb.AcctonAcl{}
     if bytes := value.GetBytesVal(); bytes == nil {
         return status.Error(codes.Internal, ErrProtobufType)
     } else if err := proto.Unmarshal(bytes, info); err != nil {

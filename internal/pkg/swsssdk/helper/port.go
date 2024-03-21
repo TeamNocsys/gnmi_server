@@ -11,7 +11,7 @@ import (
 type Port struct {
     Key string
     Client command.Client
-    Data *sonicpb.NocsysPort_Port_PortList
+    Data *sonicpb.AcctonPort_Port_PortList
 }
 
 func (c *Port) LoadFromDB(flags uint) error {
@@ -19,7 +19,7 @@ func (c *Port) LoadFromDB(flags uint) error {
         return swsssdk.ErrConnNotExist
     }
     if c.Data == nil {
-        c.Data = &sonicpb.NocsysPort_Port_PortList{}
+        c.Data = &sonicpb.AcctonPort_Port_PortList{}
     }
     // 读取配置信息
     if (flags & DATA_TYPE_CONFIG) != 0 {
@@ -47,9 +47,9 @@ func (c *Port) LoadFromDB(flags uint) error {
                 case "admin_status":
                     switch v {
                     case "up":
-                        c.Data.AdminStatus = sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_up
+                        c.Data.AdminStatus = sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_up
                     case "down":
-                        c.Data.AdminStatus = sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_down
+                        c.Data.AdminStatus = sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_down
                     }
                 case "speed":
                     if i, err := strconv.ParseUint(v, 10, 64); err != nil {
@@ -68,7 +68,7 @@ func (c *Port) LoadFromDB(flags uint) error {
     }
     if (flags & DATA_TYPE_STATE) != 0 {
         if c.Data.State == nil {
-            c.Data.State = &sonicpb.NocsysPort_Port_PortList_State{}
+            c.Data.State = &sonicpb.AcctonPort_Port_PortList_State{}
         }
         if data, err := c.Client.State().GetAll(swsssdk.APPL_DB, []string{"PORT_TABLE", c.Key}); err != nil {
             return err
@@ -78,9 +78,9 @@ func (c *Port) LoadFromDB(flags uint) error {
                 case "oper_status":
                     switch v {
                     case "up":
-                        c.Data.State.OperStatus = sonicpb.NocsysTypesOperStatus_NOCSYSTYPESOPERSTATUS_up
+                        c.Data.State.OperStatus = sonicpb.AcctonTypesOperStatus_ACCTONTYPESOPERSTATUS_up
                     case "down":
-                        c.Data.State.OperStatus = sonicpb.NocsysTypesOperStatus_NOCSYSTYPESOPERSTATUS_down
+                        c.Data.State.OperStatus = sonicpb.AcctonTypesOperStatus_ACCTONTYPESOPERSTATUS_down
                     }
                 }
             }
@@ -107,10 +107,10 @@ func (c *Port) SaveToDB(replace bool) error {
     if c.Data.Index != nil {
         e["index"] = c.Data.Index.Value
     }
-    if c.Data.AdminStatus != sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_UNSET {
-        if c.Data.AdminStatus == sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_up {
+    if c.Data.AdminStatus != sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_UNSET {
+        if c.Data.AdminStatus == sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_up {
             e["admin_status"] = "up"
-        } else if c.Data.AdminStatus == sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_down {
+        } else if c.Data.AdminStatus == sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_down {
             e["admin_status"] = "down"
         }
     }

@@ -24,12 +24,12 @@ func NewNtpAdapter(ipaddr string, cli command.Client) *NtpAdapter {
     }
 }
 
-func (adpt *NtpAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.NocsysNtp_Ntp_NtpList, error) {
+func (adpt *NtpAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.AcctonNtp_Ntp_NtpList, error) {
     if err, data := utils.Utils_execute_cmd("show", "ntp"); err != nil {
         return nil, err
     } else {
-        retval := &sonicpb.NocsysNtp_Ntp_NtpList{
-            State: &sonicpb.NocsysNtp_Ntp_NtpList_State{},
+        retval := &sonicpb.AcctonNtp_Ntp_NtpList{
+            State: &sonicpb.AcctonNtp_Ntp_NtpList_State{},
         }
         infos := strings.Split(data, "\n")
         for i := 2; i < len(infos) - 1; i++ {
@@ -51,7 +51,7 @@ func (adpt *NtpAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Nocsys
     }
 }
 
-func (adpt *NtpAdapter) Config(data *sonicpb.NocsysNtp_Ntp_NtpList, oper OperType) error {
+func (adpt *NtpAdapter) Config(data *sonicpb.AcctonNtp_Ntp_NtpList, oper OperType) error {
     var cmdstr string
     if oper == ADD || oper == UPDATE {
         cmdstr = "config ntp add " + adpt.ipaddr

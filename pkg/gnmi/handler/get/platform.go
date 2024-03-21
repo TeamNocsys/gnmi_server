@@ -174,8 +174,8 @@ func getFanInfo(ctx context.Context, platform *sonicpb.SonicPlatform_Platform) e
 						},
 					}
 
-					compType := sonicpb.SonicPlatform_Platform_ComponentList_State_TypeNocsysplatformtypessonichardwarecomponent{
-						sonicpb.NocsysPlatformTypesSONICHARDWARECOMPONENT_NOCSYSPLATFORMTYPESSONICHARDWARECOMPONENT_FAN,
+					compType := sonicpb.SonicPlatform_Platform_ComponentList_State_TypeAcctonplatformtypessonichardwarecomponent{
+						sonicpb.AcctonPlatformTypesSONICHARDWARECOMPONENT_ACCTONPLATFORMTYPESSONICHARDWARECOMPONENT_FAN,
 					}
 
 					componentListKey := &sonicpb.SonicPlatform_Platform_ComponentListKey{
@@ -253,8 +253,8 @@ func getTemperatureInfo(ctx context.Context, platform *sonicpb.SonicPlatform_Pla
 						logrus.Error("Can not parse temperature value")
 					}
 
-					compType := sonicpb.SonicPlatform_Platform_ComponentList_State_TypeNocsysplatformtypessonichardwarecomponent{
-						sonicpb.NocsysPlatformTypesSONICHARDWARECOMPONENT_NOCSYSPLATFORMTYPESSONICHARDWARECOMPONENT_SENSOR,
+					compType := sonicpb.SonicPlatform_Platform_ComponentList_State_TypeAcctonplatformtypessonichardwarecomponent{
+						sonicpb.AcctonPlatformTypesSONICHARDWARECOMPONENT_ACCTONPLATFORMTYPESSONICHARDWARECOMPONENT_SENSOR,
 					}
 
 					componentListKey := &sonicpb.SonicPlatform_Platform_ComponentListKey{
@@ -319,8 +319,8 @@ func getPowerSupplyInfo(ctx context.Context, platform *sonicpb.SonicPlatform_Pla
 				},
 			}
 
-			compType := sonicpb.SonicPlatform_Platform_ComponentList_State_TypeNocsysplatformtypessonichardwarecomponent{
-				sonicpb.NocsysPlatformTypesSONICHARDWARECOMPONENT_NOCSYSPLATFORMTYPESSONICHARDWARECOMPONENT_POWER_SUPPLY,
+			compType := sonicpb.SonicPlatform_Platform_ComponentList_State_TypeAcctonplatformtypessonichardwarecomponent{
+				sonicpb.AcctonPlatformTypesSONICHARDWARECOMPONENT_ACCTONPLATFORMTYPESSONICHARDWARECOMPONENT_POWER_SUPPLY,
 			}
 
 			componentListKey := &sonicpb.SonicPlatform_Platform_ComponentListKey{
@@ -403,8 +403,8 @@ func getSystemInfo(ctx context.Context, platform *sonicpb.SonicPlatform_Platform
 
 
 
-    compType := sonicpb.SonicPlatform_Platform_ComponentList_State_TypeNocsysplatformtypessonicsoftwarecomponent {
-        sonicpb.NocsysPlatformTypesSONICSOFTWARECOMPONENT_NOCSYSPLATFORMTYPESSONICSOFTWARECOMPONENT_OPERATING_SYSTEM,
+    compType := sonicpb.SonicPlatform_Platform_ComponentList_State_TypeAcctonplatformtypessonicsoftwarecomponent {
+        sonicpb.AcctonPlatformTypesSONICSOFTWARECOMPONENT_ACCTONPLATFORMTYPESSONICSOFTWARECOMPONENT_OPERATING_SYSTEM,
     }
 
     state := &sonicpb.SonicPlatform_Platform_ComponentList_State {

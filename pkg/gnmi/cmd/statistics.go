@@ -23,7 +23,7 @@ func NewPortStatisticsAdapter(name string, cli command.Client) *PortStatisticsAd
     }
 }
 
-func (adpt *PortStatisticsAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.NocsysPort_Port_PortStatisticsList, error) {
+func (adpt *PortStatisticsAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.AcctonPort_Port_PortStatisticsList, error) {
     conn := adpt.client.State()
     if conn == nil {
         return nil, swsssdk.ErrConnNotExist
@@ -32,7 +32,7 @@ func (adpt *PortStatisticsAdapter) Show(dataType gnmi.GetRequest_DataType) (*son
     if data, err := conn.GetAll(swsssdk.COUNTERS_DB, []string{"COUNTERS", adpt.name}); err != nil {
         return nil, err
     } else {
-        retval := &sonicpb.NocsysPort_Port_PortStatisticsList{}
+        retval := &sonicpb.AcctonPort_Port_PortStatisticsList{}
         for k, v := range data {
             switch k {
             case "SAI_PORT_STAT_IF_IN_OCTETS":

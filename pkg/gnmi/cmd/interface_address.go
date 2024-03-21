@@ -35,64 +35,64 @@ func (adpt *IfAddrAdapter) Show(dataType gnmi.GetRequest_DataType) (interface{},
         return nil, err
     } else {
         if adpt.ifType == INTERFACE {
-            retval := &sonicpb.NocsysInterface_Interface_InterfaceIpprefixList{}
+            retval := &sonicpb.AcctonInterface_Interface_InterfaceIpprefixList{}
             for k, v := range data {
                 switch k {
                 case "scope":
                     switch v {
                     case "local":
-                        retval.Scope = sonicpb.NocsysInterface_Interface_InterfaceIpprefixList_SCOPE_local
+                        retval.Scope = sonicpb.AcctonInterface_Interface_InterfaceIpprefixList_SCOPE_local
                     case "global":
-                        retval.Scope = sonicpb.NocsysInterface_Interface_InterfaceIpprefixList_SCOPE_global
+                        retval.Scope = sonicpb.AcctonInterface_Interface_InterfaceIpprefixList_SCOPE_global
                     }
                 case "family":
                     switch v {
                     case "IPv4":
-                        retval.Family = sonicpb.NocsysTypesIpFamily_NOCSYSTYPESIPFAMILY_IPv4
+                        retval.Family = sonicpb.AcctonTypesIpFamily_ACCTONTYPESIPFAMILY_IPv4
                     case "IPv6":
-                        retval.Family = sonicpb.NocsysTypesIpFamily_NOCSYSTYPESIPFAMILY_IPv6
+                        retval.Family = sonicpb.AcctonTypesIpFamily_ACCTONTYPESIPFAMILY_IPv6
                     }
                 }
             }
             return retval, nil
         } else if adpt.ifType == VLAN_INTERFACE {
-            retval := &sonicpb.NocsysVlan_VlanInterface_VlanInterfaceIpprefixList{}
+            retval := &sonicpb.AcctonVlan_VlanInterface_VlanInterfaceIpprefixList{}
             for k, v := range data {
                 switch k {
                 case "scope":
                     switch v {
                     case "local":
-                        retval.Scope = sonicpb.NocsysVlan_VlanInterface_VlanInterfaceIpprefixList_SCOPE_local
+                        retval.Scope = sonicpb.AcctonVlan_VlanInterface_VlanInterfaceIpprefixList_SCOPE_local
                     case "global":
-                        retval.Scope = sonicpb.NocsysVlan_VlanInterface_VlanInterfaceIpprefixList_SCOPE_global
+                        retval.Scope = sonicpb.AcctonVlan_VlanInterface_VlanInterfaceIpprefixList_SCOPE_global
                     }
                 case "family":
                     switch v {
                     case "IPv4":
-                        retval.Family = sonicpb.NocsysTypesIpFamily_NOCSYSTYPESIPFAMILY_IPv4
+                        retval.Family = sonicpb.AcctonTypesIpFamily_ACCTONTYPESIPFAMILY_IPv4
                     case "IPv6":
-                        retval.Family = sonicpb.NocsysTypesIpFamily_NOCSYSTYPESIPFAMILY_IPv6
+                        retval.Family = sonicpb.AcctonTypesIpFamily_ACCTONTYPESIPFAMILY_IPv6
                     }
                 }
             }
             return retval, nil
         } else if adpt.ifType == LOOPBACK_INTERFACE {
-            retval := &sonicpb.NocsysLoopbackInterface_LoopbackInterface_LoopbackInterfaceIpprefixList{}
+            retval := &sonicpb.AcctonLoopbackInterface_LoopbackInterface_LoopbackInterfaceIpprefixList{}
             for k, v := range data {
                 switch k {
                 case "scope":
                     switch v {
                     case "local":
-                        retval.Scope = sonicpb.NocsysLoopbackInterface_LoopbackInterface_LoopbackInterfaceIpprefixList_SCOPE_local
+                        retval.Scope = sonicpb.AcctonLoopbackInterface_LoopbackInterface_LoopbackInterfaceIpprefixList_SCOPE_local
                     case "global":
-                        retval.Scope = sonicpb.NocsysLoopbackInterface_LoopbackInterface_LoopbackInterfaceIpprefixList_SCOPE_global
+                        retval.Scope = sonicpb.AcctonLoopbackInterface_LoopbackInterface_LoopbackInterfaceIpprefixList_SCOPE_global
                     }
                 case "family":
                     switch v {
                     case "IPv4":
-                        retval.Family = sonicpb.NocsysTypesIpFamily_NOCSYSTYPESIPFAMILY_IPv4
+                        retval.Family = sonicpb.AcctonTypesIpFamily_ACCTONTYPESIPFAMILY_IPv4
                     case "IPv6":
-                        retval.Family = sonicpb.NocsysTypesIpFamily_NOCSYSTYPESIPFAMILY_IPv6
+                        retval.Family = sonicpb.AcctonTypesIpFamily_ACCTONTYPESIPFAMILY_IPv6
                     }
                 }
             }

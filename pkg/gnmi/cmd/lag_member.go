@@ -23,7 +23,7 @@ func NewLagMemberAdapter(name, ifname string, cli command.Client) *LagMemberAdap
     }
 }
 
-func (adpt *LagMemberAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.NocsysPortchannel_PortchannelMember_PortchannelMemberList, error) {
+func (adpt *LagMemberAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.AcctonPortchannel_PortchannelMember_PortchannelMemberList, error) {
     conn := adpt.client.Config()
     if conn == nil {
         return nil, swsssdk.ErrConnNotExist
@@ -32,11 +32,11 @@ func (adpt *LagMemberAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.
     if _, err := conn.HasEntry("PORTCHANNEL_MEMBER", []string{adpt.name, adpt.ifname}); err != nil {
         return nil, err
     } else {
-        return &sonicpb.NocsysPortchannel_PortchannelMember_PortchannelMemberList{}, nil
+        return &sonicpb.AcctonPortchannel_PortchannelMember_PortchannelMemberList{}, nil
     }
 }
 
-func (adpt *LagMemberAdapter) Config(data *sonicpb.NocsysPortchannel_PortchannelMember_PortchannelMemberList, oper OperType) error {
+func (adpt *LagMemberAdapter) Config(data *sonicpb.AcctonPortchannel_PortchannelMember_PortchannelMemberList, oper OperType) error {
     cmdstr := "config portchannel member"
     if oper == ADD || oper == UPDATE {
         conn := adpt.client.Config()

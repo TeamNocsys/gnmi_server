@@ -11,7 +11,7 @@ import (
 type PortChannel struct {
     Key string
     Client command.Client
-    Data *sonicpb.NocsysPortchannel_Portchannel_PortchannelList
+    Data *sonicpb.AcctonPortchannel_Portchannel_PortchannelList
 }
 
 func (c *PortChannel) LoadFromDB() error {
@@ -22,7 +22,7 @@ func (c *PortChannel) LoadFromDB() error {
 
     // 获取配置信息
     if c.Data == nil {
-        c.Data = &sonicpb.NocsysPortchannel_Portchannel_PortchannelList{}
+        c.Data = &sonicpb.AcctonPortchannel_Portchannel_PortchannelList{}
     }
     if data, err := conn.GetAll(swsssdk.CONFIG_DB, []string{"PORTCHANNEL", c.Key}); err != nil {
         return err
@@ -38,9 +38,9 @@ func (c *PortChannel) LoadFromDB() error {
             case "admin_status":
                 switch v {
                 case "up":
-                    c.Data.AdminStatus = sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_up
+                    c.Data.AdminStatus = sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_up
                 case "down":
-                    c.Data.AdminStatus = sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_down
+                    c.Data.AdminStatus = sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_down
                 }
             case "min_links":
                 if i, err := strconv.ParseUint(v, 10, 64); err != nil {
@@ -58,10 +58,10 @@ func (c *PortChannel) LoadFromDB() error {
 func (c *PortChannel) SaveToDB(replace bool) error {
     e := make(map[string]interface{})
     // 需要更新状态字段
-    if c.Data.AdminStatus != sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_UNSET {
-        if c.Data.AdminStatus == sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_up {
+    if c.Data.AdminStatus != sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_UNSET {
+        if c.Data.AdminStatus == sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_up {
             e["admin_status"] = "up"
-        } else if c.Data.AdminStatus == sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_down {
+        } else if c.Data.AdminStatus == sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_down {
             e["admin_status"] = "down"
         }
     }

@@ -23,7 +23,7 @@ func NewVrfAdapter(name string, cli command.Client) *VrfAdapter {
     }
 }
 
-func (adpt *VrfAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.NocsysVrf_Vrf_VrfList, error) {
+func (adpt *VrfAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.AcctonVrf_Vrf_VrfList, error) {
     conn := adpt.client.Config()
     if conn == nil {
         return nil, swsssdk.ErrConnNotExist
@@ -32,7 +32,7 @@ func (adpt *VrfAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Nocsys
     if data, err := conn.GetAll(swsssdk.CONFIG_DB, []string{"VRF", adpt.name}); err != nil {
         return nil, err
     } else {
-        retval := &sonicpb.NocsysVrf_Vrf_VrfList{}
+        retval := &sonicpb.AcctonVrf_Vrf_VrfList{}
         for k, v := range data {
             switch k {
             case "fallback":
@@ -48,7 +48,7 @@ func (adpt *VrfAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Nocsys
     }
 }
 
-func (adpt *VrfAdapter) Config(data *sonicpb.NocsysVrf_Vrf_VrfList, oper OperType) error {
+func (adpt *VrfAdapter) Config(data *sonicpb.AcctonVrf_Vrf_VrfList, oper OperType) error {
     var cmdstr string
     if oper == ADD {
         conn := adpt.client.Config()

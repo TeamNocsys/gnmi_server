@@ -23,8 +23,8 @@ func NewPortAdapter(ifname string, cli command.Client) *PortAdapter {
     }
 }
 
-func (adpt *PortAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.NocsysPort_Port_PortList, error) {
-    retval := &sonicpb.NocsysPort_Port_PortList{}
+func (adpt *PortAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.AcctonPort_Port_PortList, error) {
+    retval := &sonicpb.AcctonPort_Port_PortList{}
     if dataType == gnmi.GetRequest_ALL || dataType == gnmi.GetRequest_CONFIG {
         conn := adpt.client.Config()
         if conn == nil {
@@ -55,9 +55,9 @@ func (adpt *PortAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Nocsy
                 case "admin_status":
                     switch v {
                     case "up":
-                        retval.AdminStatus = sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_up
+                        retval.AdminStatus = sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_up
                     case "down":
-                        retval.AdminStatus = sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_down
+                        retval.AdminStatus = sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_down
                     }
                 case "speed":
                     if i, err := strconv.ParseUint(v, 10, 64); err != nil {
@@ -71,7 +71,7 @@ func (adpt *PortAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Nocsy
     }
 
     if dataType == gnmi.GetRequest_ALL || dataType == gnmi.GetRequest_STATE {
-        retval.State = &sonicpb.NocsysPort_Port_PortList_State{}
+        retval.State = &sonicpb.AcctonPort_Port_PortList_State{}
         conn := adpt.client.State()
         if conn == nil {
             return nil, swsssdk.ErrConnNotExist
@@ -85,9 +85,9 @@ func (adpt *PortAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Nocsy
                 case "oper_status":
                     switch v {
                     case "up":
-                        retval.State.OperStatus = sonicpb.NocsysTypesOperStatus_NOCSYSTYPESOPERSTATUS_up
+                        retval.State.OperStatus = sonicpb.AcctonTypesOperStatus_ACCTONTYPESOPERSTATUS_up
                     case "down":
-                        retval.State.OperStatus = sonicpb.NocsysTypesOperStatus_NOCSYSTYPESOPERSTATUS_down
+                        retval.State.OperStatus = sonicpb.AcctonTypesOperStatus_ACCTONTYPESOPERSTATUS_down
                     }
                 }
             }
@@ -96,7 +96,7 @@ func (adpt *PortAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Nocsy
     return retval, nil
 }
 
-func (adpt *PortAdapter) Config(data *sonicpb.NocsysPort_Port_PortList, oper OperType) error {
+func (adpt *PortAdapter) Config(data *sonicpb.AcctonPort_Port_PortList, oper OperType) error {
     if oper == ADD || oper == UPDATE {
         if data.Mtu != nil {
             cmdstr := "config interface mtu " + adpt.ifname + " " + strconv.FormatUint(data.Mtu.Value, 10)
@@ -105,11 +105,11 @@ func (adpt *PortAdapter) Config(data *sonicpb.NocsysPort_Port_PortList, oper Ope
             }
         }
 
-        if data.AdminStatus != sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_UNSET {
+        if data.AdminStatus != sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_UNSET {
             var cmdstr string
-            if data.AdminStatus == sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_up {
+            if data.AdminStatus == sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_up {
                 cmdstr = "config interface startup " + adpt.ifname
-            } else if data.AdminStatus == sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_down {
+            } else if data.AdminStatus == sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_down {
                 cmdstr = "config interface shutdown " + adpt.ifname
             }
             if err := adpt.exec(cmdstr); err != nil {

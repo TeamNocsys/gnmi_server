@@ -24,8 +24,8 @@ func VlanInterfaceHandler(ctx context.Context, r *gnmi.GetRequest, db command.Cl
         spec = v
     }
 
-    sv := &sonicpb.NocsysVlan{
-        VlanInterface: &sonicpb.NocsysVlan_VlanInterface{},
+    sv := &sonicpb.AcctonVlan{
+        VlanInterface: &sonicpb.AcctonVlan_VlanInterface{},
     }
     if hkeys, err := conn.GetKeys("VLAN_INTERFACE", spec); err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
@@ -40,9 +40,9 @@ func VlanInterfaceHandler(ctx context.Context, r *gnmi.GetRequest, db command.Cl
                 return nil, err
             } else {
                 sv.VlanInterface.VlanInterfaceList = append(sv.VlanInterface.VlanInterfaceList,
-                    &sonicpb.NocsysVlan_VlanInterface_VlanInterfaceListKey{
+                    &sonicpb.AcctonVlan_VlanInterface_VlanInterfaceListKey{
                         VlanName: keys[0],
-                        VlanInterfaceList: data.(*sonicpb.NocsysVlan_VlanInterface_VlanInterfaceList),
+                        VlanInterfaceList: data.(*sonicpb.AcctonVlan_VlanInterface_VlanInterfaceList),
                     })
             }
         }
@@ -74,8 +74,8 @@ func VlanInterfaceIPPrefixHandler(ctx context.Context, r *gnmi.GetRequest, db co
         spec = append(spec, "*")
     }
 
-    sv := &sonicpb.NocsysVlan{
-        VlanInterface: &sonicpb.NocsysVlan_VlanInterface{},
+    sv := &sonicpb.AcctonVlan{
+        VlanInterface: &sonicpb.AcctonVlan_VlanInterface{},
     }
     if hkeys, err := conn.GetKeys("VLAN_INTERFACE", spec); err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
@@ -87,10 +87,10 @@ func VlanInterfaceIPPrefixHandler(ctx context.Context, r *gnmi.GetRequest, db co
                 return nil, err
             } else {
                 sv.VlanInterface.VlanInterfaceIpprefixList = append(sv.VlanInterface.VlanInterfaceIpprefixList,
-                    &sonicpb.NocsysVlan_VlanInterface_VlanInterfaceIpprefixListKey{
+                    &sonicpb.AcctonVlan_VlanInterface_VlanInterfaceIpprefixListKey{
                         VlanName: keys[0],
                         IpPrefix: keys[1],
-                        VlanInterfaceIpprefixList: data.(*sonicpb.NocsysVlan_VlanInterface_VlanInterfaceIpprefixList),
+                        VlanInterfaceIpprefixList: data.(*sonicpb.AcctonVlan_VlanInterface_VlanInterfaceIpprefixList),
                     })
             }
         }

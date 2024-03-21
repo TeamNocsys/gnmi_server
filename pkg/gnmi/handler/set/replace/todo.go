@@ -13,7 +13,7 @@ import (
 )
 
 func TodoHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) error {
-    info := &sonicpb.NocsysTodo{}
+    info := &sonicpb.AcctonTodo{}
     if bytes := value.GetBytesVal(); bytes == nil {
         return status.Error(codes.Internal, ErrProtobufType)
     } else if err := proto.Unmarshal(bytes, info); err != nil {

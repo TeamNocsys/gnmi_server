@@ -3,29 +3,24 @@ module gnmi_server
 go 1.14
 
 require (
-	github.com/Masterminds/semver v1.5.0 // indirect
-	github.com/Masterminds/vcs v1.13.1 // indirect
-	github.com/TeamNocsys/sonicpb v1.0.1-0.20210914092846-c83e46726b20
-	github.com/armon/go-radix v1.0.0 // indirect
-	github.com/boltdb/bolt v1.3.1 // indirect
-	github.com/elgs/gojq v0.0.0-20160421194050-81fa9a608a13 // indirect
-	github.com/elgs/gosplitargs v0.0.0-20161028071935-a491c5eeb3c8 // indirect
+	github.com/TeamNocsys/sonicpb v1.0.1-0.20240321032451-2dcb21717b0f
+	github.com/fastly/go-utils v0.0.0-20180712184237-d95a45783239 // indirect
 	github.com/getlantern/deepcopy v0.0.0-20160317154340-7f45deb8130a
 	github.com/go-redis/redis/v8 v8.0.0-beta.6
-	github.com/golang/dep v0.5.4 // indirect
 	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b
 	github.com/golang/protobuf v1.4.2
-	github.com/jmank88/nuts v0.4.0 // indirect
+	github.com/jehiah/go-strftime v0.0.0-20171201141054-1d33003b3869 // indirect
 	github.com/lestrrat-go/file-rotatelogs v2.3.0+incompatible
 	github.com/lestrrat-go/strftime v1.0.3 // indirect
-	github.com/nightlyone/lockfile v1.0.0 // indirect
+	github.com/miekg/dns v1.1.58
+	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/openconfig/gnmi v0.0.0-20200617225440-d2b4e6a45802
 	github.com/openconfig/ygot v0.9.0
-	github.com/pelletier/go-toml v1.8.0 // indirect
-	github.com/sdboyer/constext v0.0.0-20170321163424-836a14457353 // indirect
 	github.com/sirupsen/logrus v1.6.0
 	github.com/spf13/cobra v1.0.0
-	golang.org/x/sys v0.0.0-20200817085935-3ff754bf58a9 // indirect
+	github.com/tebeka/strftime v0.1.5 // indirect
+	github.com/vishvananda/netlink v1.1.0
+	golang.org/x/net v0.20.0
 	google.golang.org/grpc v1.30.0
-	google.golang.org/protobuf v1.25.0 // indirect
+	gopkg.in/yaml.v2 v2.3.0 // indirect
 )

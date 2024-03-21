@@ -13,7 +13,7 @@ import (
 )
 
 func IpRouteHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) error {
-    info := &sonicpb.NocsysRoute{}
+    info := &sonicpb.AcctonRoute{}
 
     if err := handler_utils.UnmarshalGpbValue(value, info); err != nil {
 	return err

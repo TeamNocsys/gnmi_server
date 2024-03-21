@@ -31,8 +31,8 @@ func IpRouteHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) 
         spec = append(spec, "*")
     }
 
-    sr := &sonicpb.NocsysRoute{
-        Route: &sonicpb.NocsysRoute_Route{},
+    sr := &sonicpb.AcctonRoute{
+        Route: &sonicpb.AcctonRoute_Route{},
     }
     if hkeys, err := conn.GetKeys(swsssdk.APPL_DB, append([]string{"ROUTE_TABLE"}, spec...)); err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
@@ -47,7 +47,7 @@ func IpRouteHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) 
                 return nil, err
             } else {
                 sr.Route.RouteList = append(sr.Route.RouteList,
-                    &sonicpb.NocsysRoute_Route_RouteListKey{
+                    &sonicpb.AcctonRoute_Route_RouteListKey{
                         VrfName: keys[0],
                         IpPrefix: keys[1],
                         RouteList: data,

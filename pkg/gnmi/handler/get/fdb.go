@@ -32,8 +32,8 @@ func FdbHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*gn
         spec = append(spec, "*")
     }
 
-    sf := &sonicpb.NocsysFdb{
-        Fdb: &sonicpb.NocsysFdb_Fdb{},
+    sf := &sonicpb.AcctonFdb{
+        Fdb: &sonicpb.AcctonFdb_Fdb{},
     }
     if hkeys, err := conn.GetKeys(swsssdk.STATE_DB, []string{"FDB_TABLE", strings.Join(spec, ":")}); err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
@@ -45,7 +45,7 @@ func FdbHandler(ctx context.Context, r *gnmi.GetRequest, db command.Client) (*gn
                 return nil, err
             } else {
                 sf.Fdb.FdbList = append(sf.Fdb.FdbList,
-                    &sonicpb.NocsysFdb_Fdb_FdbListKey{
+                    &sonicpb.AcctonFdb_Fdb_FdbListKey{
                         FdbName: keys[0],
                         FdbList: data,
                     })

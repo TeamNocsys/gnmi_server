@@ -23,7 +23,7 @@ func NewFdbAdapter(mac string, cli command.Client) *FdbAdapter {
     }
 }
 
-func (adpt *FdbAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.NocsysFdb_Fdb_FdbList, error) {
+func (adpt *FdbAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.AcctonFdb_Fdb_FdbList, error) {
     conn := adpt.client.State()
     if conn == nil {
         return nil, swsssdk.ErrConnNotExist
@@ -32,15 +32,15 @@ func (adpt *FdbAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Nocsys
     if data, err := conn.GetAll(swsssdk.STATE_DB, []string{"FDB_TABLE", adpt.mac}); err != nil {
         return nil, err
     } else {
-        retval := &sonicpb.NocsysFdb_Fdb_FdbList{}
+        retval := &sonicpb.AcctonFdb_Fdb_FdbList{}
         for k, v := range data {
             switch k {
             case "type":
                 switch strings.ToUpper(v) {
                 case "STATIC":
-                    retval.Type = sonicpb.NocsysFdb_Fdb_FdbList_TYPE_STATIC
+                    retval.Type = sonicpb.AcctonFdb_Fdb_FdbList_TYPE_STATIC
                 case "DYNAMIC":
-                    retval.Type = sonicpb.NocsysFdb_Fdb_FdbList_TYPE_DYNAMIC
+                    retval.Type = sonicpb.AcctonFdb_Fdb_FdbList_TYPE_DYNAMIC
                 }
             case "port":
                 retval.Port = &ywrapper.StringValue{Value: v}

@@ -14,7 +14,7 @@ import (
 )
 
 func VlanHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) error {
-    info := &sonicpb.NocsysVlan{}
+    info := &sonicpb.AcctonVlan{}
     if bytes := value.GetBytesVal(); bytes == nil {
         return status.Error(codes.Internal, ErrProtobufType)
     } else if err := proto.Unmarshal(bytes, info); err != nil {
@@ -42,7 +42,7 @@ func VlanHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) 
 }
 
 func VlanMemberHandler(ctx context.Context, value *gpb.TypedValue, db command.Client) error {
-    info := &sonicpb.NocsysVlan{}
+    info := &sonicpb.AcctonVlan{}
     if bytes := value.GetBytesVal(); bytes == nil {
         return status.Error(codes.Internal, ErrProtobufType)
     } else if err := proto.Unmarshal(bytes, info); err != nil {

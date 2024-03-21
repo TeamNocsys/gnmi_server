@@ -24,7 +24,7 @@ func NewNeighborAdapter(ifname, ipaddr string, cli command.Client) *NeighborAdap
     }
 }
 
-func (adpt *NeighborAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.NocsysNeighor_Neighor_NeighorList, error) {
+func (adpt *NeighborAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.AcctonNeighor_Neighor_NeighorList, error) {
     conn := adpt.client.State()
     if conn == nil {
         return nil, swsssdk.ErrConnNotExist
@@ -33,7 +33,7 @@ func (adpt *NeighborAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.N
     if data, err := conn.GetAll(swsssdk.APPL_DB, append([]string{"NEIGH_TABLE"}, adpt.ifname, adpt.ipaddr)); err != nil {
         return nil, err
     } else {
-        retval := &sonicpb.NocsysNeighor_Neighor_NeighorList{}
+        retval := &sonicpb.AcctonNeighor_Neighor_NeighorList{}
         for k, v := range data {
             switch k {
             case "neigh":

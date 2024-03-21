@@ -24,7 +24,7 @@ func NewMirrorAdapter(name string, cli command.Client) *MirrorAdapter {
     }
 }
 
-func (adpt *MirrorAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList, error) {
+func (adpt *MirrorAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList, error) {
     conn := adpt.client.State()
     if conn == nil {
         return nil, swsssdk.ErrConnNotExist
@@ -33,15 +33,15 @@ func (adpt *MirrorAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Noc
     if data, err := conn.GetAll(swsssdk.APPL_DB, []string{"MIRROR_SESSION_TABLE", adpt.name}); err != nil {
         return nil, err
     } else {
-        retval := &sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList{}
+        retval := &sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList{}
         for k, v := range data {
             switch k {
             case "status":
                 switch v {
                 case "active":
-                    retval.Status = sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_STATUS_active
+                    retval.Status = sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList_STATUS_active
                 case "inactive":
-                    retval.Status = sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_STATUS_inactive
+                    retval.Status = sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList_STATUS_inactive
                 }
             case "src_ip":
                 retval.SrcIp = &ywrapper.StringValue{Value: v}
@@ -79,18 +79,18 @@ func (adpt *MirrorAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Noc
             case "direction":
                 switch strings.ToUpper(v) {
                 case "RX":
-                    retval.Direction = sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_RX
+                    retval.Direction = sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_RX
                 case "TX":
-                    retval.Direction = sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_TX
+                    retval.Direction = sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_TX
                 case "BOTH":
-                    retval.Direction = sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_BOTH
+                    retval.Direction = sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_BOTH
                 }
             case "type":
                 switch strings.ToUpper(v) {
                 case "SPAN":
-                    retval.Type = sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_TYPE_SPAN
+                    retval.Type = sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList_TYPE_SPAN
                 case "ERSPAN":
-                    retval.Type = sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_TYPE_ERSPAN
+                    retval.Type = sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList_TYPE_ERSPAN
                 }
             }
         }
@@ -98,7 +98,7 @@ func (adpt *MirrorAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Noc
     }
 }
 
-func (adpt *MirrorAdapter) Config(data *sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList, oper OperType) error {
+func (adpt *MirrorAdapter) Config(data *sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList, oper OperType) error {
     var cmdstr string
     if oper == ADD {
         conn := adpt.client.Config()
@@ -113,7 +113,7 @@ func (adpt *MirrorAdapter) Config(data *sonicpb.NocsysMirrorSession_MirrorSessio
 
         cmdstr = "config mirror_session add"
 
-        if data.Type == sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_TYPE_SPAN {
+        if data.Type == sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList_TYPE_SPAN {
             cmdstr += " span " + adpt.name
         } else {
             return ErrUnknown
@@ -123,9 +123,9 @@ func (adpt *MirrorAdapter) Config(data *sonicpb.NocsysMirrorSession_MirrorSessio
             cmdstr += " " + data.DstPort.Value + " " + data.SrcPort.Value
         }
 
-        if data.Direction == sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_RX {
+        if data.Direction == sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_RX {
             cmdstr += " rx"
-        } else if data.Direction == sonicpb.NocsysMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_TX {
+        } else if data.Direction == sonicpb.AcctonMirrorSession_MirrorSession_MirrorSessionList_DIRECTION_TX {
             cmdstr += " tx"
         } else {
             cmdstr += " both"

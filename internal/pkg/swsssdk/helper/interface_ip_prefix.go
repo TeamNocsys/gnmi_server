@@ -12,7 +12,7 @@ import (
 type InterfaceIPPrefix struct {
     Keys []string
     Client command.Client
-    Data *sonicpb.NocsysInterface_Interface_InterfaceIpprefixList
+    Data *sonicpb.AcctonInterface_Interface_InterfaceIpprefixList
 }
 
 func (c *InterfaceIPPrefix) LoadFromDB() error {
@@ -23,7 +23,7 @@ func (c *InterfaceIPPrefix) LoadFromDB() error {
 
     // 获取配置信息
     if c.Data == nil {
-        c.Data = &sonicpb.NocsysInterface_Interface_InterfaceIpprefixList{}
+        c.Data = &sonicpb.AcctonInterface_Interface_InterfaceIpprefixList{}
     }
     if data, err := conn.GetAll(swsssdk.CONFIG_DB, append([]string{"INTERFACE"}, c.Keys...)); err != nil {
         return err
@@ -33,16 +33,16 @@ func (c *InterfaceIPPrefix) LoadFromDB() error {
             case "scope":
                 switch v {
                 case "local":
-                    c.Data.Scope = sonicpb.NocsysInterface_Interface_InterfaceIpprefixList_SCOPE_local
+                    c.Data.Scope = sonicpb.AcctonInterface_Interface_InterfaceIpprefixList_SCOPE_local
                 case "global":
-                    c.Data.Scope = sonicpb.NocsysInterface_Interface_InterfaceIpprefixList_SCOPE_global
+                    c.Data.Scope = sonicpb.AcctonInterface_Interface_InterfaceIpprefixList_SCOPE_global
                 }
             case "family":
                 switch v {
                 case "IPv4":
-                    c.Data.Family = sonicpb.NocsysTypesIpFamily_NOCSYSTYPESIPFAMILY_IPv4
+                    c.Data.Family = sonicpb.AcctonTypesIpFamily_ACCTONTYPESIPFAMILY_IPv4
                 case "IPv6":
-                    c.Data.Family = sonicpb.NocsysTypesIpFamily_NOCSYSTYPESIPFAMILY_IPv6
+                    c.Data.Family = sonicpb.AcctonTypesIpFamily_ACCTONTYPESIPFAMILY_IPv6
                 }
             }
         }
@@ -52,15 +52,15 @@ func (c *InterfaceIPPrefix) LoadFromDB() error {
 }
 
 func (c *InterfaceIPPrefix) SaveToDB(replace bool) error {
-    if c.Data.Family != sonicpb.NocsysTypesIpFamily_NOCSYSTYPESIPFAMILY_UNSET {
+    if c.Data.Family != sonicpb.AcctonTypesIpFamily_ACCTONTYPESIPFAMILY_UNSET {
         switch c.Data.Family {
-        case sonicpb.NocsysTypesIpFamily_NOCSYSTYPESIPFAMILY_IPv4:
+        case sonicpb.AcctonTypesIpFamily_ACCTONTYPESIPFAMILY_IPv4:
             cmdstr := "config interface ip add " + c.Keys[0] + " " + c.Keys[1]
             logrus.Trace(cmdstr + "|EXEC")
             if err, r := utils.Utils_execute_cmd("bash", "-c", cmdstr); err != nil {
                 return errors.New(r)
             }
-        case sonicpb.NocsysTypesIpFamily_NOCSYSTYPESIPFAMILY_IPv6:
+        case sonicpb.AcctonTypesIpFamily_ACCTONTYPESIPFAMILY_IPv6:
             cmdstr := "config interface ipv6 add " + c.Keys[0] + " " + c.Keys[1]
             logrus.Trace(cmdstr + "|EXEC")
             if err, r := utils.Utils_execute_cmd("bash", "-c", cmdstr); err != nil {

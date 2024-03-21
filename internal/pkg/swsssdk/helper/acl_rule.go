@@ -12,7 +12,7 @@ import (
 type AclRule struct {
     Keys []string
     Client command.Client
-    Data *sonicpb.NocsysAcl_AclRule_AclRuleList
+    Data *sonicpb.AcctonAcl_AclRule_AclRuleList
 }
 // 参考:
 // https://github.com/Azure/sonic-swss/blob/master/orchagent/aclorch.h
@@ -24,7 +24,7 @@ func (c *AclRule) LoadFromDB() error {
 
     // 获取配置信息
     if c.Data == nil {
-        c.Data = &sonicpb.NocsysAcl_AclRule_AclRuleList{}
+        c.Data = &sonicpb.AcctonAcl_AclRule_AclRuleList{}
     }
     if data, err := conn.GetAll(swsssdk.APPL_DB, append([]string{"ACL_RULE_TABLE"}, c.Keys...)); err != nil {
         return err
@@ -40,11 +40,11 @@ func (c *AclRule) LoadFromDB() error {
             case "PACKET_ACTION":
                 switch strings.ToUpper(v) {
                 case "DROP":
-                    c.Data.PacketAction = sonicpb.NocsysTypesPacketAction_NOCSYSTYPESPACKETACTION_DROP
+                    c.Data.PacketAction = sonicpb.AcctonTypesPacketAction_ACCTONTYPESPACKETACTION_DROP
                 case "REDIRECT":
-                    c.Data.PacketAction = sonicpb.NocsysTypesPacketAction_NOCSYSTYPESPACKETACTION_REDIRECT
+                    c.Data.PacketAction = sonicpb.AcctonTypesPacketAction_ACCTONTYPESPACKETACTION_REDIRECT
                 case "FORWARD":
-                    c.Data.PacketAction = sonicpb.NocsysTypesPacketAction_NOCSYSTYPESPACKETACTION_FORWARD
+                    c.Data.PacketAction = sonicpb.AcctonTypesPacketAction_ACCTONTYPESPACKETACTION_FORWARD
                 }
             case "MIRROR_ACTION":
                 c.Data.MirrorAction = &ywrapper.StringValue{Value: v}
@@ -60,43 +60,43 @@ func (c *AclRule) LoadFromDB() error {
                 } else {
                     switch i {
                     case 0x88CC:
-                        c.Data.EtherType = sonicpb.NocsysAcl_AclRule_AclRuleList_ETHERTYPE_LLDP
+                        c.Data.EtherType = sonicpb.AcctonAcl_AclRule_AclRuleList_ETHERTYPE_LLDP
                     case 0x8100:
-                        c.Data.EtherType = sonicpb.NocsysAcl_AclRule_AclRuleList_ETHERTYPE_VLAN
+                        c.Data.EtherType = sonicpb.AcctonAcl_AclRule_AclRuleList_ETHERTYPE_VLAN
                     case 0x8915:
-                        c.Data.EtherType = sonicpb.NocsysAcl_AclRule_AclRuleList_ETHERTYPE_ROCE
+                        c.Data.EtherType = sonicpb.AcctonAcl_AclRule_AclRuleList_ETHERTYPE_ROCE
                     case 0x0806:
-                        c.Data.EtherType = sonicpb.NocsysAcl_AclRule_AclRuleList_ETHERTYPE_ARP
+                        c.Data.EtherType = sonicpb.AcctonAcl_AclRule_AclRuleList_ETHERTYPE_ARP
                     case 0x0800:
-                        c.Data.EtherType = sonicpb.NocsysAcl_AclRule_AclRuleList_ETHERTYPE_IPV4
+                        c.Data.EtherType = sonicpb.AcctonAcl_AclRule_AclRuleList_ETHERTYPE_IPV4
                     case 0x86DD:
-                        c.Data.EtherType = sonicpb.NocsysAcl_AclRule_AclRuleList_ETHERTYPE_IPV6
+                        c.Data.EtherType = sonicpb.AcctonAcl_AclRule_AclRuleList_ETHERTYPE_IPV6
                     case 0x8847:
-                        c.Data.EtherType = sonicpb.NocsysAcl_AclRule_AclRuleList_ETHERTYPE_MPLS
+                        c.Data.EtherType = sonicpb.AcctonAcl_AclRule_AclRuleList_ETHERTYPE_MPLS
                     }
                 }
             case "IP_TYPE":
                 switch strings.ToUpper(v) {
                 case "ANY":
-                    c.Data.IpType = sonicpb.NocsysTypesIpType_NOCSYSTYPESIPTYPE_ANY
+                    c.Data.IpType = sonicpb.AcctonTypesIpType_ACCTONTYPESIPTYPE_ANY
                 case "IP":
-                    c.Data.IpType = sonicpb.NocsysTypesIpType_NOCSYSTYPESIPTYPE_IP
+                    c.Data.IpType = sonicpb.AcctonTypesIpType_ACCTONTYPESIPTYPE_IP
                 case "NON_IP":
-                    c.Data.IpType = sonicpb.NocsysTypesIpType_NOCSYSTYPESIPTYPE_NON_IP
+                    c.Data.IpType = sonicpb.AcctonTypesIpType_ACCTONTYPESIPTYPE_NON_IP
                 case "IPV4":
-                    c.Data.IpType = sonicpb.NocsysTypesIpType_NOCSYSTYPESIPTYPE_IPV4
+                    c.Data.IpType = sonicpb.AcctonTypesIpType_ACCTONTYPESIPTYPE_IPV4
                 case "IPV6":
-                    c.Data.IpType = sonicpb.NocsysTypesIpType_NOCSYSTYPESIPTYPE_IPV6
+                    c.Data.IpType = sonicpb.AcctonTypesIpType_ACCTONTYPESIPTYPE_IPV6
                 case "IPv4ANY":
-                    c.Data.IpType = sonicpb.NocsysTypesIpType_NOCSYSTYPESIPTYPE_IPv4ANY
+                    c.Data.IpType = sonicpb.AcctonTypesIpType_ACCTONTYPESIPTYPE_IPv4ANY
                 case "NON_IP4":
-                    c.Data.IpType = sonicpb.NocsysTypesIpType_NOCSYSTYPESIPTYPE_NON_IP4
+                    c.Data.IpType = sonicpb.AcctonTypesIpType_ACCTONTYPESIPTYPE_NON_IP4
                 case "IPv6ANY":
-                    c.Data.IpType = sonicpb.NocsysTypesIpType_NOCSYSTYPESIPTYPE_IPv6ANY
+                    c.Data.IpType = sonicpb.AcctonTypesIpType_ACCTONTYPESIPTYPE_IPv6ANY
                 case "NON_IPv6":
-                    c.Data.IpType = sonicpb.NocsysTypesIpType_NOCSYSTYPESIPTYPE_NON_IPv6
+                    c.Data.IpType = sonicpb.AcctonTypesIpType_ACCTONTYPESIPTYPE_NON_IPv6
                 case "ARP":
-                    c.Data.IpType = sonicpb.NocsysTypesIpType_NOCSYSTYPESIPTYPE_ARP
+                    c.Data.IpType = sonicpb.AcctonTypesIpType_ACCTONTYPESIPTYPE_ARP
                 }
             case "IP_PROTOCOL":
                 if i, err := strconv.ParseUint(v, 10, 64); err != nil {
@@ -104,23 +104,23 @@ func (c *AclRule) LoadFromDB() error {
                 } else {
                     switch i {
                     case 1:
-                        c.Data.IpProtocol = sonicpb.NocsysAcl_AclRule_AclRuleList_IPPROTOCOL_ICMP
+                        c.Data.IpProtocol = sonicpb.AcctonAcl_AclRule_AclRuleList_IPPROTOCOL_ICMP
                     case 2:
-                        c.Data.IpProtocol = sonicpb.NocsysAcl_AclRule_AclRuleList_IPPROTOCOL_IGMP
+                        c.Data.IpProtocol = sonicpb.AcctonAcl_AclRule_AclRuleList_IPPROTOCOL_IGMP
                     case 6:
-                        c.Data.IpProtocol = sonicpb.NocsysAcl_AclRule_AclRuleList_IPPROTOCOL_TCP
+                        c.Data.IpProtocol = sonicpb.AcctonAcl_AclRule_AclRuleList_IPPROTOCOL_TCP
                     case 17:
-                        c.Data.IpProtocol = sonicpb.NocsysAcl_AclRule_AclRuleList_IPPROTOCOL_UDP
+                        c.Data.IpProtocol = sonicpb.AcctonAcl_AclRule_AclRuleList_IPPROTOCOL_UDP
                     case 46:
-                        c.Data.IpProtocol = sonicpb.NocsysAcl_AclRule_AclRuleList_IPPROTOCOL_RSVP
+                        c.Data.IpProtocol = sonicpb.AcctonAcl_AclRule_AclRuleList_IPPROTOCOL_RSVP
                     case 47:
-                        c.Data.IpProtocol = sonicpb.NocsysAcl_AclRule_AclRuleList_IPPROTOCOL_GRE
+                        c.Data.IpProtocol = sonicpb.AcctonAcl_AclRule_AclRuleList_IPPROTOCOL_GRE
                     case 51:
-                        c.Data.IpProtocol = sonicpb.NocsysAcl_AclRule_AclRuleList_IPPROTOCOL_AUTH
+                        c.Data.IpProtocol = sonicpb.AcctonAcl_AclRule_AclRuleList_IPPROTOCOL_AUTH
                     case 103:
-                        c.Data.IpProtocol = sonicpb.NocsysAcl_AclRule_AclRuleList_IPPROTOCOL_PIM
+                        c.Data.IpProtocol = sonicpb.AcctonAcl_AclRule_AclRuleList_IPPROTOCOL_PIM
                     case 115:
-                        c.Data.IpProtocol = sonicpb.NocsysAcl_AclRule_AclRuleList_IPPROTOCOL_L2TP
+                        c.Data.IpProtocol = sonicpb.AcctonAcl_AclRule_AclRuleList_IPPROTOCOL_L2TP
                     }
                 }
             case "SRC_IP":
@@ -167,15 +167,15 @@ func (c *AclRule) SaveToDB(replace bool) error {
     if c.Data.Priority != nil {
         e["priority"] = c.Data.Priority.Value
     }
-    if c.Data.PacketAction != sonicpb.NocsysTypesPacketAction_NOCSYSTYPESPACKETACTION_UNSET {
+    if c.Data.PacketAction != sonicpb.AcctonTypesPacketAction_ACCTONTYPESPACKETACTION_UNSET {
         switch c.Data.PacketAction {
-        case sonicpb.NocsysTypesPacketAction_NOCSYSTYPESPACKETACTION_DROP:
+        case sonicpb.AcctonTypesPacketAction_ACCTONTYPESPACKETACTION_DROP:
             e["PACKET_ACTION"] = "DROP"
-        case sonicpb.NocsysTypesPacketAction_NOCSYSTYPESPACKETACTION_REDIRECT:
+        case sonicpb.AcctonTypesPacketAction_ACCTONTYPESPACKETACTION_REDIRECT:
             if c.Data.RedirectAction != nil {
                 e["PACKET_ACTION"] = "REDIRECT:" + c.Data.RedirectAction.Value
             }
-        case sonicpb.NocsysTypesPacketAction_NOCSYSTYPESPACKETACTION_FORWARD:
+        case sonicpb.AcctonTypesPacketAction_ACCTONTYPESPACKETACTION_FORWARD:
             e["PACKET_ACTION"] = "FORWARD"
         }
     }
@@ -188,67 +188,67 @@ func (c *AclRule) SaveToDB(replace bool) error {
     if c.Data.MirrorEgressAction != nil {
         e["MIRROR_EGRESS_ACTION"] = c.Data.MirrorEgressAction.Value
     }
-    if c.Data.EtherType != sonicpb.NocsysAcl_AclRule_AclRuleList_ETHERTYPE_UNSET {
+    if c.Data.EtherType != sonicpb.AcctonAcl_AclRule_AclRuleList_ETHERTYPE_UNSET {
         switch c.Data.EtherType {
-        case sonicpb.NocsysAcl_AclRule_AclRuleList_ETHERTYPE_LLDP:
+        case sonicpb.AcctonAcl_AclRule_AclRuleList_ETHERTYPE_LLDP:
             e["ETHER_TYPE"] = "0x88CC"
-        case sonicpb.NocsysAcl_AclRule_AclRuleList_ETHERTYPE_VLAN:
+        case sonicpb.AcctonAcl_AclRule_AclRuleList_ETHERTYPE_VLAN:
             e["ETHER_TYPE"] = "0x8100"
-        case sonicpb.NocsysAcl_AclRule_AclRuleList_ETHERTYPE_ROCE:
+        case sonicpb.AcctonAcl_AclRule_AclRuleList_ETHERTYPE_ROCE:
             e["ETHER_TYPE"] = "0x8915"
-        case sonicpb.NocsysAcl_AclRule_AclRuleList_ETHERTYPE_ARP:
+        case sonicpb.AcctonAcl_AclRule_AclRuleList_ETHERTYPE_ARP:
             e["ETHER_TYPE"] = "0x0806"
-        case sonicpb.NocsysAcl_AclRule_AclRuleList_ETHERTYPE_IPV4:
+        case sonicpb.AcctonAcl_AclRule_AclRuleList_ETHERTYPE_IPV4:
             e["ETHER_TYPE"] = "0x0800"
-        case sonicpb.NocsysAcl_AclRule_AclRuleList_ETHERTYPE_IPV6:
+        case sonicpb.AcctonAcl_AclRule_AclRuleList_ETHERTYPE_IPV6:
             e["ETHER_TYPE"] = "0x86DD"
-        case sonicpb.NocsysAcl_AclRule_AclRuleList_ETHERTYPE_MPLS:
+        case sonicpb.AcctonAcl_AclRule_AclRuleList_ETHERTYPE_MPLS:
             e["ETHER_TYPE"] = "0x8847"
         }
     }
-    if c.Data.IpType != sonicpb.NocsysTypesIpType_NOCSYSTYPESIPTYPE_UNSET {
+    if c.Data.IpType != sonicpb.AcctonTypesIpType_ACCTONTYPESIPTYPE_UNSET {
         switch c.Data.IpType {
-        case sonicpb.NocsysTypesIpType_NOCSYSTYPESIPTYPE_ANY:
+        case sonicpb.AcctonTypesIpType_ACCTONTYPESIPTYPE_ANY:
             e["ip_type"] = "ANY"
-        case sonicpb.NocsysTypesIpType_NOCSYSTYPESIPTYPE_IP:
+        case sonicpb.AcctonTypesIpType_ACCTONTYPESIPTYPE_IP:
             e["ip_type"] = "IP"
-        case sonicpb.NocsysTypesIpType_NOCSYSTYPESIPTYPE_NON_IP:
+        case sonicpb.AcctonTypesIpType_ACCTONTYPESIPTYPE_NON_IP:
             e["ip_type"] = "NON_IP"
-        case sonicpb.NocsysTypesIpType_NOCSYSTYPESIPTYPE_IPV4:
+        case sonicpb.AcctonTypesIpType_ACCTONTYPESIPTYPE_IPV4:
             e["ip_type"] = "IPV4"
-        case sonicpb.NocsysTypesIpType_NOCSYSTYPESIPTYPE_IPV6:
+        case sonicpb.AcctonTypesIpType_ACCTONTYPESIPTYPE_IPV6:
             e["ip_type"] = "IPV6"
-        case sonicpb.NocsysTypesIpType_NOCSYSTYPESIPTYPE_IPv4ANY:
+        case sonicpb.AcctonTypesIpType_ACCTONTYPESIPTYPE_IPv4ANY:
             e["ip_type"] = "IPv4ANY"
-        case sonicpb.NocsysTypesIpType_NOCSYSTYPESIPTYPE_NON_IP4:
+        case sonicpb.AcctonTypesIpType_ACCTONTYPESIPTYPE_NON_IP4:
             e["ip_type"] = "NON_IP4"
-        case sonicpb.NocsysTypesIpType_NOCSYSTYPESIPTYPE_IPv6ANY:
+        case sonicpb.AcctonTypesIpType_ACCTONTYPESIPTYPE_IPv6ANY:
             e["ip_type"] = "IPv6ANY"
-        case sonicpb.NocsysTypesIpType_NOCSYSTYPESIPTYPE_NON_IPv6:
+        case sonicpb.AcctonTypesIpType_ACCTONTYPESIPTYPE_NON_IPv6:
             e["ip_type"] = "NON_IPv6"
-        case sonicpb.NocsysTypesIpType_NOCSYSTYPESIPTYPE_ARP:
+        case sonicpb.AcctonTypesIpType_ACCTONTYPESIPTYPE_ARP:
             e["ip_type"] = "ARP"
         }
     }
-    if c.Data.IpProtocol != sonicpb.NocsysAcl_AclRule_AclRuleList_IPPROTOCOL_UNSET {
+    if c.Data.IpProtocol != sonicpb.AcctonAcl_AclRule_AclRuleList_IPPROTOCOL_UNSET {
         switch c.Data.IpProtocol {
-        case sonicpb.NocsysAcl_AclRule_AclRuleList_IPPROTOCOL_ICMP:
+        case sonicpb.AcctonAcl_AclRule_AclRuleList_IPPROTOCOL_ICMP:
             e["IP_PROTOCOL"] = 1
-        case sonicpb.NocsysAcl_AclRule_AclRuleList_IPPROTOCOL_IGMP:
+        case sonicpb.AcctonAcl_AclRule_AclRuleList_IPPROTOCOL_IGMP:
             e["IP_PROTOCOL"] = 2
-        case sonicpb.NocsysAcl_AclRule_AclRuleList_IPPROTOCOL_TCP:
+        case sonicpb.AcctonAcl_AclRule_AclRuleList_IPPROTOCOL_TCP:
             e["IP_PROTOCOL"] = 6
-        case sonicpb.NocsysAcl_AclRule_AclRuleList_IPPROTOCOL_UDP:
+        case sonicpb.AcctonAcl_AclRule_AclRuleList_IPPROTOCOL_UDP:
             e["IP_PROTOCOL"] = 17
-        case sonicpb.NocsysAcl_AclRule_AclRuleList_IPPROTOCOL_RSVP:
+        case sonicpb.AcctonAcl_AclRule_AclRuleList_IPPROTOCOL_RSVP:
             e["IP_PROTOCOL"] = 46
-        case sonicpb.NocsysAcl_AclRule_AclRuleList_IPPROTOCOL_GRE:
+        case sonicpb.AcctonAcl_AclRule_AclRuleList_IPPROTOCOL_GRE:
             e["IP_PROTOCOL"] = 47
-        case sonicpb.NocsysAcl_AclRule_AclRuleList_IPPROTOCOL_AUTH:
+        case sonicpb.AcctonAcl_AclRule_AclRuleList_IPPROTOCOL_AUTH:
             e["IP_PROTOCOL"] = 51
-        case sonicpb.NocsysAcl_AclRule_AclRuleList_IPPROTOCOL_PIM:
+        case sonicpb.AcctonAcl_AclRule_AclRuleList_IPPROTOCOL_PIM:
             e["IP_PROTOCOL"] = 103
-        case sonicpb.NocsysAcl_AclRule_AclRuleList_IPPROTOCOL_L2TP:
+        case sonicpb.AcctonAcl_AclRule_AclRuleList_IPPROTOCOL_L2TP:
             e["IP_PROTOCOL"] = 115
         }
     }

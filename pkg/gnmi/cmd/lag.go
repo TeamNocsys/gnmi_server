@@ -23,7 +23,7 @@ func NewLagAdapter(name string, cli command.Client) *LagAdapter {
     }
 }
 
-func (adpt *LagAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.NocsysPortchannel_Portchannel_PortchannelList, error) {
+func (adpt *LagAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.AcctonPortchannel_Portchannel_PortchannelList, error) {
     conn := adpt.client.Config()
     if conn == nil {
         return nil, swsssdk.ErrConnNotExist
@@ -32,7 +32,7 @@ func (adpt *LagAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Nocsys
     if data, err := conn.GetAll(swsssdk.CONFIG_DB, []string{"PORTCHANNEL", adpt.name}); err != nil {
         return nil, err
     } else {
-        retval := &sonicpb.NocsysPortchannel_Portchannel_PortchannelList{}
+        retval := &sonicpb.AcctonPortchannel_Portchannel_PortchannelList{}
         for k, v := range data {
             switch k {
             case "mtu":
@@ -44,9 +44,9 @@ func (adpt *LagAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Nocsys
             case "admin_status":
                 switch v {
                 case "up":
-                    retval.AdminStatus = sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_up
+                    retval.AdminStatus = sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_up
                 case "down":
-                    retval.AdminStatus = sonicpb.NocsysTypesAdminStatus_NOCSYSTYPESADMINSTATUS_down
+                    retval.AdminStatus = sonicpb.AcctonTypesAdminStatus_ACCTONTYPESADMINSTATUS_down
                 }
             case "min_links":
                 if i, err := strconv.ParseUint(v, 10, 64); err != nil {
@@ -60,7 +60,7 @@ func (adpt *LagAdapter) Show(dataType gnmi.GetRequest_DataType) (*sonicpb.Nocsys
     }
 }
 
-func (adpt *LagAdapter) Config(data *sonicpb.NocsysPortchannel_Portchannel_PortchannelList, oper OperType) error {
+func (adpt *LagAdapter) Config(data *sonicpb.AcctonPortchannel_Portchannel_PortchannelList, oper OperType) error {
     cmdstr := "config portchannel"
     if oper == ADD {
         conn := adpt.client.Config()

@@ -21,17 +21,17 @@ func MdnsInfoHandler(
 
     expireFlag := false
 
-    nocsysMdns := &sonicpb.NocsysMdns{
-        Mdns : &sonicpb.NocsysMdns_Mdns {},
+    nocsysMdns := &sonicpb.AcctonMdns{
+        Mdns : &sonicpb.AcctonMdns_Mdns {},
     }
 
     curTime := time.Now()
     mdns.MdnsResolver.Entries.Range(func(key, value interface{}) bool {
 
         if !curTime.After(value.(mdns.HostEntry).Expiration) {
-            tmp_e := &sonicpb.NocsysMdns_Mdns_MdnsListKey {
+            tmp_e := &sonicpb.AcctonMdns_Mdns_MdnsListKey {
                 IpPrefix : key.(string),
-                MdnsList : &sonicpb.NocsysMdns_Mdns_MdnsList {
+                MdnsList : &sonicpb.AcctonMdns_Mdns_MdnsList {
                     Hostname : &ywrapper.StringValue {
                         Value : value.(mdns.HostEntry).HostName,
                     },

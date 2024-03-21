@@ -9,7 +9,7 @@ import (
 type PortChannelMember struct {
     Keys []string
     Client command.Client
-    Data *sonicpb.NocsysPortchannel_PortchannelMember_PortchannelMemberList
+    Data *sonicpb.AcctonPortchannel_PortchannelMember_PortchannelMemberList
 }
 
 func (c *PortChannelMember) LoadFromDB() error {
@@ -20,7 +20,7 @@ func (c *PortChannelMember) LoadFromDB() error {
 
     // 获取配置信息
     if c.Data == nil {
-        c.Data = &sonicpb.NocsysPortchannel_PortchannelMember_PortchannelMemberList{}
+        c.Data = &sonicpb.AcctonPortchannel_PortchannelMember_PortchannelMemberList{}
     }
     if ok, err := conn.HasEntry("PORTCHANNEL_MEMBER", c.Keys); err != nil {
         return err
