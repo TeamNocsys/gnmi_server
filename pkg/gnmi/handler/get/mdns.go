@@ -21,7 +21,7 @@ func MdnsInfoHandler(
 
     expireFlag := false
 
-    nocsysMdns := &sonicpb.AcctonMdns{
+    acctonMdns := &sonicpb.AcctonMdns{
         Mdns : &sonicpb.AcctonMdns_Mdns {},
     }
 
@@ -37,7 +37,7 @@ func MdnsInfoHandler(
                     },
                 },
             }
-            nocsysMdns.Mdns.MdnsList = append (nocsysMdns.Mdns.MdnsList, tmp_e)
+            acctonMdns.Mdns.MdnsList = append (acctonMdns.Mdns.MdnsList, tmp_e)
         } else {
             expireFlag = true
         }
@@ -48,7 +48,7 @@ func MdnsInfoHandler(
         mdns.MdnsResolver.NotifyExpireEntries()
     }
 
-    response, err := handler_utils.CreateGetResponse(ctx, r, nocsysMdns)
+    response, err := handler_utils.CreateGetResponse(ctx, r, acctonMdns)
     if err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
     }

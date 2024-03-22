@@ -22,24 +22,24 @@ func SysTopInfoHandler(
     ctx context.Context, r *gnmi.GetRequest, db command.Client,
 ) (*gnmi.GetResponse, error) {
 
-    nocsysSysTop := &sonicpb.AcctonSystemTop{}
+    acctonSystop := &sonicpb.AcctonSystemTop{}
 
-    err := getCpuInfo(ctx, nocsysSysTop)
+    err := getCpuInfo(ctx, acctonSystop)
     if err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
     }
 
-    err = getMemInfo(ctx, nocsysSysTop)
+    err = getMemInfo(ctx, acctonSystop)
     if err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
     }
 
-    err = getDiskInfo(ctx, nocsysSysTop)
+    err = getDiskInfo(ctx, acctonSystop)
     if err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
     }
 
-    response, err := handler_utils.CreateGetResponse(ctx, r, nocsysSysTop)
+    response, err := handler_utils.CreateGetResponse(ctx, r, acctonSystop)
     if err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
     }
@@ -51,14 +51,14 @@ func SysTopInfoCpuHandler(
     ctx context.Context, r *gnmi.GetRequest, db command.Client,
 ) (*gnmi.GetResponse, error) {
 
-    nocsysSysTop := &sonicpb.AcctonSystemTop{}
+    acctonSystop := &sonicpb.AcctonSystemTop{}
 
-    err := getCpuInfo(ctx, nocsysSysTop)
+    err := getCpuInfo(ctx, acctonSystop)
     if err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
     }
 
-    response, err := handler_utils.CreateGetResponse(ctx, r, nocsysSysTop)
+    response, err := handler_utils.CreateGetResponse(ctx, r, acctonSystop)
     if err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
     }
@@ -70,14 +70,14 @@ func SysTopInfoMemHandler(
     ctx context.Context, r *gnmi.GetRequest, db command.Client,
 ) (*gnmi.GetResponse, error) {
 
-    nocsysSysTop := &sonicpb.AcctonSystemTop{}
+    acctonSystop := &sonicpb.AcctonSystemTop{}
 
-    err := getMemInfo(ctx, nocsysSysTop)
+    err := getMemInfo(ctx, acctonSystop)
     if err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
     }
 
-    response, err := handler_utils.CreateGetResponse(ctx, r, nocsysSysTop)
+    response, err := handler_utils.CreateGetResponse(ctx, r, acctonSystop)
     if err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
     }
@@ -89,14 +89,14 @@ func SysTopInfoDiskHandler(
     ctx context.Context, r *gnmi.GetRequest, db command.Client,
 ) (*gnmi.GetResponse, error) {
 
-    nocsysSysTop := &sonicpb.AcctonSystemTop{}
+    acctonSystop := &sonicpb.AcctonSystemTop{}
 
-    err := getDiskInfo(ctx, nocsysSysTop)
+    err := getDiskInfo(ctx, acctonSystop)
     if err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
     }
 
-    response, err := handler_utils.CreateGetResponse(ctx, r, nocsysSysTop)
+    response, err := handler_utils.CreateGetResponse(ctx, r, acctonSystop)
     if err != nil {
         return nil, status.Errorf(codes.Internal, err.Error())
     }
