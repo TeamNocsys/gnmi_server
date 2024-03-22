@@ -1,0 +1,29 @@
+#!/bin/sh
+# prerm script
+
+set -e
+
+case "$1" in
+    upgrade|deconfigure)
+    ;;
+
+    remove)
+
+      if [ -n "$(ps -e | grep -E ^\ *1\ .*systemd$)" ]; then
+        systemctl stop gnmi
+        systemctl disable gnmi
+      fi
+
+    ;;
+
+    failed-upgrade)
+    ;;
+
+    *)
+      echo "prerm called with unknown argument \`$1'" >&2
+      exit 1
+    ;;
+
+esac
+
+exit 0
